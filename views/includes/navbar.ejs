@@ -1,0 +1,119 @@
+<header>
+  <hr class="starting-hr bg-primary" />
+
+  <div>
+    <nav
+      class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top"
+    >
+      <div class="container-fluid">
+        <div class="ms-4 me-3 d-flex">
+          <a class="navbar-brand ms-5 me-5 ps-5 pe-5" href="/">Logo</a>
+          <div class="line"></div>
+        </div>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- implementing logged in and logout navbar -->
+        <% if(!currUser){ %>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ps-5">
+            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/listings"
+              >Listing</a
+            >
+            <a class="nav-link ms-5 me-5 ps-5 text-black" href="">Auctions</a>
+            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/listings/new"
+              >Sell Car</a
+            >
+            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/login"
+              >Login</a
+            >
+            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/register"
+              >Register</a
+            >
+          </div>
+        </div>
+        <% } %> <% if(currUser){ %>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ps-5">
+            <li class="nav-item dropdown ps-3">
+              <a
+                class="nav-link dropdown-toggle text-black"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                LISTING
+              </a>
+              <ul class="dropdown-menu ms-5">
+                <li><a class="dropdown-item" href="/listings">ALL LISTING</a></li>
+                <li><a class="dropdown-item" href="#">MY WATCH LIST</a></li>
+              </ul>
+            </li>
+
+            <a class="nav-link text-black ps-5" href="#">AUCTIONS</a>
+            <li class="nav-item dropdown ps-5">
+              <a
+                class="nav-link dropdown-toggle text-black"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                MY AUCTION CENTER
+              </a>
+              <ul class="dropdown-menu ms-5">
+                <li><a class="dropdown-item" href="#">MY BIDS</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">MY BID VEHICLES</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown ps-5">
+              <a
+                class="nav-link dropdown-toggle text-black"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                SELL CAR
+              </a>
+              <ul class="dropdown-menu ms-5">
+                <li><a class="dropdown-item" href="/listings/new">ADD CAR</a></li>
+                <li><a class="dropdown-item" href="#">ALL CAR</a></li>
+              </ul>
+            </li>
+            <a class="nav-link text-black ps-5" href="#">COMPLAINT</a>
+            <li class="nav-item dropdown ps-5">
+              <a
+                class="nav-link dropdown-toggle text-black"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <%= currUser.username %>
+              </a>
+              <ul class="dropdown-menu ms-5">
+                <li><a class="dropdown-item" href="#">PROFILE</a></li>
+                <li><a class="dropdown-item" href="#">NOTIFICATION</a></li>
+                <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
+              </ul>
+            </li>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+</header>

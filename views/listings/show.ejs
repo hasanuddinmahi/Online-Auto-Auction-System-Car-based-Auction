@@ -1,0 +1,156 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 mb-5">
+    <div class="w-50 offset-3">
+      <div
+        class="d-flex justify-content-between align-items-center ps-2 pe-2 pt-2 image-head"
+      >
+        <div><h5><%= listing.title %></h5></div>
+        <div>
+          <h5 class="bg-warning p-2">
+            RM <%= listing.price.toLocaleString("en-IN") %>
+          </h5>
+        </div>
+      </div>
+      <img src="<%= listing.image %>" alt="" class="mt-3 w-100" />
+    </div>
+  </section>
+
+  <section class="mt-5 mb-5 car-overview">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR OVERVIEW</h4>
+      <hr class="small-hr" />
+    </div>
+    <hr class="ms-5 me-5" />
+    <div class="d-flex justify-content-between">
+      <div class="w-50 ms-5 me-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p><%= listing.carType %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p><%= listing.seat %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p><%= listing.registrationType %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0" />
+      </div>
+      <div class="me-5 w-50 ms-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0 mb-5" />
+      </div>
+    </div>
+  </section>
+  <section class="mt-5 mb-5">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR DETAILS</h4>
+      <hr class="small-hr" />
+      <p>
+        Specifications shown for this model comes standard from the
+        manufacturer.
+      </p>
+    </div>
+    <hr class="ms-5 me-5" />
+    <div class="d-flex justify-content-between">
+      <div class="w-50 ms-5 me-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0" />
+      </div>
+      <div class="me-5 w-50 ms-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0 mb-5" />
+      </div>
+    </div>
+  </section>
+
+  <section class="m-5">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR OVERVIEW</h4>
+      <hr class="small-hr" />
+      <p>
+        <%= listing.description %>elvage drinking vinegar roof party bitters
+        beard wolf craft beer Blue Bottle, literally you probably haven't heard
+        of them. Deep v
+      </p>
+    </div>
+
+    <!-- show btns for authorized user -->
+    <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+    <div class="d-flex justify-content-end">
+      <a href="/listings/<%= listing._id%>/edit" class="btn btn-primary">Edit</a
+      ><br />
+
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+        <button class="btn btn-danger ms-2">Delete</button>
+      </form>
+    </div>
+    <% } %>
+    
+  </section>
+</article>
+<% layout("/layouts/boilerplate") %>

@@ -1,0 +1,236 @@
+/* navbar style */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* header line */
+.starting-hr {
+  height: 2rem;
+  margin: 0;
+}
+
+/* navbar logo line  */
+.line {
+  border-left: 1px solid black !important;
+  height: 3rem;
+}
+
+/* homepage style */
+/* cover image */
+.cover {
+  height: 42rem;
+  opacity: 0.5;
+  position: relative;
+  background-image: url("/Image/cover1.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* cover content */
+.cover-content, .cover-content button{
+    color: rgb(0, 0, 0);
+}
+
+/* under-cover  */
+.under-cover{
+  background-color: rgba(11, 130, 240, 0.11);
+  height: 3rem;
+  padding: 2rem;
+}
+
+/* horizontal line */
+.homepage-small-hr{
+width: 8rem;
+background-color: black;
+border: 1px solid black;
+}
+
+/* setting image container */
+.image-container{
+  box-shadow: 30px 30px  rgba(11, 130, 240, 0.11);
+}
+
+/* setting icon size */
+.homepage-icon-size{
+  height: 50px;
+}
+
+/* car listing */
+.car-listing{
+  background-color: rgba(11, 130, 240, 0.11);
+ }
+
+
+/* listing page style */
+/* refine search */
+.refine-search {
+  background-color: rgba(27, 106, 197, 1);
+  color: white;
+}
+
+/* refine box */
+.refine-head {
+  background-color: rgba(56, 95, 130, 1);
+}
+
+.refine-line {
+  height: 2rem;
+  border-left: 0.3rem solid rgba(255, 215, 76, 1);
+}
+
+/* slider range styling */
+.min-max-slider {
+  position: relative;
+  width: 200px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.min-max-slider > label {
+  display: none;
+}
+span.value {
+  height: 1.7em;
+  font-weight: bold;
+  display: inline-block;
+}
+span.value.lower::before {
+  content: "€";
+  display: inline-block;
+}
+span.value.upper::before {
+  content: "- €";
+  display: inline-block;
+  margin-left: 0.4em;
+}
+.min-max-slider > .legend {
+  display: flex;
+  justify-content: space-between;
+}
+.min-max-slider > .legend > * {
+  font-size: small;
+  opacity: 0.25;
+}
+.min-max-slider > input {
+  cursor: pointer;
+  position: absolute;
+}
+
+/* webkit specific styling */
+.min-max-slider > input {
+  -webkit-appearance: none;
+  outline: none !important;
+  background: transparent;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 30%,
+    silver 30%,
+    silver 60%,
+    transparent 60%,
+    transparent 100%
+  );
+}
+.min-max-slider > input::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 14px; /* Set a specific slider handle width */
+  height: 14px; /* Slider handle height */
+  background: #eee; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+  border: 1px solid gray;
+  border-radius: 100%;
+}
+.min-max-slider > input::-webkit-slider-runnable-track {
+  cursor: pointer;
+}
+
+.btn-refine-search {
+  background-color: rgba(255, 215, 76, 1);
+  /* width: 12rem; */
+}
+
+/* cards */
+.card {
+  margin-bottom: 2rem;
+}
+
+.card-img-top {
+  height: 30vh;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+/* car listing */
+.listing-line {
+  border-left: 1px solid black !important;
+  height: 2rem;
+}
+
+/* sizing the icon in listing */
+.icon-size {
+  width: 25px;
+  height: 25px;
+}
+
+/* car details page style */
+/* heading of the image */
+.image-head {
+  background-color: rgba(11, 130, 240, 0.11);
+}
+
+/* car overview */
+.car-overview {
+  background-color: rgba(11, 130, 240, 0.11);
+}
+
+.small-hr {
+  margin: 0 46rem 0 46rem;
+  background-color: rgb(255, 200, 0);
+  border: 2px solid rgb(255, 200, 0);
+}
+
+/* enquiry  */
+.enquiry-box {
+  background-color: rgba(11, 130, 240, 0.11);
+  width: 25rem;
+}
+
+.enquiry-head {
+  background-color: rgba(56, 95, 130, 1);
+  color: white;
+  /* width: 10rem; */
+}
+
+.enquiry-line {
+  height: 2rem;
+  border-left: 0.5rem solid rgba(255, 215, 76, 1);
+}
+
+/* create listing & Edit Listing Form*/
+.carDeatils-box {
+  background-color: rgba(11, 130, 240, 0.11);
+  width: 40rem;
+}
+
+/* create form,  edit button */
+.add-btn,
+.edit-btn {
+  background-color: rgb(87, 183, 212) !important;
+  border: none !important;
+}
+
+/* footer background setup */
+.footer-section {
+  background-color: rgba(0, 49, 95, 1);
+}
+
+
+/* register && login page */
+.register-box{
+  background-color: rgba(11, 130, 240, 0.11);
+  width: 35rem;
+}
