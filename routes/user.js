@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middleware.js");
+const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 
 // User signup form page
 router.get("/register", (req, res) => {
@@ -55,5 +55,12 @@ router.get("/logout", (req, res, next) => {
         res.redirect("/listings");
     })
 });
+
+
+// Profile setting
+router.get("/profile", isLoggedIn, wrapAsync(async (req, res) => {
+    let user = req.user;
+    res.render("users/profile.ejs", { user });
+}));
 
 module.exports = router;

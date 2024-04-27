@@ -142,6 +142,7 @@ const sampleListings = [
         description: "Sporty and reliable choice",
         price: 21000,
         location: "Perak, Malaysia",
+        status: "Approved"
     },
     {
         image: "https://media.ed.edmunds-media.com/chevrolet/cruze/2013/oem/2013_chevrolet_cruze_sedan_2lt_fq_oem_1_1600.jpg",
@@ -158,6 +159,7 @@ const sampleListings = [
         description: "Compact sedan with modern features",
         price: 16000,
         location: "Pahang, Malaysia",
+        status: "Approved"
     },
     {
         image: "https://paultan.org/image/2019/10/2019_Toyota_Corolla_Altis_1.8_G_Malaysia_Ext-2.jpg",
@@ -174,6 +176,7 @@ const sampleListings = [
         description: "Reliable sedan with low mileage",
         price: 19000,
         location: "Kuala Lumpur, Malaysia",
+        status: "Approved"
     },
     {
         image: "https://cdn.arstechnica.net/wp-content/uploads/2018/06/Honda-Accord-Sport-3-800x600.jpg",
@@ -190,6 +193,7 @@ const sampleListings = [
         description: "Luxurious sedan with spacious cabin",
         price: 25000,
         location: "Penang, Malaysia",
+        status: "Disapproved"
     },
     {
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/2008-Mitsubishi-Lancer.jpg/1200px-2008-Mitsubishi-Lancer.jpg",
@@ -206,6 +210,7 @@ const sampleListings = [
         description: "Reliable sedan with sleek design",
         price: 22000,
         location: "Johor Bahru, Malaysia",
+        status: "Disapproved"
     },
     {
         image: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Ford_Fiesta_ST-Line_%28VII%2C_Facelift%29_%E2%80%93_f_30012023.jpg",
@@ -222,6 +227,7 @@ const sampleListings = [
         description: "Compact and fuel-efficient hatchback",
         price: 15000,
         location:"Cyberjaya,Selangor",
+        status: "Disapproved"
     }
 ]
 

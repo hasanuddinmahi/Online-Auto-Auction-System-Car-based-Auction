@@ -12,6 +12,20 @@ router.get("/", wrapAsync(async (req, res) => {
     res.render("listings/index.ejs", { allListings });
 }));
 
+//approve disapprove Listing Details
+router.get("/allCar", isLoggedIn, wrapAsync(async (req, res) => {
+    const allListings = await Listing.find({});
+
+    // show only owner car listing
+    let listings = [];
+    for (let listing of allListings) {
+        if (req.user && req.user._id.equals(listing.owner._id)) {
+            listings.push(listing);
+        }
+    }
+
+    res.render("listings/approveDisapprove.ejs", { listings });
+}));
 
 //Create new Listing
 router.get("/new", isLoggedIn, (req, res) => {
@@ -66,5 +80,7 @@ router.delete("/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     req.flash("success", "Listing Deleted");
     res.redirect("/listings");
 }));
+
+
 
 module.exports = router;

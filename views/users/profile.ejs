@@ -1,0 +1,146 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+    <section class="mt-5 mb-5 ms-3">
+      <div class="ms-5 d-flex">
+        <div class="ms-5 w-25">
+          <div class="mb-4">
+            <h5 class="fw-bold mb-4">MY PROFILE</h5>
+            <div class="d-flex align-items-center">
+              <i class="fa-regular fa-circle-user fa-8x"></i> 
+              <h5 class="ms-3 fw-bold"><%= user.username %></h5>
+            </div>
+            
+          </div>
+          <div class="w-100">
+            <button
+              class="btn btn-light border border-secondary-subtle w-75 text-start"
+            >
+              <i class="fa-solid fa-phone"></i>
+              <span class="ms-3">Phone Number</span> &emsp;
+              <i class="fa-solid fa-angle-right"></i></button
+            ><br />
+            <button
+              class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+            >
+              <i class="fa-solid fa-envelope"></i>
+              <span class="ms-3">Email Address</span> &emsp;
+              <i class="fa-solid fa-angle-right ms-2"></i></button
+            ><br />
+            <button
+              class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+            >
+              <i class="fa-solid fa-unlock-keyhole"></i>
+              <span class="ms-3">Change Password</span>
+              <i class="fa-solid fa-angle-right ms-2"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+            >
+              <i class="fa-solid fa-earth-americas"></i>
+              <span class="ms-3 me-2">Nationality</span> &emsp;
+              <i class="fa-solid fa-angle-right ms-4"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+            >
+              <i class="fa-solid fa-location-dot"></i>
+              <span class="ms-3">Address Book</span> &emsp;
+              <i class="fa-solid fa-angle-right ms-3"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+            >
+              <i class="fa-solid fa-user"></i>
+              <span class="ms-3">Profile Setting</span> &emsp;
+              <i class="fa-solid fa-angle-right ms-3"></i>
+            </button>
+          </div>
+        </div>
+        <div class="w-50 ms-4">
+          <div
+            class="d-flex align-items-start justify-content-between setting-box p-4 w-100 rounded mb-4"
+          >
+            <div>
+              <h4 class="mb-4 fw-bold">Phone Number</h4>
+              <p>Phone number</p>
+              <h5><%= user.phoneNumber %></h5>
+              <button
+                class="mt-4 btn-verify rounded-pill fw-semibold"
+              >
+                Verify Now
+              </button>
+            </div>
+            <button class="btn btn-secondary">
+              <i class="fa-solid fa-circle-plus"></i> Add New
+            </button>
+          </div>
+          <div
+            class="d-flex align-items-start justify-content-between setting-box p-4 w-100 rounded mb-4"
+          >
+            <div>
+              <h4 class="mb-4 fw-bold">Email Address</h4>
+              <p>Email Address</p>
+              <h5><%= user.email %></h5>
+              <button
+                class="mt-4 btn-verify rounded-pill ps-3 pe-3 fw-semibold"
+              >
+                Verify Now
+              </button>
+            </div>
+            <button class="btn btn-secondary">
+              <i class="fa-solid fa-circle-plus"></i> Add New
+            </button>
+          </div>
+
+          <div
+            class="setting-box p-4 w-100 rounded mb-4"
+          >
+              <h4 class="mb-4 fw-bold">Change Password</h4>
+              <form action="">
+                <input type="password" name="" id="" class="p-2 rounded" placeholder="Current Password"> <br>
+                <input type="password" name="" id="" class="p-2 rounded mt-4 me-2" placeholder="New Password"> 
+                <input type="password" name="" id="" class="p-2 rounded" placeholder="Confirm Password"> <br>
+                 <button
+                class="mt-5 btn-verify rounded-pill fw-semibold"
+              >
+                Save Changes
+              </button>
+              </form>
+          </div>
+
+          <div
+            class="setting-box p-4 w-100 rounded mb-4"
+          >
+           
+              <h4 class="mb-4 fw-bold">Nationality</h4>
+              <form action="">
+                <input type="text" name="" id="" class="p-2 rounded" placeholder="Malaysian"> <br>
+                 <button
+                class="mt-4 btn-verify rounded-pill fw-semibold"
+              >
+                Save Changes
+              </button>
+              </form>
+          </div>
+
+          <div
+            class="d-flex align-items-start justify-content-between setting-box pt-5 pb-5 ps-4 pe-4 w-100 rounded mb-4"
+          >
+            <h4 class="mb-4 fw-bold">Address Book</h4>
+            <button class="btn btn-secondary">
+              <i class="fa-solid fa-circle-plus"></i> Add New
+            </button>
+          </div>
+
+          <div class="setting-box p-4 w-100 rounded">
+            <h4 class="fw-bold">Profile Settings</h4>
+
+            <button class="mt-4 btn btn-danger rounded ps-3 pe-3 fw-semibold">
+              Delete My Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
