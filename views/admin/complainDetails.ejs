@@ -1,0 +1,72 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 ms-5 mb-5">
+    <div class="d-flex align-items-start justify-content-start">
+      <div class="w-25">
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 text-start"
+        >
+          <i class="fa-solid fa-list-check"></i>
+          <span class="ms-3">Manage Listings</span></button
+        ><br />
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-users"></i>
+          <span class="ms-3">Manage Users</span></button
+        ><br />
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-gavel"></i>
+          <span class="ms-3">Manage Auction</span>
+        </button>
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-headset"></i>
+          <span class="ms-3">Support Customer</span>
+        </button>
+      </div>
+      <div class="w-75 border-start border-black pb-5 ps-5">
+        <div
+          class="d-flex align-items-start justify-content-between w-100 pe-5 rounded mb-4"
+        >
+          <h4 class="mb-4 fw-bold">Complain Details</h4>
+          <% if(complain.status != "complete") { %>
+          <form action="/admin/supportCustomer/<%= complain._id %>/complete" method="POST">
+            <button class="btn btn-secondary">Complete</button>
+          </form>
+          <% } %>
+        </div>
+
+        <div class="me-5">
+          <h4>Title: <%= complain.title %></h4>
+          <p>User_ID: <%= complain.id %></p>
+          <p>User_Name: <%= complain.owner.username %></p>
+          <p class="me-5">Description: <%= complain.description %></p>
+          <% if(complain.adminSend) { %>
+          <p class="setting-box p-3">Reply: <%= complain.adminSend %></p>
+          <% } %>
+          <% if(complain.status != "complete") { %>
+          <form
+            method="POST"
+            action="/admin/supportCustomer/<%= complain._id %>"
+          >
+            <div class="d-flex align-items-center mt-5">
+              <textarea
+                class="form-control border border-black w-75 me-3"
+                placeholder="Type Message"
+                name="complain[adminSend]"
+                rows="5"
+              ></textarea>
+              <button class="btn btn-primary rounded ps-3 pe-3">Send</button>
+            </div>
+          </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

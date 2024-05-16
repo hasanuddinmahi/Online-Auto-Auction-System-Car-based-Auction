@@ -1,10 +1,21 @@
 const Listing = require("./models/listing");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
+const { listingSchema, complainSchema } = require("./schema.js");
 
 // listing validation middleware
 module.exports.validateListing = (req, res, next) => {
     let { error } = listingSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
+
+// complain validation middleware
+module.exports.validateComplain = (req, res, next) => {
+    let { error } = complainSchema.validate(req.body);
     if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);

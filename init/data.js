@@ -1,6 +1,9 @@
 const sampleListings = [
     {
-        image: "https://upload.wikimedia.org/wikipedia/commons/6/6d/2017_Honda_Civic_SR_VTEC_1.0_Front.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -16,7 +19,10 @@ const sampleListings = [
         location: "Kuala Lumpur, Malaysia",
     },
     {
-        image: "https://hips.hearstapps.com/hmg-prod/images/2021-toyota-camry-hybrid-xle-mmp-1-1603215410.png?crop=0.796xw:1.00xh;0.103xw,0&resize=768:*",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -32,7 +38,11 @@ const sampleListings = [
         location: "Penang, Malaysia",
     },
     {
-        image: "https://images.wapcar.my/file1/50ff7808ac014b4f9f1e95c752ac605e_1125x630.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
+
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -48,7 +58,10 @@ const sampleListings = [
         location: "Johor Bahru, Malaysia",
     },
     {
-        image: "https://www.topgear.com/sites/default/files/2022/04/51951944136_a4826c854b_k.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -64,7 +77,11 @@ const sampleListings = [
         location: "Kuching, Malaysia",
     },
     {
-        image: "https://media.ed.edmunds-media.com/mazda/3/2023/oem/2023_mazda_3_sedan_carbon-edition_fq_oem_1_600.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
+
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -80,7 +97,10 @@ const sampleListings = [
         location: "Kota Kinabalu, Malaysia",
     },
     {
-        image: "https://cdn.motor1.com/images/mgl/3WA9qY/s1/2024-hyundai-elantra.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -96,7 +116,11 @@ const sampleListings = [
         location: "Terengganu, Malaysia",
     },
     {
-        image: "https://media.ed.edmunds-media.com/volkswagen/jetta/2022/oem/2022_volkswagen_jetta_sedan_se_fq_oem_1_1600.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
+
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -112,7 +136,10 @@ const sampleListings = [
         location: "Selangor, Malaysia",
     },
     {
-        image: "https://paultan.org/image/2018/10/Kia-2018-All-New-Optima-GT_Ext-1.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -128,7 +155,10 @@ const sampleListings = [
         location: "Sabah, Malaysia",
     },
     {
-        image: "https://www.mekanika.com.my/wp-content/uploads/2022/01/SUBARU-WRX-STI-07-.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -145,7 +175,10 @@ const sampleListings = [
         status: "Approved"
     },
     {
-        image: "https://media.ed.edmunds-media.com/chevrolet/cruze/2013/oem/2013_chevrolet_cruze_sedan_2lt_fq_oem_1_1600.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -162,7 +195,10 @@ const sampleListings = [
         status: "Approved"
     },
     {
-        image: "https://paultan.org/image/2019/10/2019_Toyota_Corolla_Altis_1.8_G_Malaysia_Ext-2.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -179,7 +215,11 @@ const sampleListings = [
         status: "Approved"
     },
     {
-        image: "https://cdn.arstechnica.net/wp-content/uploads/2018/06/Honda-Accord-Sport-3-800x600.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
+
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -196,7 +236,11 @@ const sampleListings = [
         status: "Disapproved"
     },
     {
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/2008-Mitsubishi-Lancer.jpg/1200px-2008-Mitsubishi-Lancer.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
+
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -213,7 +257,11 @@ const sampleListings = [
         status: "Disapproved"
     },
     {
-        image: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Ford_Fiesta_ST-Line_%28VII%2C_Facelift%29_%E2%80%93_f_30012023.jpg",
+        image: [{
+            url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            filename: "FYP Project",
+        }],
+
         condition: "used",
         carType: "petrol",
         registrationType: "private",
@@ -226,9 +274,9 @@ const sampleListings = [
         title: "Ford Fiesta",
         description: "Compact and fuel-efficient hatchback",
         price: 15000,
-        location:"Cyberjaya,Selangor",
+        location: "Cyberjaya,Selangor",
         status: "Disapproved"
     }
 ]
 
-module.exports = {data: sampleListings};
+module.exports = { data: sampleListings };

@@ -1,3 +1,8 @@
+// logic to do not upload credentials
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -15,8 +20,10 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
+
 const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
+const adminRouter = require("./routes/admin.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -89,15 +96,19 @@ app.use((req, res, next) => {
 //     res.send(registerUser);
 // });
 
-app.get("/", (req, res) => {
+app.get("/homepage", (req, res) => {
     res.render("homepage.ejs");
 });
+
+// Admin Router
+app.use("/admin", adminRouter);
 
 // Listing Router
 app.use("/listings", listingRouter);
 
 // User Router
 app.use("/", userRouter);
+
 
 // app.get("/testListing", async (req, res) => {
 //     let sampleListing = new Listing({

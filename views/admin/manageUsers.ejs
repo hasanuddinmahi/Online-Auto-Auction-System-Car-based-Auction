@@ -1,0 +1,78 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 ms-5 mb-5">
+    <div class="d-flex align-items-start justify-content-start">
+      <div class="w-25">
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 text-start"
+        >
+          <i class="fa-solid fa-list-check"></i>
+          <span class="ms-3">Manage Listings</span></button
+        ><br />
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-users"></i>
+          <span class="ms-3">Manage Users</span></button
+        ><br />
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-gavel"></i>
+          <span class="ms-3">Manage Auction</span>
+        </button>
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-headset"></i>
+          <span class="ms-3">Support Customer</span>
+        </button>
+      </div>
+      <div class="w-75 border-start border-black pb-5 ps-5">
+        <div
+          class="d-flex align-items-start justify-content-between w-100 pe-5 rounded mb-4"
+        >
+          <h4 class="mb-4 fw-bold">Users</h4>
+          <a href="/admin/users/new" class="btn btn-secondary">
+            <i class="fa-solid fa-circle-plus"></i> Add New
+          </a>
+        </div>
+        <div class="me-5">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th class="fs-5" scope="col">User_ID</th>
+                <th class="fs-5" scope="col">Username</th>
+                <th class="fs-5" scope="col">Email</th>
+                <th class="fs-5" scope="col">Contact Number</th>
+                <th class="fs-5" scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <% for(let user of allUsers){ %> <% if(user.username != 'Admin'){
+              %>
+
+              <tr>
+                <th scope="row" id="user-id"><%= user._id %></th>
+                <td><%= user.username %></td>
+                <td class="w-25"><%= user.email %></td>
+                <td>+60 <%= user.phoneNumber %></td>
+                <td>
+                  <form
+                    method="POST"
+                    action="/admin/users/<%= user._id %>?_method=DELETE"
+                  >
+                    <button class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

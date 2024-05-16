@@ -1,0 +1,311 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 mb-5">
+    <div class="d-flex justify-content-around align-items-baseline">
+      <div class="w-50">
+        <div
+          class="d-flex justify-content-between align-items-center ps-2 pe-2 pt-2 image-head"
+        >
+          <div><h5><%= listing.title %></h5></div>
+          <div>
+            <h5 class="bg-warning p-2">
+              RM <%= listing.price.toLocaleString("en-IN") %>
+            </h5>
+          </div>
+        </div>
+        <div>
+          <div id="carouselExample" class="carousel slide pb-1 mt-3">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img
+                  src="<%= listing.image[0] && listing.image[0].url ? listing.image[0].url : "https://bit.ly/3ubuq5o" %>"
+                  class="d-block w-100"
+                  alt="..."
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="<%= listing.image[1] && listing.image[1].url ? listing.image[1].url : "https://bit.ly/3ubuq5o" %>"
+                  class="d-block w-100"
+                  id="mainImg"
+                  alt="..."
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="<%= listing.image[2] && listing.image[2].url ? listing.image[2].url : "https://bit.ly/3ubuq5o" %>"
+                  class="d-block w-100"
+                  id="mainImg"
+                  alt="..."
+                />
+              </div>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-5 mb-5 car-overview">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR OVERVIEW</h4>
+      <hr class="small-hr" />
+    </div>
+    <hr class="ms-5 me-5" />
+    <div class="d-flex justify-content-between">
+      <div class="w-50 ms-5 me-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p><%= listing.carType %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p><%= listing.seat %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p><%= listing.registrationType %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0" />
+      </div>
+      <div class="me-5 w-50 ms-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0 mb-5" />
+      </div>
+    </div>
+  </section>
+  <section class="mt-5 mb-5">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR DETAILS</h4>
+      <hr class="small-hr" />
+      <p>
+        Specifications shown for this model comes standard from the
+        manufacturer.
+      </p>
+    </div>
+    <hr class="ms-5 me-5" />
+    <div class="d-flex justify-content-between">
+      <div class="w-50 ms-5 me-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0" />
+      </div>
+      <div class="me-5 w-50 ms-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0 mb-5" />
+      </div>
+    </div>
+  </section>
+
+  <section class="m-5">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR OVERVIEW</h4>
+      <hr class="small-hr" />
+      <p>
+        <%= listing.description %>elvage drinking vinegar roof party bitters
+        beard wolf craft beer Blue Bottle, literally you probably haven't heard
+        of them. Deep v
+      </p>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <% if(listing.status === "pending"){ %>
+      <form action="/admin/listings/<%= listing._id%>/accept" method="POST">
+        <button class="btn btn-success">Accept</button><br />
+      </form>
+      <!-- open modal -->
+      <button
+        type="button"
+        class="btn btn-danger ms-2"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        Reject
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirmation
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Are you sure to reject this listing?</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <form
+                method="POST"
+                action="/admin/listings/<%= listing._id %>/reject"
+              >
+                <button class="btn btn-danger">Confirm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %> <% if(listing.status === "Approved" || listing.status ===
+      "Disapproved"){ %>
+      <!-- open modal -->
+      <button
+        type="button"
+        class="btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        Delete
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirmation
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Are you sure to delete this listing?</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <form
+                method="POST"
+                action="/admin/listings/<%= listing._id %>?_method=DELETE"
+              >
+                <button class="btn btn-danger">Confirm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </section>
+</article>
+<% layout("/layouts/boilerplate") %>

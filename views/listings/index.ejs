@@ -90,36 +90,43 @@
           </div>
 
           <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-            <% for(let listing of allListings){ %>
+            <% for(let listing of allListings){ %> <% if(listing.status ===
+            "Approved"){ %>
             <a href="/listings/<%= listing._id %>" class="listing-link">
               <div class="card col">
-                <img src="<%= listing.image %>" class="card-img-top" alt="..." />
+                <img
+                  src="<%= listing.image[0].url %>"
+                  class="card-img-top"
+                  alt="..."
+                />
                 <div>
-                  <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">
-                   RM <%= listing.price.toLocaleString("en-IN") %>
+                  <p
+                    class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
+                  >
+                    RM <%= listing.price.toLocaleString("en-IN") %>
                   </p>
                 </div>
                 <div class="card-body pt-0">
                   <h5 class="card-title"><%= listing.title %></h5>
                   <hr class="w-25" />
-                  <p class="card-text">
-                    <%= listing.description %>
-                  </p>
+                  <p class="card-text"><%= listing.description %></p>
                 </div>
                 <div class="card-footer">
                   <div class="d-flex justify-content-between listing-icon">
                     <div>
-                      <img src="Image/dissel.png" class="icon-size" alt="" /><span
-                        class="ms-2"
-                        >Diesel</span
-                      >
+                      <img
+                        src="Image/dissel.png"
+                        class="icon-size"
+                        alt=""
+                      /><span class="ms-2">Diesel</span>
                     </div>
                     <div class="listing-line"></div>
                     <div>
-                      <img src="Image/dissel.png" class="icon-size" alt="" /><span
-                        class="ms-2"
-                        >Diesel</span
-                      >
+                      <img
+                        src="Image/dissel.png"
+                        class="icon-size"
+                        alt=""
+                      /><span class="ms-2">Diesel</span>
                     </div>
                     <div class="listing-line"></div>
                     <div>
@@ -132,7 +139,7 @@
                 </div>
               </div>
             </a>
-            <% } %>
+            <% } %> <% } %>
           </div>
         </div>
       </div>

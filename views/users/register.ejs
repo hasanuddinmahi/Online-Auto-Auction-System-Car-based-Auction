@@ -26,20 +26,21 @@
                 type="email"
                 class="form-control border border-black"
                 name="email"
-                id="email"
+                id="emailInput"
                required
               />
+              <span id="error-message" style="color: red;"></span>
               <div class="invalid-feedback">Please enter a Email</div>
             </div>
             <div class="mb-4">
-              <label  class="form-label fw-medium"
+              <label for="numericInput1"  class="form-label fw-medium"
                 >Phone Number</label
               >
               <input
-                type="number"
-                class="form-control border border-black"
+                type="text"
+                class="form-control border border-black numericInput"
                 name="phoneNumber"
-                id="phoneNumber"
+                id="numericInput1"
                 required
               />
               <div class="invalid-feedback">Please enter a Phone Number</div>
@@ -94,3 +95,33 @@
       </div>
     </section>
   </article>
+  <script>
+ function restrictToPositiveIntegers(input) {
+            input.addEventListener('input', function () {
+                var value = this.value;
+                // Allow only digits
+                this.value = value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        // Get all elements with the class 'numericInput' and apply the function
+        var numericInputs = document.querySelectorAll('.numericInput');
+        numericInputs.forEach(function(input) {
+            restrictToPositiveIntegers(input);
+        });
+
+        document.getElementById('emailInput').addEventListener('input', function () {
+            var email = this.value;
+            var errorMessage = document.getElementById('error-message');
+
+            // Regular expression for more accurate email validation
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailPattern.test(email)) {
+                errorMessage.textContent = "Please enter a valid email address.";
+            } else {
+                errorMessage.textContent = "";
+            }
+        });
+    </script>
+  </script>

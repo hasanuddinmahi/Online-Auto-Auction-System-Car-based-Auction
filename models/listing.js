@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
-    image: {
-        type: String,
-        default: "https://images.unsplash.com/photo-1707147231430-7870dda96138?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        set: (v) => v === "" ? "https://images.unsplash.com/photo-1707147231430-7870dda96138?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" : v,
-    },
+    image:[
+        {
+            url: String,
+            filename: String,
+        },
+    ],
     condition: {
         type: String,
         required: true,
@@ -47,7 +48,10 @@ const listingSchema = new Schema({
         type: String,
         required: true,
     },
-    description: String,
+    description: {
+        type: String,
+        required: true,
+    },
     price: {
         type: Number,
         required: true,
@@ -60,7 +64,7 @@ const listingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    status:{
+    status: {
         type: String,
         default: "pending",
     }

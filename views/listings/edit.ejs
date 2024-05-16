@@ -1,6 +1,144 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-  <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate>
+  <form
+    method="POST"
+    action="/listings/<%= listing._id %>?_method=PUT"
+    enctype="multipart/form-data"
+    class="needs-validation"
+    id="imageUploadForm"
+    novalidate
+  >
+    <div class="container-fluid carDeatils-box mt-5">
+      <h5 class="p-4 text-center fw-bold">Add Photos</h5>
+
+      <div class="ps-5 pe-5 pb-4">
+        <div class="d-flex flex-wrap gap-3">
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-1"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-1" id="file-1-preview">
+              <img src="<%= listing.image[0] && listing.image[0].url ?
+              listing.image[0].url : "/image/uploadImage.jpg" %>" alt=""
+              class="img-fluid" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-2"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-2" id="file-2-preview">
+              <img src="<%= listing.image[1] && listing.image[1].url ?
+              listing.image[1].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-3"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-3" id="file-3-preview">
+              <img src="<%= listing.image[2] && listing.image[2].url ?
+              listing.image[2].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-4"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-4" id="file-4-preview">
+              <img src="<%= listing.image[3] && listing.image[3].url ?
+              listing.image[3].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-5"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-5" id="file-5-preview">
+              <img src="<%= listing.image[4] && listing.image[4].url ?
+              listing.image[4].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-6"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-6" id="file-6-preview">
+              <img src="<%= listing.image[5] && listing.image[5].url ?
+              listing.image[5].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-7"
+              accept="image/*"
+            />
+            <label class="d-inline" for="file-7" id="file-7-preview">
+              <img src="<%= listing.image[6] && listing.image[6].url ?
+              listing.image[6].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+          <div class="form-element">
+            <input
+              type="file"
+              name="listing[image]"
+              id="file-8"
+              accept="image/*"
+            />
+
+            <label class="d-inline" for="file-8" id="file-8-preview">
+              <img src="<%= listing.image[7] && listing.image[7].url ?
+              listing.image[7].url : "/image/uploadImage.jpg" %>" alt="" />
+              <div>
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container-fluid carDeatils-box mt-5">
       <h5 class="p-4 text-center fw-bold">Insert Car Specifications</h5>
       <div class="ps-5 pe-5 pb-4">
@@ -9,13 +147,14 @@
             >Condition</label
           >
           <select
-            class="form-select border border-black" required
+            class="form-select border border-black"
+            required
             aria-label="Default select example"
             name="listing[condition]"
           >
-            <option><%= listing.condition %></option>
+            <option value="new" selected><%= listing.condition %></option>
+            <option value="used">New</option>
             <option value="used">Used</option>
-            <option value="new">New</option>
           </select>
         </div>
         <div class="mb-3">
@@ -23,12 +162,13 @@
             >Car Type</label
           >
           <select
-            class="form-select border border-black" required
+            class="form-select border border-black"
+            required
             aria-label="Default select example"
             name="listing[carType]"
           >
-            <option><%= listing.carType %></option>
-            <option value="petrol">Petrol</option>
+            <option value="petrol" selected><%= listing.carType %></option>
+            <option value="electric">Petrol</option>
             <option value="electric">Electric</option>
             <option value="hybrid">Hybrid</option>
           </select>
@@ -38,12 +178,15 @@
             >Registration Type</label
           >
           <select
-            class="form-select border border-black" required
+            class="form-select border border-black"
+            required
             aria-label="Default select example"
             name="listing[registrationType]"
           >
-            <option><%= listing.registrationType %></option>
-            <option value="private">Private</option>
+            <option value="private" selected>
+              <%= listing.registrationType %>
+            </option>
+            <option value="public">Private</option>
             <option value="public">Public</option>
           </select>
         </div>
@@ -53,11 +196,11 @@
           >
           <input
             type="date"
-            class="form-control border border-black" required
-            id="exampleInputEmail1"
+            class="form-control border border-black"
+            id="date"
             name="listing[registrationDate]"
             value="<%= listing.registrationDate %>"
-            aria-describedby="emailHelp"
+            required
           />
           <div class="invalid-feedback">Please enter a Registration Date</div>
         </div>
@@ -67,53 +210,51 @@
           >
           <input
             type="text"
-            class="form-control border border-black" required
+            class="form-control border border-black"
             id="exampleInputEmail1"
             name="listing[brandModel]"
             value="<%= listing.brandModel %>"
             aria-describedby="emailHelp"
+            required
           />
           <div class="invalid-feedback">Please enter a Brand & Model</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
+          <label for="numericInput1" class="form-label fw-medium"
             >Mileage</label
           >
           <input
-            type="number"
-            class="form-control border border-black" required
-            id="exampleInputEmail1"
+            type="text"
+            class="form-control border border-black numericInput"
             name="listing[mileage]"
             value="<%= listing.mileage %>"
-            aria-describedby="emailHelp"
+            required
           />
           <div class="invalid-feedback">Please enter a Mileage</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Year</label
-          >
-          <input
-            type="number"
-            class="form-control border border-black" required
-            id="exampleInputEmail1"
+          <label class="form-label fw-medium">Year</label>
+          <select
+            id="year"
+            class="form-select border border-black"
             name="listing[year]"
-            value="<%= listing.year %>"
-            aria-describedby="emailHelp"
-          />
-          <div class="invalid-feedback">Please enter a Year</div>
+          >
+            <option selected><%= listing.year %></option>
+          </select>
+          <div class="invalid-feedback">Select a Year</div>
         </div>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label fw-medium"
             >seat</label
           >
           <select
-            class="form-select border border-black" required
+            class="form-select border border-black"
+            required
             name="listing[seat]"
             aria-label="Default select example"
           >
-            <option><%= listing.seat %></option>
-            <option value="2">2</option>
+            <option value="2" selected><%= listing.seat %></option>
+            <option value="4">2</option>
             <option value="4">4</option>
             <option value="6">6</option>
           </select>
@@ -124,11 +265,12 @@
           >
           <input
             type="text"
-            class="form-control border border-black" required
+            class="form-control border border-black"
             id="exampleInputEmail1"
             name="listing[color]"
             value="<%= listing.color %>"
             aria-describedby="emailHelp"
+            required
           />
           <div class="invalid-feedback">Please enter a Color</div>
         </div>
@@ -144,61 +286,64 @@
           >
           <input
             type="text"
-            class="form-control border border-black" required
+            class="form-control border border-black"
             id="exampleInputEmail1"
             name="listing[title]"
             value="<%= listing.title %>"
             aria-describedby="emailHelp"
+            required
           />
-          <div class="invalid-feedback">Please enter a Car Title</div>
+          <div class="invalid-feedback">Please enter a Title</div>
         </div>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label fw-medium"
             >Describe</label
           >
           <textarea
-            class="form-control border border-black" required
+            class="form-control border border-black"
             name="listing[description]"
+            placeholder="Describe"
+            required
           >
 <%= listing.description %></textarea
           >
           <div class="invalid-feedback">Please enter a Describe</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Price</label
-          >
+          <label for="numericInput2" class="form-label fw-medium">Price</label>
           <input
-            type="number"
-            class="form-control border border-black" required
-            id="exampleInputEmail1"
+            type="text"
+            class="form-control border border-black numericInput"
+      
             name="listing[price]"
             value="<%= listing.price %>"
-            aria-describedby="emailHelp"
+            
+            required
           />
+          <div class="invalid-feedback">Please enter a Price</div>
         </div>
-        <div class="invalid-feedback">Please enter a Price</div>
         <div class="mb-2">
           <label for="exampleInputEmail1" class="form-label fw-medium"
             >Location</label
           >
           <input
             type="text"
-            class="form-control border border-black" required
+            class="form-control border border-black"
             id="exampleInputEmail1"
             name="listing[location]"
             value="<%= listing.location %>"
             aria-describedby="emailHelp"
+            required
           />
           <div class="invalid-feedback">Please enter a Location</div>
         </div>
       </div>
     </div>
-      <div class="container-fluid mt-4 mb-4 w-50 text-end">
-        <button type="submit" class="btn btn-primary fw-semibold me-5">
-          Submit
-        </button>
-      </div>
+    <div class="container-fluid mt-4 mb-4 w-50 offset-9">
+      <button type="submit" class="btn btn-primary fw-semibold">
+        Submit
+      </button>
     </div>
   </form>
+  <script src="js/validation.js"></script>
 </body>

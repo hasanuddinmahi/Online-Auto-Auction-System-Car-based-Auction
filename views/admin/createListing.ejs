@@ -1,0 +1,207 @@
+<% layout("/layouts/boilerplate") %>
+  <body>
+    <form method="POST" action="/admin"  class="needs-validation" novalidate>
+      <div class="container-fluid carDeatils-box mt-5">
+        <h5 class="p-4 text-center fw-bold">Insert Car Specifications</h5>
+        <div class="ps-5 pe-5 pb-4">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Condition</label
+            >
+            <select
+              class="form-select border border-black" required
+              aria-label="Default select example"
+              name="listing[condition]"
+            >
+              <option value="new" selected>New</option>
+              <option value="used">Used</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Car Type</label
+            >
+            <select
+              class="form-select border border-black" required
+              aria-label="Default select example"
+              name="listing[carType]"
+            >
+              <option value="petrol" selected>Petrol</option>
+              <option value="electric">Electric</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Registration Type</label
+            >
+            <select
+              class="form-select border border-black" required
+              aria-label="Default select example"
+              name="listing[registrationType]"
+            >
+              <option value="private" selected>Private</option>
+              <option value="public">Public</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Registration Date</label
+            >
+            <input
+              type="date"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[registrationDate]"
+              placeholder="Registration Date"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Registration Date</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Brand & Model</label
+            >
+            <input
+              type="text"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[brandModel]"
+              placeholder="Brand & Model"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Brand & Model</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Mileage</label
+            >
+            <input
+              type="text"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[mileage]"
+              placeholder="Mileage"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Mileage</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Year</label
+            >
+            <input
+              type="number"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[year]"
+              placeholder="Year"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Year</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >seat</label
+            >
+            <select
+              class="form-select border border-black" required
+              name="listing[seat]"
+              aria-label="Default select example"
+            >
+              <option value="2" selected>2</option>
+              <option value="4">4</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Color</label
+            >
+            <input
+              type="text"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[color]"
+              placeholder="Color"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Color</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid carDeatils-box mt-4 mb-4">
+        <h5 class="p-4 text-center fw-bold">Describe Your Car</h5>
+        <div class="ps-5 pe-5 pb-4">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Car Title</label
+            >
+            <input
+              type="text"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[title]"
+              placeholder="Car Title"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Title</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Describe</label
+            >
+            <textarea
+              class="form-control border border-black"
+              name="listing[description]"
+              placeholder="Describe"
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please enter a Describe</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Price</label
+            >
+            <input
+              type="number"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[price]"
+              placeholder="RM Price"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Price</div>
+          </div>
+          <div class="mb-2">
+            <label for="exampleInputEmail1" class="form-label fw-medium"
+              >Location</label
+            >
+            <input
+              type="text"
+              class="form-control border border-black"
+              id="exampleInputEmail1"
+              name="listing[location]"
+              placeholder="Location"
+              aria-describedby="emailHelp"
+              required
+            />
+            <div class="invalid-feedback">Please enter a Location</div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid mt-4 mb-4 w-50 text-end">
+        <button type="submit" class="btn btn-primary fw-semibold me-5">
+          Submit
+        </button>
+      </div>
+    </form>
+  </body>
