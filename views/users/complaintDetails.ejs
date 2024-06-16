@@ -1,0 +1,29 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+    <section>
+      <div class="container-fluid register-box mt-5 mb-5">
+        <h3 class="p-4 text-center fw-bold">Support Update</h3>
+        <div class="ps-5 pe-5 pb-5">
+            <div class="mb-4">
+              <label class="form-labe fw-medium">Title</label>
+              <p><%= complain.title %></p>
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-medium">Description</label>
+              <p><%= complain.description %></p>
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-medium">Reply</label>
+              <p><%= complain.adminSend %></p>
+            </div>
+           <%  if(complain.status == "In Progress"){ %>
+                <p class="bg-success w-50 text-center p-2 rounded text-white fw-semibold offset-3">In Progress</p>
+           <%  } %>
+           <%  if(complain.status == "complete"){ %>
+                <p class="bg-secondary w-50 text-center p-2 rounded text-white fw-semibold offset-3">Resolved</p>
+           <%  } %>
+        </div>
+      </div>
+    </section>
+  </article>

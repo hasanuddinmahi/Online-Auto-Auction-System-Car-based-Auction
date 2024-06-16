@@ -33,7 +33,7 @@
                   </div>
                   <div class="me-4 text-center mb-1">
                     <h5 class="fw-bold mb-2">
-                      RM <%= listing.price.toLocaleString("en-IN") %>
+                      RM <%= listing.price.toLocaleString("en-US") %>
                     </h5>
                     <form action="/listings/watchList/<%= listing._id %>?_method=DELETE" method="POST">
                     <button class="btn btn-danger ps-5 pe-5 mb-4">

@@ -1,0 +1,18 @@
+<% layout("/layouts/boilerplate") %>
+<section class="mb-5 mt-5">
+  <div class="container-fluid register-box mt-5 mb-5 text-center">
+    <h3 class="p-4 fw-bold">Verify OTP</h3>
+    <form action="/verify" method="POST" novalidate class="needs-validation">
+      <div class="mb-5">
+        <h6>An OTP send to this <%= email %>.please check inbox</h6><br>
+        <input type="hidden" name="email" value="<%= email %>" />
+        <label class="form-labe fw-medium" for="otp">Enter OTP:</label>
+        <input type="text" name="otp" required />
+        <div class="invalid-feedback">Please enter OTP</div>
+      </div>
+      <button type="submit" class="btn btn-primary w-50 fs-5 mb-5 fw-semibold">
+        Verify
+      </button>
+    </form>
+  </div>
+</section>

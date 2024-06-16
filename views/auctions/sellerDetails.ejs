@@ -1,0 +1,33 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 mb-5">
+    <div class="d-flex justify-content-between">
+      <div class="w-50 offset-2">
+        <p>
+          <i class="fa-solid fa-circle-user fa-xl"></i> <%= user.username %>
+        </p>
+        <p>
+          <i class="fa-solid fa-phone fa-lg"></i> +60 <%= user.phoneNumber %>
+        </p>
+        <p><i class="fa-solid fa-envelope"></i> <%= user.email %></p>
+      </div>
+      <div class="w-75">
+        <div class="row">
+          <h3>All Reviews</h3>
+          <% for(let review of user.reviews ){ %>
+          <div class="card col-3 ms-3 mb-3">
+            <div class="card-body">
+              <h5 class="card-title">@<%= review.author.username %></h5>
+              <p class="card-text"><%= review.comment %></p>
+              <p class="starability-result" data-rating="<%= review.rating %>">
+                Rated: 3 stars
+              </p>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

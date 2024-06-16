@@ -10,7 +10,7 @@
           <div><h5><%= listing.title %></h5></div>
           <div>
             <h5 class="bg-warning p-2">
-              RM <%= listing.price.toLocaleString("en-IN") %>
+              RM <%= listing.price.toLocaleString("en-US") %>
             </h5>
           </div>
         </div>
@@ -18,27 +18,19 @@
           <div id="carouselExample" class="carousel slide pb-1 mt-3">
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img
-                  src="<%= listing.image[0] && listing.image[0].url ? listing.image[0].url : "https://bit.ly/3ubuq5o" %>"
-                  class="d-block w-100"
-                  alt="..."
-                />
+                <img src="<%= listing.image[0] && listing.image[0].url ?
+                listing.image[0].url : "https://bit.ly/3ubuq5o" %>"
+                class="d-block w-100" alt="..." />
               </div>
               <div class="carousel-item">
-                <img
-                  src="<%= listing.image[1] && listing.image[1].url ? listing.image[1].url : "https://bit.ly/3ubuq5o" %>"
-                  class="d-block w-100"
-                  id="mainImg"
-                  alt="..."
-                />
+                <img src="<%= listing.image[1] && listing.image[1].url ?
+                listing.image[1].url : "https://bit.ly/3ubuq5o" %>"
+                class="d-block w-100" id="mainImg" alt="..." />
               </div>
               <div class="carousel-item">
-                <img
-                  src="<%= listing.image[2] && listing.image[2].url ? listing.image[2].url : "https://bit.ly/3ubuq5o" %>"
-                  class="d-block w-100"
-                  id="mainImg"
-                  alt="..."
-                />
+                <img src="<%= listing.image[2] && listing.image[2].url ?
+                listing.image[2].url : "https://bit.ly/3ubuq5o" %>"
+                class="d-block w-100" id="mainImg" alt="..." />
               </div>
             </div>
             <button

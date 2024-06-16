@@ -17,6 +17,50 @@ body {
   height: 3rem;
 }
 
+/* notification */
+#notification-dropdown {
+  display: none;
+  max-height: 300px; /* Set the max height as per your requirement */
+  overflow-y: auto; /* Enable vertical scrolling */
+  position: absolute;
+  top: 3rem; 
+  right: 0;
+  min-width: 200px;
+  width: auto;
+  background-color: #d5dde7;
+  border: 1px solid #d5dde7;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+#notification-dropdown .dropdown-item {
+  padding: 0.5rem 1rem;
+}
+
+.read-notification {
+  background-color: white; 
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  #notification-dropdown {
+    top: 2rem; /* Adjust top position for smaller screens */
+    min-width: 100%; /* Ensure dropdown takes full width on small screens */
+    max-height: 200px; /* Adjust max-height for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  #notification-dropdown {
+    top: 1.5rem; /* Adjust top position for very small screens */
+    max-height: 150px; /* Adjust max-height for very small screens */
+  }
+
+  #notification-dropdown .dropdown-item {
+    padding: 0.5rem; /* Adjust padding for very small screens */
+  }
+}
+
 /* homepage style */
 /* cover image */
 .cover {
@@ -80,75 +124,13 @@ body {
   border-left: 0.3rem solid rgba(255, 215, 76, 1);
 }
 
-/* slider range styling */
-.min-max-slider {
-  position: relative;
-  width: 200px;
-  text-align: center;
-  margin-bottom: 50px;
-}
-.min-max-slider > label {
-  display: none;
-}
-span.value {
-  height: 1.7em;
-  font-weight: bold;
-  display: inline-block;
-}
-span.value.lower::before {
-  content: "€";
-  display: inline-block;
-}
-span.value.upper::before {
-  content: "- €";
-  display: inline-block;
-  margin-left: 0.4em;
-}
-.min-max-slider > .legend {
-  display: flex;
-  justify-content: space-between;
-}
-.min-max-slider > .legend > * {
-  font-size: small;
-  opacity: 0.25;
-}
-.min-max-slider > input {
-  cursor: pointer;
-  position: absolute;
-}
-
-/* webkit specific styling */
-.min-max-slider > input {
-  -webkit-appearance: none;
-  outline: none !important;
-  background: transparent;
-  background-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 30%,
-    silver 30%,
-    silver 60%,
-    transparent 60%,
-    transparent 100%
-  );
-}
-.min-max-slider > input::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
-  appearance: none;
-  width: 14px; /* Set a specific slider handle width */
-  height: 14px; /* Slider handle height */
-  background: #eee; /* Green background */
-  cursor: pointer; /* Cursor on hover */
-  border: 1px solid gray;
-  border-radius: 100%;
-}
-.min-max-slider > input::-webkit-slider-runnable-track {
-  cursor: pointer;
-}
-
 .btn-refine-search {
   background-color: rgba(255, 215, 76, 1);
   /* width: 12rem; */
+}
+
+.hidden {
+  display: none;
 }
 
 /* cards */
@@ -187,6 +169,29 @@ span.value.upper::before {
   width: 100%;
   height: 31rem; /* Adjust the height as needed */
   object-fit: cover; /* Ensures the image covers the area without stretching */
+}
+
+/* auction Box */
+.auction-box {
+  width: 30rem;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.slider-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.slider-value {
+  margin-left: 10px;
+  width: 6rem;
+}
+.error {
+  color: red;
+  margin-top: 5px;
 }
 
 /* car overview */
@@ -270,6 +275,21 @@ span.value.upper::before {
   width: 35rem;
 }
 
+.google-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.google-btn img {
+  margin-right: 8px;
+}
+.apple-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 /* approve disapprove page style */
 /* image setup */
 .img-car {
@@ -317,4 +337,175 @@ span.value.upper::before {
 
 .btn-verify:hover {
   background-color: rgb(66, 101, 131);
+}
+
+/* admin auction form */
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.item-image {
+  width: 100px;
+  height: auto;
+}
+
+/* after result details page */
+.contact-box {
+  background-color: rgba(11, 130, 240, 0.11);
+}
+
+.small-hr {
+  margin: 0 46rem 0 46rem;
+  background-color: rgb(255, 200, 0);
+  border: 2px solid rgb(255, 200, 0);
+}
+
+/* enquiry  */
+.enquiry-box {
+  background-color: rgba(11, 130, 240, 0.11);
+  width: 25rem;
+}
+
+.contact-head {
+  background-color: rgba(56, 95, 130, 1);
+  color: white;
+  /* width: 10rem; */
+}
+
+.contact-line {
+  height: 2rem;
+  border-left: 0.5rem solid rgba(255, 215, 76, 1);
+}
+
+.btn-contact {
+  background-color: rgba(56, 95, 130, 1);
+  color: white;
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+}
+
+.btn-contact:hover {
+  background-color: rgb(66, 101, 131);
+}
+
+/* rating box css */
+.rating-box {
+  background-color: rgb(227, 226, 226);
+}
+
+/* sizing the icon in listing */
+.icon-size {
+  width: 25px;
+  height: 25px;
+}
+
+/* slider style */
+.wrapper {
+  width: 100%;
+  padding-bottom: 2rem;
+}
+
+header {
+  text-align: center;
+}
+
+header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+header p {
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.price-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0 35px;
+}
+
+.price-input .field {
+  display: flex;
+  align-items: center;
+}
+
+.price-input .field span {
+  font-size: 16px;
+}
+
+.price-input .field input {
+  width: 100%;
+  max-width: 120px;
+  height: 45px;
+  outline: none;
+  font-size: 16px;
+  margin-left: 12px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #999;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.price-input .separator {
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider {
+  height: 5px;
+  position: relative;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.slider .progress {
+  height: 100%;
+  position: absolute;
+  border-radius: 5px;
+  background: #0895f3;
+}
+
+.range-input {
+  position: relative;
+}
+
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background: #0895f3;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  background: #0895f3;
+  pointer-events: auto;
+  -moz-appearance: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }

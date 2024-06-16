@@ -1,0 +1,163 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 mb-5">
+    <div class="d-flex justify-content-evenly align-items-baseline">
+      <div class="w-25 ms-5">
+        <button class="btn btn-light border border-secondary-subtle w-75">
+          Win Cars &emsp; <i class="fa-solid fa-angle-right"></i></button
+        ><br />
+        <button class="btn btn-light border border-secondary-subtle w-75 mt-3">
+          Pending Approval <i class="fa-solid fa-angle-right"></i></button
+        ><br />
+        <button class="btn btn-light border border-secondary-subtle w-75 mt-3">
+          Lose Cars &emsp; <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+      <div class="w-100">
+        <div class="mb-5">
+          <h3 class="fw-bold mb-3 fs-5">WIN CARS</h3>
+
+          <% for(let listing of winBids){ %> 
+          <!-- show btns for authorized user -->
+
+          <div class="card mb-5" style="max-width: 940px">
+            <a
+              href="/auctions/bids/result/<%= listing._id %>"
+              class="text-decoration-none text-black"
+            >
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img
+                    src="<%= listing.image[0].url %>"
+                    class="img-car rounded-start"
+                    alt="..."
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body car-auclisting">
+                    <div
+                      class="d-flex justify-content-between align-items-start mb-4"
+                    >
+                      <div class="ms-3">
+                        <h5 class="card-title fw-bold"><%= listing.title %></h5>
+                        <hr class="w-25" />
+                        <p class="card-text"><%= listing.description %></p>
+                      </div>
+                      <div class="me-4 text-center mb-1">
+                        <h5 class="fw-bold mb-2">
+                          RM <%= listing.basePrice.toLocaleString("en-US") %>
+                        </h5>
+                        
+                        <p class="bg-success text-white fw-semibold text-center rounded p-1 mb-5">Won</p>
+                      </div>
+                    </div>
+                    <div class="card-footer car-auclisting">
+                      <div class="d-flex justify-content-start listing-icon">
+                        <div class="ms-2 me-3 mt-2">
+                          <img
+                            src="/image/dissel.png"
+                            class="icon-size"
+                            alt=""
+                          /><span class="ms-2">Diesel</span>
+                        </div>
+                        <div class="auclisting-line"></div>
+                        <div class="ms-2 me-3 mt-2">
+                          <img
+                            src="/image/dissel.png"
+                            class="icon-size"
+                            alt=""
+                          /><span class="ms-2">Diesel</span>
+                        </div>
+                        <div class="auclisting-line"></div>
+                        <div class="ms-2 me-3 mt-2">
+                          <img
+                            src="/image/Road.png"
+                            class="icon-size"
+                            alt=""
+                          /><span class="ms-2">12,000</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <% } %> 
+        </div>
+
+        <div class="mt-5 mb-5">
+          <h3 class="fw-bold mb-4 fs-5">LOSE CARS</h3>
+          <% for(let listing of loseBids){ %> 
+          <!-- show btns for authorized user -->
+
+          <div class="card mb-5" style="max-width: 940px">
+            <a
+              href="/listings/<%= listing._id %>"
+              class="text-decoration-none text-black"
+            >
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img
+                    src="<%= listing.image[0].url %>"
+                    class="img-car rounded-start"
+                    alt="..."
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body car-auclisting">
+                    <div
+                      class="d-flex justify-content-between align-items-start mb-4"
+                    >
+                      <div class="ms-3">
+                        <h5 class="card-title fw-bold"><%= listing.title %></h5>
+                        <hr class="w-25" />
+                        <p class="card-text"><%= listing.description %></p>
+                      </div>
+                      <div class="me-4 text-center mb-1">
+                        <h5 class="fw-bold mb-2">
+                          RM <%= listing.price.toLocaleString("en-US") %>
+                        </h5>
+                        <p class="bg-danger text-white fw-semibold text-center rounded p-1 mb-5">Lose</p>
+                      </div>
+                    </div>
+                    <div class="card-footer car-auclisting">
+                      <div class="d-flex justify-content-start listing-icon">
+                        <div class="ms-2 me-3 mt-2">
+                          <img
+                            src="/image/dissel.png"
+                            class="icon-size"
+                            alt=""
+                          /><span class="ms-2">Diesel</span>
+                        </div>
+                        <div class="auclisting-line"></div>
+                        <div class="ms-2 me-3 mt-2">
+                          <img
+                            src="/image/dissel.png"
+                            class="icon-size"
+                            alt=""
+                          /><span class="ms-2">Diesel</span>
+                        </div>
+                        <div class="auclisting-line"></div>
+                        <div class="ms-2 me-3 mt-2">
+                          <img
+                            src="/image/Road.png"
+                            class="icon-size"
+                            alt=""
+                          /><span class="ms-2">12,000</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <% } %> 
+        </div>
+
+      </div>
+    </div>
+  </section>
+</article>

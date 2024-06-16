@@ -1,0 +1,539 @@
+<% layout("/layouts/boilerplate") %>
+<div id="toast-container" class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+ 
+</div>
+
+
+<article>
+  <section class="mt-5 mb-5">
+   
+    <div class="d-flex justify-content-around align-items-baseline">
+      <div class="w-50">
+        <div
+          class="d-flex justify-content-between align-items-center ps-2 pe-2 pt-2 image-head"
+        >
+          <div><h5><%= listing.title %></h5></div>
+          <div>
+            <h5 class="bg-warning p-2">
+              RM <%= listing.price.toLocaleString("en-US") %>
+            </h5>
+          </div>
+        </div>
+        <div>
+          <div id="carouselExample" class="carousel slide pb-1 mt-3">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="<%= listing.image[0] && listing.image[0].url ?
+                listing.image[0].url : "https://bit.ly/3ubuq5o" %>"
+                class="d-block w-100 image-fluid" id="mainImg" alt="..." />
+              </div>
+              <% for(let image of listing.image.slice(1)){ %>
+              <div class="carousel-item">
+                <img src="<%= image && image.url ? image.url :
+                "https://bit.ly/3ubuq5o" %>" class="d-block w-100 image-fluid"
+                id="mainImg" alt="..." />
+              </div>
+              <% } %>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-dark rounded auction-box p-3">
+       
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="fs-5 fw-bold">MERCEDES AMG 6.3</h6>
+          <i class="fa-regular fa-bookmark fa-2xl"></i>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="fw-bold">
+            <i class="fa-solid fa-gavel"></i
+            ><span class="ms-2">Bids <br /><span class="ms-4">1</span></span>
+          </div>
+          <div class="fw-bold">
+            <i class="fa-solid fa-gavel"></i
+            ><span class="ms-2"
+              >Mileage <br /><span class="ms-4"
+                ><%= listing.mileage %></span
+              ></span
+            >
+          </div>
+          <div class="fw-bold">
+            <i class="fa-solid fa-gavel"></i
+            ><span class="ms-2">Time Remaining </span>
+            <div class="ms-3" id="timer"></div>
+          </div>
+        </div>
+
+        <div
+          class="d-flex justify-content-between align-items-start bg-secondary mb-3 rounded pt-3 ps-3 pe-3"
+        >
+          <p>End Date</p>
+          <p class="datetime" id="target-date"><%= listing.date %></p>
+        </div>
+
+       
+        <div id="real-time-bidding-section">
+     
+          <div
+            class="d-flex justify-content-between align-items-center text-center"
+          >
+            <p>
+              Current Bid:<br />
+              <span id="current-bid" class="fs-5 fw-bold"
+                >RM <%= listing.basePrice.toLocaleString("en-US") %></span
+              >
+            </p>
+
+            <p>
+              Minimum Increment: <br />
+              <span class="fs-6 fw-bold">RM 1,000</span>
+            </p>
+          </div>
+
+          
+          <% if(!checkListing) { %>
+          <div>
+            <form
+              id="bid-form"
+              method="POST"
+              action="/auctions/listings/<%= listing._id %>"
+            >
+              <div class="slider-container mb-3">
+                <input
+                  type="range"
+                  class="form-control-range w-100"
+                  id="slider"
+                  min="1000"
+                  max="20000"
+                  value="1000"
+                />
+                <input
+                  type="number"
+                  id="sliderValue"
+                  class="form-control slider-value"
+                  min="1000"
+                  max="20000"
+                  name="bid[amount]"
+                />
+              </div>
+              <div id="error" class="error"></div>
+              <button
+              type="submit"
+              class="btn btn-primary w-100 p-2 fw-semibold"
+            >
+              Bid Now
+            </button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="mt-5 mb-5 car-overview">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR OVERVIEW</h4>
+      <hr class="small-hr" />
+    </div>
+    <hr class="ms-5 me-5" />
+    <div class="d-flex justify-content-between">
+      <div class="w-50 ms-5 me-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p><%= listing.carType %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p><%= listing.seat %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p><%= listing.registrationType %></p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0" />
+      </div>
+      <div class="me-5 w-50 ms-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0 mb-5" />
+      </div>
+    </div>
+  </section>
+  <section class="mt-5 mb-5">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR DETAILS</h4>
+      <hr class="small-hr" />
+      <p>
+        Specifications shown for this model comes standard from the
+        manufacturer.
+      </p>
+    </div>
+    <hr class="ms-5 me-5" />
+    <div class="d-flex justify-content-between">
+      <div class="w-50 ms-5 me-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0" />
+      </div>
+      <div class="me-5 w-50 ms-5">
+        <div class="d-flex justify-content-between">
+          <p>fuel type</p>
+          <p>petrol</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Seat</p>
+          <p>4</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Registration Type</p>
+          <p>Private</p>
+        </div>
+        <hr class="mt-0 mb-2" />
+        <div class="d-flex justify-content-between">
+          <p>Spare Key</p>
+          <p>No</p>
+        </div>
+        <hr class="mt-0 mb-5" />
+      </div>
+    </div>
+  </section>
+
+  <section class="m-5">
+    <div class="text-center pt-4 pb-3">
+      <h4>CAR OVERVIEW</h4>
+      <hr class="small-hr" />
+      <p>
+        <%= listing.description %>elvage drinking vinegar roof party bitters
+        beard wolf craft beer Blue Bottle, literally you probably haven't heard
+        of them. Deep v
+      </p>
+    </div>
+
+    <!-- show btns for authorized user -->
+    <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+    <div class="d-flex justify-content-end">
+      <a href="/listings/<%= listing._id%>/edit" class="btn btn-primary">Edit</a
+      ><br />
+
+      <!-- open modal -->
+      <button
+        type="button"
+        class="btn btn-danger ms-2"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        Delete
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Confirmation
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Are you sure to delete?</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <form
+                method="POST"
+                action="/listings/<%= listing._id %>?_method=DELETE"
+              >
+                <button class="btn btn-danger">Confirm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </section>
+</article>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var slider = $("#slider");
+    var sliderValue = $("#sliderValue");
+    var error = $("#error");
+
+    sliderValue.val(slider.val());
+
+    slider.on("input change", function () {
+      sliderValue.val($(this).val());
+      error.text("");
+    });
+
+    sliderValue.on("input change", function () {
+      var value = $(this).val();
+      if (value < 1000 || value > 20000) {
+        error.text("Value must be between 1000 and 20000");
+      } else {
+        slider.val(value);
+        error.text("");
+      }
+    });
+
+    // Allow only numbers and prevent invalid input
+    sliderValue.on("input", function () {
+      var value = $(this).val();
+      value = value.replace(/[^0-9]/g, "");
+      $(this).val(value);
+    });
+  });
+</script>
+<script>
+  // Function to format the date and time
+  function formatDateTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+
+    // Options for formatting date
+    const options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    };
+
+    // Format date
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Format time
+    const formattedTime = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return `${formattedDate}, ${formattedTime}`;
+  }
+
+  // Select all div elements with the class 'datetime'
+  const dateTimeElements = document.querySelectorAll(".datetime");
+
+  // Iterate over each div element and format its content
+  dateTimeElements.forEach((element) => {
+    // Get the text content of the current div element
+    const dateTimeString = element.textContent.trim();
+    // Format the date and time
+    const formattedDateTime = formatDateTime(dateTimeString);
+    // Set the formatted date and time back to the div element
+    element.textContent = formattedDateTime;
+  });
+</script>
+
+<script>
+  // Function to update the timer
+  function updateTimer() {
+    const targetDateElement = document.getElementById("target-date");
+    const targetDate = new Date(targetDateElement.textContent);
+    const now = new Date();
+
+    const timeDifference = targetDate - now;
+
+    if (timeDifference > 0) {
+      const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+      document.getElementById("timer").textContent = `${hours}h: ${minutes}m: ${seconds}s`;
+    } else {
+      document.getElementById("timer").textContent = "Time's up!";
+      clearInterval(timerInterval); // Stop the timer
+
+      // Remove the form
+      const bidForm = document.getElementById("bid-form");
+      if (bidForm) {
+        bidForm.remove();
+      }
+    }
+  }
+
+  // Update the timer every second
+  const timerInterval = setInterval(updateTimer, 1000);
+
+  // Initial call to display the timer immediately
+  updateTimer();
+
+</script>
+
+<!-- Include necessary JavaScript libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(document).ready(function() {
+    // Establish WebSocket connection
+    const socket = io();
+
+    // Update bidding section when a new bid is placed
+    socket.on("bidUpdate", ({ listingId, basePrice }) => {
+        if (listingId === "<%= listing._id %>") {
+            // Update current bid
+            $("#current-bid").text(`RM ${basePrice.toLocaleString("en-US")}`);
+        }
+    });
+
+    // Function to place a bid
+    function placeBid() {
+        const listingId = "<%= listing._id %>";
+        const bidAmount = $("#sliderValue").val();
+        const userId = "<%= userId %>"; // Assuming you have the userId available in your client-side code
+        socket.emit("placeBid", { listingId, bidAmount, userId }); // Include userId in the data sent to the server
+    }
+
+    // Event listener for form submission
+    $("#bid-form").on("submit", function(e) {
+        e.preventDefault(); // Prevent default form submission
+        // Call placeBid() function to handle form submission
+        placeBid();
+        return false;
+    });
+
+    // Optional: Prevent the form from being submitted by pressing Enter key
+    $("#bid-form").on("keypress", function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            placeBid();
+        }
+    });
+
+    // Listening for the bidPlaced event
+    socket.on('bidPlaced', function(data) {
+        if (data.success) {
+            // Show success toast message
+            showToast('success', data.message);
+        } else {
+            // Show error toast message
+            showToast('error', data.message);
+        }
+    });
+
+    // Function to display toast messages
+    function showToast(type, message) {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast align-items-center text-white bg-${type} border-0 show`;
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+        toastContainer.appendChild(toast);
+
+        // Automatically remove the toast after 3 seconds
+        setTimeout(() => {
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.hide();
+            setTimeout(() => {
+                toast.remove();
+            }, 500); // Wait for the fade-out transition
+        }, 3000);
+    }
+});
+
+
+</script>
+
+
+
+
+
+

@@ -1,112 +1,60 @@
-var thumbsize = 14;
+const rangeInput = document.querySelectorAll(".range-input input"),
+      priceInput = document.querySelectorAll(".price-input input"),
+      range = document.querySelector(".slider .progress");
+let priceGap = 1000;
 
-function draw(slider,splitvalue) {
-
-    /* set function vars */
-    var min = slider.querySelector('.min');
-    var max = slider.querySelector('.max');
-    var lower = slider.querySelector('.lower');
-    var upper = slider.querySelector('.upper');
-    var legend = slider.querySelector('.legend');
-    var thumbsize = parseInt(slider.getAttribute('data-thumbsize'));
-    var rangewidth = parseInt(slider.getAttribute('data-rangewidth'));
-    var rangemin = parseInt(slider.getAttribute('data-rangemin'));
-    var rangemax = parseInt(slider.getAttribute('data-rangemax'));
-
-    /* set min and max attributes */
-    min.setAttribute('max',splitvalue);
-    max.setAttribute('min',splitvalue);
-
-    /* set css */
-    min.style.width = parseInt(thumbsize + ((splitvalue - rangemin)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
-    max.style.width = parseInt(thumbsize + ((rangemax - splitvalue)/(rangemax - rangemin))*(rangewidth - (2*thumbsize)))+'px';
-    min.style.left = '0px';
-    max.style.left = parseInt(min.style.width)+'px';
-    min.style.top = lower.offsetHeight+'px';
-    max.style.top = lower.offsetHeight+'px';
-    legend.style.marginTop = min.offsetHeight+'px';
-    slider.style.height = (lower.offsetHeight + min.offsetHeight + legend.offsetHeight)+'px';
-    
-    /* correct for 1 off at the end */
-    if(max.value>(rangemax - 1)) max.setAttribute('data-value',rangemax);
-
-    /* write value and labels */
-    max.value = max.getAttribute('data-value'); 
-    min.value = min.getAttribute('data-value');
-    lower.innerHTML = min.getAttribute('data-value');
-    upper.innerHTML = max.getAttribute('data-value');
-
+function updateRangeStyles(minPrice, maxPrice) {
+  range.style.left = ((minPrice - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100 + "%";
+  range.style.right = 100 - ((maxPrice - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
 }
 
-function init(slider) {
-    /* set function vars */
-    var min = slider.querySelector('.min');
-    var max = slider.querySelector('.max');
-    var rangemin = parseInt(min.getAttribute('min'));
-    var rangemax = parseInt(max.getAttribute('max'));
-    var avgvalue = (rangemin + rangemax)/2;
-    var legendnum = slider.getAttribute('data-legendnum');
+priceInput.forEach(input => {
+  input.addEventListener("input", e => {
+    let minPrice = parseInt(priceInput[0].value),
+        maxPrice = parseInt(priceInput[1].value);
 
-    /* set data-values */
-    min.setAttribute('data-value',rangemin);
-    max.setAttribute('data-value',rangemax);
-    
-    /* set data vars */
-    slider.setAttribute('data-rangemin',rangemin); 
-    slider.setAttribute('data-rangemax',rangemax); 
-    slider.setAttribute('data-thumbsize',thumbsize); 
-    slider.setAttribute('data-rangewidth',slider.offsetWidth);
+    if (minPrice < parseInt(priceInput[0].min)) {
+      minPrice = parseInt(priceInput[0].min);
+    } else if (minPrice > parseInt(priceInput[1].max) - priceGap) {
+      minPrice = parseInt(priceInput[1].max) - priceGap;
+    }
 
-    /* write labels */
-    var lower = document.createElement('span');
-    var upper = document.createElement('span');
-    lower.classList.add('lower','value');
-    upper.classList.add('upper','value');
-    lower.appendChild(document.createTextNode(rangemin));
-    upper.appendChild(document.createTextNode(rangemax));
-    slider.insertBefore(lower,min.previousElementSibling);
-    slider.insertBefore(upper,min.previousElementSibling);
-    
-    /* write legend */
-    var legend = document.createElement('div');
-    legend.classList.add('legend');
-    var legendvalues = [];
-    for (var i = 0; i < legendnum; i++) {
-        legendvalues[i] = document.createElement('div');
-        var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
-        legendvalues[i].appendChild(document.createTextNode(val));
-        legend.appendChild(legendvalues[i]);
+    if (maxPrice > parseInt(priceInput[1].max)) {
+      maxPrice = parseInt(priceInput[1].max);
+    } else if (maxPrice < parseInt(priceInput[0].min) + priceGap) {
+      maxPrice = parseInt(priceInput[0].min) + priceGap;
+    }
 
-    } 
-    slider.appendChild(legend);
+    priceInput[0].value = minPrice;
+    priceInput[1].value = maxPrice;
 
-    /* draw */
-    draw(slider,avgvalue);
+    if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max) {
+      if (e.target.className === "input-min") {
+        rangeInput[0].value = minPrice;
+        updateRangeStyles(minPrice, maxPrice);
+      } else {
+        rangeInput[1].value = maxPrice;
+        updateRangeStyles(minPrice, maxPrice);
+      }
+    }
+  });
+});
 
-    /* events */
-    min.addEventListener("input", function() {update(min);});
-    max.addEventListener("input", function() {update(max);});
-}
+rangeInput.forEach(input => {
+  input.addEventListener("input", e => {
+    let minVal = parseInt(rangeInput[0].value),
+        maxVal = parseInt(rangeInput[1].value);
 
-function update(el){
-    /* set function vars */
-    var slider = el.parentElement;
-    var min = slider.querySelector('#min');
-    var max = slider.querySelector('#max');
-    var minvalue = Math.floor(min.value);
-    var maxvalue = Math.floor(max.value);
-    
-    /* set inactive values before draw */
-    min.setAttribute('data-value',minvalue);
-    max.setAttribute('data-value',maxvalue);
-
-    var avgvalue = (minvalue + maxvalue)/2;
-
-    /* draw */
-    draw(slider,avgvalue);
-}
-
-var sliders = document.querySelectorAll('.min-max-slider');
-sliders.forEach( function(slider) {
-    init(slider);
+    if ((maxVal - minVal) < priceGap) {
+      if (e.target.className === "range-min") {
+        rangeInput[0].value = maxVal - priceGap;
+      } else {
+        rangeInput[1].value = minVal + priceGap;
+      }
+    } else {
+      priceInput[0].value = minVal;
+      priceInput[1].value = maxVal;
+      updateRangeStyles(minVal, maxVal);
+    }
+  });
 });

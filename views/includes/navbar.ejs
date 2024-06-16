@@ -29,7 +29,9 @@
             <a class="nav-link ms-5 me-5 ps-5 text-black" href="/listings"
               >Listing</a
             >
-            <a class="nav-link ms-5 me-5 ps-5 text-black" href="">Auctions</a>
+            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/auctions"
+              >Auctions</a
+            >
             <a class="nav-link ms-5 me-5 ps-5 text-black" href="/listings/new"
               >Sell Car</a
             >
@@ -41,38 +43,48 @@
             >
           </div>
         </div>
-        <% } %>
-        
-        <% if(currUser){ %>
-          <% if(currUser._id.equals('662e1874d4fbf3b3c0b96edb')){ %>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav ps-5">
-                <a class="nav-link text-black ms-5 me-5 ps-5" href="/admin/manageListings">LISTING</a>
-                <a class="nav-link text-black ms-5 me-5 ps-5" href="/admin/manageUsers">USER</a>
-                <a class="nav-link text-black ms-5 me-5 ps-5" href="">AUCTIONS</a>
-                <a class="nav-link text-black ms-5 me-5 ps-5" href="/admin/supportCustomer"
-                  >SUPPORT CUSTOMER</a
-                >
-                <li class="nav-item dropdown ps-5">
-                  <a
-                    class="nav-link dropdown-toggle text-black"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    USERNAME
-                  </a>
-                  <ul class="dropdown-menu ms-5">
-                    <li><a class="dropdown-item" href="#">PROFILE</a></li>
-                    <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
-                  </ul>
-                </li>
-              </div>
-            </div>
-            <% } %>
-
-            <% if(!currUser._id.equals('662e1874d4fbf3b3c0b96edb')){ %>
+        <% } %> <% if(currUser){ %> <%
+        if(currUser._id.equals('662e1874d4fbf3b3c0b96edb')){ %>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ps-5">
+            <a
+              class="nav-link text-black ms-5 me-5 ps-5"
+              href="/admin/manageListings"
+              >LISTING</a
+            >
+            <a
+              class="nav-link text-black ms-5 me-5 ps-5"
+              href="/admin/manageUsers"
+              >USER</a
+            >
+            <a
+              class="nav-link text-black ms-5 me-5 ps-5"
+              href="/admin/manageAuctions"
+              >AUCTIONS</a
+            >
+            <a
+              class="nav-link text-black ms-5 me-5 ps-5"
+              href="/admin/supportCustomer"
+              >SUPPORT CUSTOMER</a
+            >
+            <li class="nav-item dropdown ps-5">
+              <a
+                class="nav-link dropdown-toggle text-black"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                USERNAME
+              </a>
+              <ul class="dropdown-menu ms-5">
+                <li><a class="dropdown-item" href="#">PROFILE</a></li>
+                <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
+              </ul>
+            </li>
+          </div>
+        </div>
+        <% } %> <% if(!currUser._id.equals('662e1874d4fbf3b3c0b96edb')){ %>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ps-5">
             <li class="nav-item dropdown ps-3">
@@ -97,7 +109,7 @@
               </ul>
             </li>
 
-            <a class="nav-link text-black ps-5" href="#">AUCTIONS</a>
+            <a class="nav-link text-black ps-5" href="/auctions">AUCTIONS</a>
             <li class="nav-item dropdown ps-5">
               <a
                 class="nav-link dropdown-toggle text-black"
@@ -109,9 +121,13 @@
                 MY AUCTION CENTER
               </a>
               <ul class="dropdown-menu ms-5">
-                <li><a class="dropdown-item" href="#">MY BIDS</a></li>
                 <li>
-                  <a class="dropdown-item" href="#">MY BID VEHICLES</a>
+                  <a class="dropdown-item" href="/auctions/bids">MY BIDS</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/auctions/bids/result"
+                    >AUCTION RESULT</a
+                  >
                 </li>
               </ul>
             </li>
@@ -134,7 +150,7 @@
                 </li>
               </ul>
             </li>
-            <a class="nav-link text-black ps-5" href="/complaint">COMPLAINT</a>
+            <a class="nav-link text-black ps-5" href="/complaint">CUSTOMER SUPPORT</a>
             <li class="nav-item dropdown ps-5">
               <a
                 class="nav-link dropdown-toggle text-black"
@@ -147,15 +163,99 @@
               </a>
               <ul class="dropdown-menu ms-5">
                 <li><a class="dropdown-item" href="/profile">PROFILE</a></li>
-                <li><a class="dropdown-item" href="#">NOTIFICATION</a></li>
                 <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
               </ul>
             </li>
+
+            <li class="nav-item dropdown ms-3">
+              <a
+                class="nav-link notification-icon"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="fas fa-bell"></i>
+                <% if (userNotifications.length > 0) { %>
+                <span class="badge badge-danger"
+                  ><%= userNotifications.length %></span
+                >
+                <% } %>
+              </a>
+              <div
+                id="notification-dropdown"
+                class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+              >
+                <% if (userNotifications.length > 0) { %> <%
+                userNotifications.forEach(notification => { %>
+                <a
+                  class="dropdown-item <%= notification.isRead ? 'read-notification' : '' %>"
+                  href="<%= notification.link %>"
+                  data-id="<%= notification._id %>"
+                >
+                <div class="d-flex justify-content-between">
+                <span><%= notification.message %></span>
+                <span class="ms-2 fs-6 text-end">
+                    <%= notification.createdAt.toString().split(" ")[4] %>
+                </span>
+            </div>
+                </a>
+                <% }) %> <% } else { %>
+                <p class="dropdown-item">No new notifications</p>
+                <% } %>
+              </div>
+            </li>
+
+            
           </div>
         </div>
-       <% } %>
-        <% } %>
+        <% } %> <% } %>
       </div>
     </nav>
   </div>
 </header>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Click event for notification icon
+    $(".notification-icon").click(function (event) {
+      event.stopPropagation(); // Prevent event from bubbling up
+      $("#notification-dropdown").toggle(); // Toggle notification dropdown
+    });
+
+    // Close dropdowns when clicking outside
+    $(document).click(function () {
+      $("#notification-dropdown").hide();
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const notificationLinks = document.querySelectorAll(
+      ".dropdown-item[data-id]"
+    );
+
+    notificationLinks.forEach((link) => {
+      link.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const notificationId = link.getAttribute("data-id");
+        const response = await fetch(`/notifications/${notificationId}/read`, {
+          method: "POST",
+        });
+
+        if (response.ok) {
+          link.classList.add("read-notification");
+          window.location.href = link.getAttribute("href");
+        } else {
+          console.error("Failed to mark notification as read");
+        }
+      });
+    });
+  });
+</script>

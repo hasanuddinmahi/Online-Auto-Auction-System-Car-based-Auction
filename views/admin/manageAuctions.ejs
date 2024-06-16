@@ -1,0 +1,126 @@
+<% layout("/layouts/boilerplate") %>
+
+<article>
+  <section class="mt-5 ms-5 mb-5">
+    <div class="d-flex align-items-start justify-content-start">
+      <div class="w-25">
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 text-start"
+        >
+          <i class="fa-solid fa-list-check"></i>
+          <span class="ms-3">Manage Listings</span></button
+        ><br />
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-users"></i>
+          <span class="ms-3">Manage Users</span></button
+        ><br />
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-gavel"></i>
+          <span class="ms-3">Manage Auction</span>
+        </button>
+        <button
+          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
+        >
+          <i class="fa-solid fa-headset"></i>
+          <span class="ms-3">Support Customer</span>
+        </button>
+      </div>
+      <div class="w-75 border-start border-black pb-5 ps-5">
+        <div
+          class="d-flex align-items-start justify-content-between w-100 pe-5 rounded mb-4"
+        >
+          <h4 class="mb-4 fw-bold">Listings</h4>
+          <a href="/admin/auctions/new" class="btn btn-secondary">
+            <i class="fa-solid fa-circle-plus"></i> Add New
+          </a>
+        </div>
+        <div class="me-5">
+          <table class="table">
+            <thead>
+              <tr class="text-center">
+                <th class="fs-5" scope="col">Name</th>
+                <th class="fs-5" scope="col">Description</th>
+                <th class="fs-5" scope="col">start Date</th>
+                <th class="fs-5" scope="col">end Date</th>
+                <th class="fs-5" scope="col">status</th>
+                <th class="fs-5" scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider text-center">
+           
+              <% for(let auction of allAuctions){ %>
+                <tr>
+                  <td class="text-center">
+                    <a href="/admin/auctions/<%= auction._id %>">
+                      <%= auction.name %>
+                    </a>
+                  </td>
+                  <td class="w-25 text-center"><%= auction.description %></td>
+                  <td class="text-center datetime"  ><%= auction.startDate %></td>
+                  <td class="text-center datetime" ><%= auction.endDate %></td>
+                  <td class="text-white">
+                    <% if(auction.status === "pending") { %>
+                    <p class="bg-warning text-center rounded p-1">Pending</p>
+                    <% } %>
+                    <% if(auction.status === "ongoing") { %>
+                    <p class="bg-success text-center rounded p-1">Ongoing</p>
+                    <% } %>
+                    <% if(auction.status === "finished") { %>
+                      <p class="bg-secondary text-center rounded p-1">Finished</p>
+                    <% } %>
+                  </td>
+                </tr>
+                <% } %>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+
+<script>
+  // Function to format the date and time
+  function formatDateTime(dateTimeString) {
+      const date = new Date(dateTimeString);
+
+      // Check if the date is valid
+      if (isNaN(date)) {
+          return "Invalid Date";
+      }
+
+      // Options for formatting date
+      const options = { 
+          weekday: 'short', 
+          year: 'numeric', 
+          month: 'short', 
+          day: '2-digit' 
+      };
+
+      // Format date
+      const formattedDate = date.toLocaleDateString('en-US', options);
+      
+      // Format time
+      const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+      return `${formattedDate}, ${formattedTime}`;
+  }
+
+  // Select all td elements with the class 'datetime'
+  const dateTimeElements = document.querySelectorAll('.datetime');
+
+  // Iterate over each td element and format its content
+  dateTimeElements.forEach(element => {
+      // Get the text content of the current td element
+      const dateTimeString = element.textContent.trim();
+      // Format the date and time
+      const formattedDateTime = formatDateTime(dateTimeString);
+      // Set the formatted date and time back to the td element
+      element.textContent = formattedDateTime;
+  });
+</script>

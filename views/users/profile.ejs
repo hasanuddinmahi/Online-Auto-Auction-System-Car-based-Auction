@@ -90,31 +90,52 @@
 
         <div class="setting-box p-4 w-100 rounded mb-4">
           <h4 class="mb-4 fw-bold">Change Password</h4>
-          <form action="">
-            <input
-              type="password"
-              name=""
-              id=""
-              class="p-2 rounded"
-              placeholder="Current Password"
-            />
-            <br />
-            <input
-              type="password"
-              name=""
-              id=""
-              class="p-2 rounded mt-4 me-2"
-              placeholder="New Password"
-            />
-            <input
-              type="password"
-              name=""
-              id=""
-              class="p-2 rounded"
-              placeholder="Confirm Password"
-            />
-            <br />
-            <button class="mt-5 btn-verify rounded-pill fw-semibold">
+          <form
+            id="passwordChangeForm"
+            method="POST"
+            action="/changePassword"
+            class="needs-validation"
+            novalidate
+          >
+            <div>
+              <label class="form-labe fw-medium">Current Password</label>
+              <input
+                type="password"
+                name="currentPassword"
+                id="currentPassword"
+                class="p-2 rounded"
+                placeholder="Current Password"
+                required
+              />
+              <div class="invalid-feedback">Please enter current password</div>
+            </div>
+            <div>
+              <label class="form-labe fw-medium">New Password</label>
+              <input
+                type="password"
+                name="newPassword"
+                id="newPassword"
+                class="p-2 rounded mt-4 me-2"
+                placeholder="New Password"
+                required
+              />
+              <div class="invalid-feedback">Please enter new password</div>
+              <label class="form-labe fw-medium">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="p-2 rounded"
+                placeholder="Confirm Password"
+                required
+              />
+
+              <p id="errorText" style="color: red"></p>
+            </div>
+            <button
+              type="submit"
+              class="mt-5 btn-verify rounded-pill fw-semibold"
+            >
               Save Changes
             </button>
           </form>
@@ -130,6 +151,7 @@
               class="p-2 rounded"
               placeholder="Malaysian"
             />
+
             <br />
             <button class="mt-4 btn-verify rounded-pill fw-semibold">
               Save Changes
@@ -182,7 +204,9 @@
                     aria-label="Close"
                   ></button>
                 </div>
-                <div class="modal-body">Are you sure to delete your account?</div>
+                <div class="modal-body">
+                  Are you sure to delete your account?
+                </div>
                 <div class="modal-footer">
                   <button
                     type="button"
@@ -206,3 +230,26 @@
     </div>
   </section>
 </article>
+
+<script>
+  document
+    .getElementById("passwordChangeForm")
+    .addEventListener("submit", function (event) {
+      var currentPassword = document.getElementById("currentPassword").value;
+      var newPassword = document.getElementById("newPassword").value;
+      var confirmPassword = document.getElementById("confirmPassword").value;
+      var errorText = document.getElementById("errorText");
+
+      if (newPassword === currentPassword) {
+        errorText.textContent =
+          "New password cannot be the same as the old password.";
+        event.preventDefault();
+      } else if (newPassword !== confirmPassword) {
+        errorText.textContent =
+          "New password and confirm password do not match.";
+        event.preventDefault();
+      } else {
+        errorText.textContent = ""; // Clear error message if there are no errors
+      }
+    });
+</script>

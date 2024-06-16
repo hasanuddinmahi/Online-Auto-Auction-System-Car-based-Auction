@@ -16,12 +16,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    watchLists: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Listing",
-        }
-    ],
+    otp: String,
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+    }],
 });
 
 userSchema.plugin(passportLocalMongoose);

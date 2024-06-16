@@ -5,7 +5,6 @@
     action="/listings/<%= listing._id %>?_method=PUT"
     enctype="multipart/form-data"
     class="needs-validation"
-    id="imageUploadForm"
     novalidate
   >
     <div class="container-fluid carDeatils-box mt-5">
@@ -143,170 +142,168 @@
       <h5 class="p-4 text-center fw-bold">Insert Car Specifications</h5>
       <div class="ps-5 pe-5 pb-4">
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Condition</label
-          >
+          <label class="form-label fw-medium">Condition</label>
           <select
             class="form-select border border-black"
             required
             aria-label="Default select example"
             name="listing[condition]"
           >
-            <option value="new" selected><%= listing.condition %></option>
-            <option value="used">New</option>
-            <option value="used">Used</option>
+            <option value="new" <% if(listing.condition === 'new') { %> selected <% } %>>New</option>
+            <option value="used" <% if(listing.condition === 'used') { %> selected <% } %>>Used</option>
           </select>
+          <div class="invalid-feedback">Please select a condition</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Car Type</label
-          >
+          <label class="form-label fw-medium">Car Type</label>
           <select
             class="form-select border border-black"
             required
             aria-label="Default select example"
             name="listing[carType]"
           >
-            <option value="petrol" selected><%= listing.carType %></option>
-            <option value="electric">Petrol</option>
-            <option value="electric">Electric</option>
-            <option value="hybrid">Hybrid</option>
+          <option value="petrol" <% if(listing.carType === 'petrol') { %> selected <% } %>>Petrol</option>
+          <option value="electric" <% if(listing.carType === 'electric') { %> selected <% } %>>Electric</option>
+          <option value="hybrid" <% if(listing.carType === 'hybrid') { %> selected <% } %>>Hybrid</option>
           </select>
+          <div class="invalid-feedback">Please select a car type</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Registration Type</label
-          >
+          <label class="form-label fw-medium">Registration Type</label>
           <select
             class="form-select border border-black"
             required
             aria-label="Default select example"
             name="listing[registrationType]"
           >
-            <option value="private" selected>
-              <%= listing.registrationType %>
-            </option>
-            <option value="public">Private</option>
-            <option value="public">Public</option>
+          <option value="private" <% if(listing.registrationType === 'private') { %> selected <% } %>>Private</option>
+          <option value="public" <% if(listing.registrationType === 'public') { %> selected <% } %>>Public</option>
           </select>
+          <div class="invalid-feedback">Please select a registration type</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Registration Date</label
-          >
+          <label class="form-label fw-medium">Registration Date</label>
           <input
             type="date"
             class="form-control border border-black"
             id="date"
             name="listing[registrationDate]"
+            placeholder="Registration Date"
             value="<%= listing.registrationDate %>"
             required
           />
           <div class="invalid-feedback">Please enter a Registration Date</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Brand & Model</label
-          >
+          <label class="form-label fw-medium">Registration Number</label>
           <input
             type="text"
             class="form-control border border-black"
-            id="exampleInputEmail1"
-            name="listing[brandModel]"
-            value="<%= listing.brandModel %>"
-            aria-describedby="emailHelp"
+            name="listing[registrationNumber]"
+            placeholder="Registration Number"
+            value="<%= listing.registrationNumber %>"
             required
           />
-          <div class="invalid-feedback">Please enter a Brand & Model</div>
+          <div class="invalid-feedback">Please enter a Registration Number</div>
         </div>
         <div class="mb-3">
-          <label for="numericInput1" class="form-label fw-medium"
-            >Mileage</label
+          <label class="form-label fw-medium">Model Name</label>
+          <select
+            class="form-select border border-black"
+            required
+            aria-label="Default select example"
+            name="listing[brandModel]"
           >
+            <option value="BMW" <% if(listing.brandModel === 'BMW') { %> selected <% } %>>BMW</option>
+            <option value="Mercedes-Benz" <% if(listing.brandModel === 'Mercedes-Benz') { %> selected <% } %>>Mercedes-Benz</option>
+            <option value="Mazda" <% if(listing.brandModel === 'Mazda') { %> selected <% } %>>Mazda</option>
+            <option value="Ford" <% if(listing.brandModel === 'Ford') { %> selected <% } %>>Ford</option>
+            <option value="Nissan" <% if(listing.brandModel === 'Nissan') { %> selected <% } %>>Nissan</option>
+            <option value="Hyundai" <% if(listing.brandModel === 'Hyundai') { %> selected <% } %>>Hyundai</option>
+            <option value="Proton" <% if(listing.brandModel === 'Proton') { %> selected <% } %>>Proton</option>
+            <option value="Perodua" <% if(listing.brandModel === 'Perodua') { %> selected <% } %>>Perodua</option>
+            <option value="Toyota" <% if(listing.brandModel === 'Toyota') { %> selected <% } %>>Toyota</option>
+            <option value="Honda" <% if(listing.brandModel === 'Honda') { %> selected <% } %>>Honda</option>
+            <option value="Kia" <% if(listing.brandModel === 'Kia') { %> selected <% } %>>Kia</option>
+            <option value="Volkswagen" <% if(listing.brandModel === 'Volkswagen') { %> selected <% } %>>Volkswagen</option>
+            <option value="Mitsubishi" <% if(listing.brandModel === 'Mitsubishi') { %> selected <% } %>>Mitsubishi</option>
+          </select>
+          <div class="invalid-feedback">Please enter a Model Name</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Model Year</label>
+          <select
+            class="form-select border border-black year-select"
+            name="listing[year]"
+            data-selected-year="<%= listing.year %>"
+            required
+          ></select>
+          <div class="invalid-feedback">Please select a year</div>
+        </div>
+        <div class="mb-3">
+          <label for="numericInput1" class="form-label fw-medium">Mileage</label>
           <input
             type="text"
             class="form-control border border-black numericInput"
             name="listing[mileage]"
+            placeholder="Mileage"
             value="<%= listing.mileage %>"
             required
           />
           <div class="invalid-feedback">Please enter a Mileage</div>
         </div>
         <div class="mb-3">
-          <label class="form-label fw-medium">Year</label>
-          <select
-            id="year"
-            class="form-select border border-black"
-            name="listing[year]"
-          >
-            <option selected><%= listing.year %></option>
-          </select>
-          <div class="invalid-feedback">Select a Year</div>
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >seat</label
-          >
+          <label class="form-label fw-medium">Seat</label>
           <select
             class="form-select border border-black"
             required
             name="listing[seat]"
             aria-label="Default select example"
           >
-            <option value="2" selected><%= listing.seat %></option>
-            <option value="4">2</option>
-            <option value="4">4</option>
-            <option value="6">6</option>
+          <option value="2" <% if(listing.seat === '2') { %> selected <% } %>>2</option>
+          <option value="4" <% if(listing.seat === '4') { %> selected <% } %>>4</option>
+          <option value="6" <% if(listing.seat === '6') { %> selected <% } %>>6</option>
           </select>
+          <div class="invalid-feedback">Please select a seat</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Color</label
-          >
+          <label class="form-label fw-medium">Color</label>
           <input
             type="text"
             class="form-control border border-black"
-            id="exampleInputEmail1"
             name="listing[color]"
+            placeholder="Color"
             value="<%= listing.color %>"
-            aria-describedby="emailHelp"
             required
           />
           <div class="invalid-feedback">Please enter a Color</div>
         </div>
       </div>
     </div>
-
+  
     <div class="container-fluid carDeatils-box mt-4 mb-4">
       <h5 class="p-4 text-center fw-bold">Describe Your Car</h5>
       <div class="ps-5 pe-5 pb-4">
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Car Title</label
-          >
+          <label class="form-label fw-medium">Car Title</label>
           <input
             type="text"
             class="form-control border border-black"
-            id="exampleInputEmail1"
             name="listing[title]"
+            placeholder="Full Model Name"
             value="<%= listing.title %>"
-            aria-describedby="emailHelp"
             required
           />
           <div class="invalid-feedback">Please enter a Title</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Describe</label
-          >
+          <label class="form-label fw-medium">Describe</label>
           <textarea
             class="form-control border border-black"
             name="listing[description]"
-            placeholder="Describe"
+            placeholder="Describe More about Car Condition"
             required
-          >
-<%= listing.description %></textarea
-          >
+          ><%= listing.description %></textarea>
           <div class="invalid-feedback">Please enter a Describe</div>
         </div>
         <div class="mb-3">
@@ -314,28 +311,63 @@
           <input
             type="text"
             class="form-control border border-black numericInput"
-      
             name="listing[price]"
+            placeholder="RM Price"
             value="<%= listing.price %>"
-            
             required
           />
           <div class="invalid-feedback">Please enter a Price</div>
         </div>
-        <div class="mb-2">
-          <label for="exampleInputEmail1" class="form-label fw-medium"
-            >Location</label
-          >
+        <div class="row mb-3">
+          <h5 class="p-4 fw-semibold">Address Details</h5>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">State</label>
+            <select
+              class="form-select border border-black"
+              required
+              aria-label="Default select example"
+              name="listing[location][state]"
+            >
+            <option value="Sabah" <% if(listing.location.state === 'Sabah') { %> selected <% } %>>Sabah</option>
+            <option value="Sarawak" <% if(listing.location.state === 'Sarawak') { %> selected <% } %>>Sarawak</option>
+            <option value="Selangor" <% if(listing.location.state === 'Selangor') { %> selected <% } %>>Selangor</option>
+            <option value="Kedah" <% if(listing.location.state === 'Kedah') { %> selected <% } %>>Kedah</option>
+            <option value="Kelantan" <% if(listing.location.state === 'Kelantan') { %> selected <% } %>>Kelantan</option>
+            <option value="Johor" <% if(listing.location.state === 'Johor') { %> selected <% } %>>Johor</option>
+            <option value="Terengganu" <% if(listing.location.state === 'Terengganu') { %> selected <% } %>>Terengganu</option>
+            <option value="Perlis" <% if(listing.location.state === 'Perlis') { %> selected <% } %>>Perlis</option>
+            <option value="Pahang" <% if(listing.location.state === 'Pahang') { %> selected <% } %>>Pahang</option>
+            <option value="Perak" <% if(listing.location.state === 'Perak') { %> selected <% } %>>Perak</option>
+            <option value="Penang" <% if(listing.location.state === 'Penang') { %> selected <% } %>>Penang</option>
+            <option value="Malacca" <% if(listing.location.state === 'Malacca') { %> selected <% } %>>Malacca</option>
+            <option value="Negeri Sembilan" <% if(listing.location.state === 'Negeri Sembilan') { %> selected <% } %>>Negeri Sembilan</option>
+            </select>
+            <div class="invalid-feedback">Please select a State</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">City</label>
+            <input
+              type="text"
+              class="form-control border border-black"
+              name="listing[location][city]"
+              placeholder="City"
+              value="<%= listing.location.city %>"
+              required
+            />
+            <div class="invalid-feedback">Please enter a City</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">House No. or Road Name</label>
           <input
             type="text"
             class="form-control border border-black"
-            id="exampleInputEmail1"
-            name="listing[location]"
-            value="<%= listing.location %>"
-            aria-describedby="emailHelp"
+            name="listing[location][houseOrRoadName]"
+            placeholder="House No. or Road Name"
+            value="<%= listing.location.houseOrRoadName %>"
             required
           />
-          <div class="invalid-feedback">Please enter a Location</div>
+          <div class="invalid-feedback">Please enter a House or Road Name</div>
         </div>
       </div>
     </div>
@@ -345,5 +377,6 @@
       </button>
     </div>
   </form>
-  <script src="js/validation.js"></script>
+  <script src="/js/validation.js"></script>
+  <script src="/js/imageValidation.js"></script>
 </body>

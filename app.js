@@ -1,5 +1,5 @@
 // logic to do not upload credentials
-if(process.env.NODE_ENV != "production"){
+if (process.env.NODE_ENV != "production") {
     require('dotenv').config();
 }
 
@@ -19,11 +19,21 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const cron = require('node-cron');
+const Auction = require('./models/auction.js');
+const Bid = require('./models/bid.js');
+const Notify = require("./models/notification.js");
 
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
 
 const listingRouter = require("./routes/listing.js");
+const auctionRouter = require("./routes/auction.js");
 const userRouter = require("./routes/user.js");
 const adminRouter = require("./routes/admin.js");
+const { fetchUserNotifications, isLoggedIn } = require('./middleware.js');
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -81,6 +91,87 @@ app.use((req, res, next) => {
     next();
 });
 
+//use notification middleware globally
+app.use(fetchUserNotifications);
+
+// // Use the middleware to fetch user notifications
+// app.use(fetchUserNotifications);
+
+// // Schedule auction start
+// cron.schedule('* * * * *', async () => {
+//     const now = new Date();
+//     const auctionsToStart = await Auction.find({ startDate: { $lte: now }, status: 'pending' });
+//     auctionsToStart.forEach(async (auction) => {
+//         auction.status = 'ongoing';
+//         await auction.save();
+//         console.log(`Auction ${auction._id} started`);
+//     });
+// });
+
+
+// // Schedule auction end
+// cron.schedule('* * * * *', async () => {
+//     const now = new Date();
+//     const auctionsToEnd = await Auction.find({ endDate: { $lte: now }, status: 'ongoing' });
+//     auctionsToEnd.forEach(async (auction) => {
+//         auction.status = 'finished';
+//         for (let list_id of auction.auctionList) {
+//             await Listing.findByIdAndUpdate(list_id, { status: 'finished' }, { runValidators: true, new: true });
+//         }
+//         await auction.save();
+//         console.log(`Auction ${auction._id} ended`);
+//     });
+// });
+
+const notifyUsers = async (message, link) => {
+    const users = await User.find();
+    const notifications = [];
+    for (const user of users) {
+        notifications.push({
+            user: user._id,
+            message: message,
+            link: link
+        });
+    }
+    await Notify.insertMany(notifications);
+};
+
+// Schedule auction start
+cron.schedule('* * * * *', async () => {
+    const now = new Date();
+    const auctionsToStart = await Auction.find({ startDate: { $lte: now }, status: 'pending' });
+
+    for (const auction of auctionsToStart) {
+        auction.status = 'ongoing';
+        await auction.save();
+        console.log(`Auction ${auction._id} started`);
+
+        // Notify all users
+        await notifyUsers(`Auction ${auction.name} has started.`, `/auctions`);
+        console.log(`Notifications sent for auction ${auction._id}`);
+    }
+});
+
+// Schedule auction end
+cron.schedule('* * * * *', async () => {
+    const now = new Date();
+    const auctionsToEnd = await Auction.find({ endDate: { $lte: now }, status: 'ongoing' });
+
+    for (const auction of auctionsToEnd) {
+        auction.status = 'finished';
+        for (let list_id of auction.auctionList) {
+            await Listing.findByIdAndUpdate(list_id, { status: 'finished' }, { runValidators: true, new: true });
+        }
+        await auction.save();
+        console.log(`Auction ${auction._id} ended`);
+
+        // Notify all users
+        await notifyUsers(`Auction ${auction.name} has ended.`, `/auctions/bids/result`);
+        console.log(`Notifications sent for auction ${auction._id}`);
+    }
+});
+
+
 // app.get("/demouser", async (req, res) => {
 //     let fakeUser = new User({
 //         email: "abc@gmail.com",
@@ -96,6 +187,7 @@ app.use((req, res, next) => {
 //     res.send(registerUser);
 // });
 
+//Homepage
 app.get("/homepage", (req, res) => {
     res.render("homepage.ejs");
 });
@@ -106,9 +198,109 @@ app.use("/admin", adminRouter);
 // Listing Router
 app.use("/listings", listingRouter);
 
+// Auction Router
+app.use("/auctions", auctionRouter);
+
 // User Router
 app.use("/", userRouter);
 
+// Route to mark notification as read
+app.post('/notifications/:id/read', isLoggedIn, wrapAsync(async (req, res) => {
+    try {
+        const notification = await Notify.findById(req.params.id);
+        if (!notification) {
+            return res.status(404).send('Notification not found');
+        }
+        notification.isRead = true;
+        await notification.save();
+        res.status(200).send('Notification marked as read');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}));  
+
+
+// Socket.io connection
+io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+
+    // Handle bid placement
+    socket.on('placeBid', async ({ listingId, bidAmount, userId }) => {
+        try {
+            const listing = await Listing.findById(listingId);
+
+            // Check if the auction is ongoing
+            const auction = await Auction.findOne({ auctionList: listingId, status: 'ongoing' });
+            if (!auction) {
+                // Auction has ended, notify the user and return
+                socket.emit('auctionEnded', { listingId });
+                return;
+            }
+
+            const allBids = await Bid.find({ listing: listingId });
+            let basePrice = parseFloat(listing.basePrice);
+            basePrice += parseFloat(bidAmount);
+
+            let bidExist = false;
+            for (let bid of allBids) {
+                if (bid.user == userId) {
+                    bidExist = true;
+                    await Bid.findByIdAndUpdate(bid._id, { amount: basePrice }, { runValidators: true, new: true });
+                    break;
+                }
+            }
+
+            if (!bidExist) {
+                let newBid = new Bid({
+                    user: userId,
+                    amount: basePrice,
+                    listing: listing._id,
+                });
+                await newBid.save();
+            }
+
+            await Listing.findByIdAndUpdate(listingId, { basePrice: basePrice }, { runValidators: true, new: true });
+
+            // Fetch all previous bidders except the current user
+            const previousBidders = allBids.map(bid => bid.user.toString()).filter(user => user !== userId);
+
+            // Remove duplicates
+            const uniquePreviousBidders = [...new Set(previousBidders)];
+
+            // Create and send notifications to all previous bidders
+            for (let bidder of uniquePreviousBidders) {
+                const notification = new Notify({
+                    user: bidder,
+                    message: `A new bid has been placed on listing ${listing.title}`,
+                    link: `/auctions/listings/${listing._id}`
+                });
+                await notification.save();
+
+                // Emit the notification to the specific user if they are connected
+                const sockets = io.sockets.sockets;
+                sockets.forEach((s) => {
+                    if (s.userId === bidder) {
+                        s.emit('newNotification', notification);
+                    }
+                });
+            }
+
+            io.emit('bidUpdate', { listingId, basePrice });
+
+            // Notify the client of the successful bid placement
+            socket.emit('bidPlaced', { success: true, message: 'New bid added', listingId, basePrice });
+        } catch (error) {
+            console.error('Error placing bid: ', error);
+
+            // Notify the client of the error
+            socket.emit('bidPlaced', { success: false, message: 'Error placing bid' });
+        }
+    });
+});
 
 // app.get("/testListing", async (req, res) => {
 //     let sampleListing = new Listing({
@@ -144,6 +336,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { err });
 });
 
-app.listen(8080, () => {
+server.listen(8080, () => {
     console.log("Server is listening to port 8080");
 }); 

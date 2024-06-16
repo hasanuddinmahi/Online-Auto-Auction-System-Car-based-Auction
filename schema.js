@@ -6,6 +6,7 @@ module.exports.listingSchema = Joi.object({
         carType: Joi.string().required(),
         registrationType: Joi.string().required(),
         registrationDate: Joi.string().required(),
+        registrationNumber: Joi.string().required(),
         brandModel: Joi.string().required(),
         mileage: Joi.number().required(),
         year: Joi.number().required(),
@@ -14,9 +15,18 @@ module.exports.listingSchema = Joi.object({
         title: Joi.string().required(),
         description: Joi.string().required(),
         price: Joi.number().required().min(0),
-        location: Joi.string().required(),
-        image: Joi.string(),
-    }).required()
+        location: Joi.object({
+            houseOrRoadName: Joi.string().required(),
+            city: Joi.string().required(),
+            state: Joi.string().required(),
+        }).required(),
+        image: Joi.array().items(
+            Joi.object({
+                url: Joi.string(),
+                filename: Joi.string(),
+            })
+        ),
+    }).required(),
 });
 
 module.exports.complainSchema = Joi.object({
@@ -25,5 +35,12 @@ module.exports.complainSchema = Joi.object({
         description: Joi.string().required(),
         status: Joi.string().valid('pending', 'In Progress', 'complete'),
         adminSend: Joi.string(),
+    }).required()
+});
+
+module.exports.reviewSchema = Joi.object({
+    review: Joi.object({
+        rating: Joi.number().required().min(0).max(5),
+        comment: Joi.string().required(),
     }).required()
 });

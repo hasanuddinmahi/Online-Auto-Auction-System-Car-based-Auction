@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
-    image:[
+    image: [
         {
             url: String,
             filename: String,
@@ -21,6 +21,10 @@ const listingSchema = new Schema({
         required: true,
     },
     registrationDate: {
+        type: String,
+        required: true,
+    },
+    registrationNumber:{
         type: String,
         required: true,
     },
@@ -57,16 +61,37 @@ const listingSchema = new Schema({
         required: true,
     },
     location: {
-        type: String,
-        required: true,
+        houseOrRoadName: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
     },
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User",
     },
+    date: {
+        type: Date,
+    },
     status: {
         type: String,
         default: "pending",
+    },
+    basePrice: {
+        type: Number,
+        default: 0,
+    },
+    review: {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
     }
 });
 

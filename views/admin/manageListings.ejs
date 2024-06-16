@@ -61,7 +61,7 @@
                 </th>
                 <td><%= listing.title %></td>
                 <td><%= listing.owner.username %></td>
-                <td>RM <%= listing.price.toLocaleString("en-IN") %></td>
+                <td>RM <%= listing.price.toLocaleString("en-US") %></td>
                 <td>
                   <button class="btn btn-success">Accept</button
                   ><button class="btn btn-danger ms-2">Reject</button>
@@ -81,7 +81,7 @@
                 </th>
                 <td><%= listing.title %></td>
                 <td><%= listing.owner.username %></td>
-                <td>RM <%= listing.price.toLocaleString("en-IN") %></td>
+                <td>RM <%= listing.price.toLocaleString("en-US") %></td>
                 <td class="text-white">
                   <% if(listing.status === "Approved") { %>
                   <p class="bg-success text-center rounded p-1">Accepted</p>
