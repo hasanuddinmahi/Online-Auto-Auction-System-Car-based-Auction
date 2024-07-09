@@ -3,14 +3,16 @@
   <div class="container-fluid register-box mt-5 mb-5 text-center">
     <h3 class="p-4 fw-bold">Verify OTP</h3>
     <form action="/verify" method="POST" novalidate class="needs-validation">
-      <div class="mb-5">
-        <h6>An OTP send to this <%= email %>.please check inbox</h6><br>
+      <div>
+        <h6>An OTP has been sent to <%= email %>. Please check your inbox.</h6><br>
         <input type="hidden" name="email" value="<%= email %>" />
-        <label class="form-labe fw-medium" for="otp">Enter OTP:</label>
-        <input type="text" name="otp" required />
+        <label class="form-label fw-medium" for="otp">Enter OTP:</label>
+        <div class="d-flex justify-content-center">
+          <input type="text" class="form-control border-secondary w-50" name="otp" required />
+        </div>
         <div class="invalid-feedback">Please enter OTP</div>
       </div>
-      <button type="submit" class="btn btn-primary w-50 fs-5 mb-5 fw-semibold">
+      <button type="submit" class="btn btn-primary w-50 fs-5 mb-5 fw-semibold mt-4">
         Verify
       </button>
     </form>

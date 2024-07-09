@@ -2,30 +2,25 @@
 
 <article>
   <section class="mt-5">
-    <div class="offset-2">
+    <div class="offset-md-2 offset-1 me-3">
       <h3 class="fw-bold mb-4">MY WATCH LIST</h3>
-
-      <% for(let listing of allListings){ %> 
+  
+      <% for(let listing of allListings){ %>
       <!-- show btns for authorized user -->
-
+  
       <div class="card mb-5" style="max-width: 940px">
-        <a
-          href="/listings/<%= listing._id %>"
-          class="text-decoration-none text-black"
-        >
+        <% if (listing.status === "Approved") { %>
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-black">
+        <% } else if (listing.status === "auction" || listing.status === "finished"){ %>
+          <a href="/auctions/listings/<%= listing._id %>" class="text-decoration-none text-black">
+        <% } %>
           <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="<%= listing.image[0].url %>"
-                class="img-car rounded-start"
-                alt="..."
-              />
+            <div class="col-md-4 col-12">
+              <img src="<%= listing.image[0].url %>" class="img-car rounded-start img-fluid" alt="...">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-12">
               <div class="card-body car-auclisting">
-                <div
-                  class="d-flex justify-content-between align-items-center mb-5"
-                >
+                <div class="d-flex justify-content-between align-items-center mb-5">
                   <div class="ms-3">
                     <h5 class="card-title fw-bold"><%= listing.title %></h5>
                     <hr class="w-25" />
@@ -35,37 +30,25 @@
                     <h5 class="fw-bold mb-2">
                       RM <%= listing.price.toLocaleString("en-US") %>
                     </h5>
-                    <form action="/listings/watchList/<%= listing._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger ps-5 pe-5 mb-4">
-                          Remove
-                        </button>
-                      </form>
+                    <form action="/listings/watchList/<%= listing._id %>?source=watchList&_method=DELETE" method="POST">
+                      <button class="btn btn-danger ps-5 pe-5 mb-4">
+                        Remove
+                      </button>
+                    </form>
                   </div>
                 </div>
                 <div class="card-footer car-auclisting">
                   <div class="d-flex justify-content-start listing-icon">
                     <div class="ms-2 me-3 mt-2">
-                      <img
-                        src="/image/dissel.png"
-                        class="icon-size"
-                        alt=""
-                      /><span class="ms-2">Diesel</span>
+                      <img src="/Image/dissel.png" class="icon-size" alt="" /><span class="ms-2"><%= listing.carType %></span>
                     </div>
                     <div class="auclisting-line"></div>
                     <div class="ms-2 me-3 mt-2">
-                      <img
-                        src="/image/dissel.png"
-                        class="icon-size"
-                        alt=""
-                      /><span class="ms-2">Diesel</span>
+                      <img src="/Image/car-icon.png" class="icon-size" alt="" /><span class="ms-2"><%= listing.condition %></span>
                     </div>
                     <div class="auclisting-line"></div>
                     <div class="ms-2 me-3 mt-2">
-                      <img
-                        src="/image/Road.png"
-                        class="icon-size"
-                        alt=""
-                      /><span class="ms-2">12,000</span>
+                      <img src="/Image/Road.png" class="icon-size" alt="" /><span class="ms-2"><%= listing.mileage.toLocaleString("en-US") %></span>
                     </div>
                   </div>
                 </div>
@@ -74,9 +57,10 @@
           </div>
         </a>
       </div>
-      <% } %> 
+      <% } %>
     </div>
   </section>
+  
 
   <section class="mt-5 car-listing">
     <div class="text-center pt-4">
@@ -86,21 +70,13 @@
         quasi.
       </p>
     </div>
-    <div class="ps-5 pe-5 pb-5 pt-2 ms-5 me-5">
-      <div class="row row-cols-1 row-cols-md-3 g-4 ms-5 me-5">
+    <div class="mx-5 pb-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col p-4">
           <div class="card">
-            <img
-              src="/image/sampleListing2.jpg"
-              class="card-img-top"
-              alt="..."
-            />
+            <img src="/image/sampleListing2.jpg" class="card-img-top img-fluid" alt="...">
             <div>
-              <p
-                class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
-              >
-                52,000
-              </p>
+              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">52,000</p>
             </div>
             <div class="card-body pt-0">
               <h5 class="card-title">Mercedes AMG 6.3</h5>
@@ -113,24 +89,15 @@
             <div class="card-footer">
               <div class="d-flex justify-content-between listing-icon">
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/Road.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >12,000</span
-                  >
+                  <img src="/image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
                 </div>
               </div>
             </div>
@@ -138,17 +105,9 @@
         </div>
         <div class="col p-4">
           <div class="card">
-            <img
-              src="/image/sampleListing3.jpg"
-              class="card-img-top"
-              alt="..."
-            />
+            <img src="/image/sampleListing3.jpg" class="card-img-top img-fluid" alt="...">
             <div>
-              <p
-                class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
-              >
-                52,000
-              </p>
+              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">52,000</p>
             </div>
             <div class="card-body pt-0">
               <h5 class="card-title">Mercedes AMG 6.3</h5>
@@ -161,24 +120,15 @@
             <div class="card-footer">
               <div class="d-flex justify-content-between listing-icon">
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/Road.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >12,000</span
-                  >
+                  <img src="/image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
                 </div>
               </div>
             </div>
@@ -186,17 +136,9 @@
         </div>
         <div class="col p-4">
           <div class="card">
-            <img
-              src="/image/sampleListing4.jpg"
-              class="card-img-top"
-              alt="..."
-            />
+            <img src="/image/sampleListing4.jpg" class="card-img-top img-fluid" alt="...">
             <div>
-              <p
-                class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
-              >
-                52,000
-              </p>
+              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">52,000</p>
             </div>
             <div class="card-body pt-0">
               <h5 class="card-title">Mercedes AMG 6.3</h5>
@@ -209,24 +151,15 @@
             <div class="card-footer">
               <div class="d-flex justify-content-between listing-icon">
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/Road.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >12,000</span
-                  >
+                  <img src="/image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
                 </div>
               </div>
             </div>
@@ -235,4 +168,5 @@
       </div>
     </div>
   </section>
+  
 </article>

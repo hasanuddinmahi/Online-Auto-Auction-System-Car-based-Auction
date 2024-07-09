@@ -1,5 +1,5 @@
 <% layout("/layouts/boilerplate") %>
-<body>
+<article>
   <form
     method="POST"
     action="/listings/<%= listing._id %>?_method=PUT"
@@ -11,7 +11,8 @@
       <h5 class="p-4 text-center fw-bold">Add Photos</h5>
 
       <div class="ps-5 pe-5 pb-4">
-        <div class="d-flex flex-wrap gap-3">
+        <div class="row row-cols-2 row-cols-md-4 g-3">
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -28,6 +29,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -43,6 +46,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -58,6 +63,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -73,6 +80,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -88,6 +97,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -103,6 +114,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -118,6 +131,8 @@
               </div>
             </label>
           </div>
+          </div>
+          <div class="col">
           <div class="form-element">
             <input
               type="file"
@@ -133,6 +148,7 @@
                 <span>+</span>
               </div>
             </label>
+          </div>
           </div>
         </div>
       </div>
@@ -216,6 +232,8 @@
           >
             <option value="BMW" <% if(listing.brandModel === 'BMW') { %> selected <% } %>>BMW</option>
             <option value="Mercedes-Benz" <% if(listing.brandModel === 'Mercedes-Benz') { %> selected <% } %>>Mercedes-Benz</option>
+            <option value="Tesla" <% if(listing.brandModel === 'Tesla') { %> selected <% } %>>Tesla</option>
+            <option value="Audi" <% if(listing.brandModel === 'Audi') { %> selected <% } %>>Audi</option>
             <option value="Mazda" <% if(listing.brandModel === 'Mazda') { %> selected <% } %>>Mazda</option>
             <option value="Ford" <% if(listing.brandModel === 'Ford') { %> selected <% } %>>Ford</option>
             <option value="Nissan" <% if(listing.brandModel === 'Nissan') { %> selected <% } %>>Nissan</option>
@@ -241,7 +259,7 @@
           <div class="invalid-feedback">Please select a year</div>
         </div>
         <div class="mb-3">
-          <label for="numericInput1" class="form-label fw-medium">Mileage</label>
+          <label for="numericInput1" class="form-label fw-medium">Mileage(km)</label>
           <input
             type="text"
             class="form-control border border-black numericInput"
@@ -260,9 +278,9 @@
             name="listing[seat]"
             aria-label="Default select example"
           >
-          <option value="2" <% if(listing.seat === '2') { %> selected <% } %>>2</option>
-          <option value="4" <% if(listing.seat === '4') { %> selected <% } %>>4</option>
-          <option value="6" <% if(listing.seat === '6') { %> selected <% } %>>6</option>
+          <option value="2" <% if(listing.seat === 2) { %> selected <% } %>>2</option>
+          <option value="4" <% if(listing.seat === 4) { %> selected <% } %>>4</option>
+          <option value="6" <% if(listing.seat === 6) { %> selected <% } %>>6</option>
           </select>
           <div class="invalid-feedback">Please select a seat</div>
         </div>
@@ -322,61 +340,32 @@
           <h5 class="p-4 fw-semibold">Address Details</h5>
           <div class="col-md-6">
             <label class="form-label fw-medium">State</label>
-            <select
-              class="form-select border border-black"
-              required
-              aria-label="Default select example"
-              name="listing[location][state]"
-            >
-            <option value="Sabah" <% if(listing.location.state === 'Sabah') { %> selected <% } %>>Sabah</option>
-            <option value="Sarawak" <% if(listing.location.state === 'Sarawak') { %> selected <% } %>>Sarawak</option>
-            <option value="Selangor" <% if(listing.location.state === 'Selangor') { %> selected <% } %>>Selangor</option>
-            <option value="Kedah" <% if(listing.location.state === 'Kedah') { %> selected <% } %>>Kedah</option>
-            <option value="Kelantan" <% if(listing.location.state === 'Kelantan') { %> selected <% } %>>Kelantan</option>
-            <option value="Johor" <% if(listing.location.state === 'Johor') { %> selected <% } %>>Johor</option>
-            <option value="Terengganu" <% if(listing.location.state === 'Terengganu') { %> selected <% } %>>Terengganu</option>
-            <option value="Perlis" <% if(listing.location.state === 'Perlis') { %> selected <% } %>>Perlis</option>
-            <option value="Pahang" <% if(listing.location.state === 'Pahang') { %> selected <% } %>>Pahang</option>
-            <option value="Perak" <% if(listing.location.state === 'Perak') { %> selected <% } %>>Perak</option>
-            <option value="Penang" <% if(listing.location.state === 'Penang') { %> selected <% } %>>Penang</option>
-            <option value="Malacca" <% if(listing.location.state === 'Malacca') { %> selected <% } %>>Malacca</option>
-            <option value="Negeri Sembilan" <% if(listing.location.state === 'Negeri Sembilan') { %> selected <% } %>>Negeri Sembilan</option>
-            </select>
+            <input type="text" class="form-control border border-black" name="listing[location][state]" placeholder="State" value="<%= listing.location.state %>" required readonly />
             <div class="invalid-feedback">Please select a State</div>
           </div>
           <div class="col-md-6">
             <label class="form-label fw-medium">City</label>
-            <input
-              type="text"
-              class="form-control border border-black"
-              name="listing[location][city]"
-              placeholder="City"
-              value="<%= listing.location.city %>"
-              required
-            />
+            <input type="text" class="form-control border border-black" name="listing[location][city]" placeholder="City" value="<%= listing.location.city %>" required readonly />
             <div class="invalid-feedback">Please enter a City</div>
           </div>
         </div>
         <div class="mb-3">
           <label class="form-label fw-medium">House No. or Road Name</label>
-          <input
-            type="text"
-            class="form-control border border-black"
-            name="listing[location][houseOrRoadName]"
-            placeholder="House No. or Road Name"
-            value="<%= listing.location.houseOrRoadName %>"
-            required
-          />
+          <input type="text" class="form-control border border-black" name="listing[location][houseOrRoadName]" placeholder="House No. or Road Name" value="<%= listing.location.houseOrRoadName %>" required readonly />
           <div class="invalid-feedback">Please enter a House or Road Name</div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="container-fluid mt-4 mb-4">
+      <div class="row justify-content-end">
+        <div class="col-md-5 text-center">
+          <button type="submit" class="btn btn-primary fw-semibold">
+            Submit
+          </button>
         </div>
       </div>
     </div>
-    <div class="container-fluid mt-4 mb-4 w-50 offset-9">
-      <button type="submit" class="btn btn-primary fw-semibold">
-        Submit
-      </button>
-    </div>
   </form>
-  <script src="/js/validation.js"></script>
   <script src="/js/imageValidation.js"></script>
-</body>
+</article>

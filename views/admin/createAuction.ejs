@@ -1,190 +1,158 @@
 <% layout("/layouts/boilerplate") %>
-<article>
-  <section class="mt-5 ms-5">
-    <div class="d-flex align-items-start justify-content-start">
-      <div class="w-25">
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 text-start"
-        >
-          <i class="fa-solid fa-list-check"></i>
-          <span class="ms-3">Manage Listings</span></button
-        ><br />
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-users"></i>
-          <span class="ms-3">Manage Users</span></button
-        ><br />
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-gavel"></i>
-          <span class="ms-3">Manage Auction</span>
-        </button>
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-headset"></i>
-          <span class="ms-3">Support Customer</span>
-        </button>
-      </div>
 
-      <div class="border-start border-black pb-5 ps-5">
-        <form
-          method="POST"
-          action="/admin/manageAuctions"
-          id="auction-form"
-          novalidate
-          class="needs-validation"
-        >
-          <div class="container-fluid register-box mb-5 offset-4">
-            <h3 class="p-4 text-center fw-bold">Set Auction</h3>
-            <div class="ps-5 pe-5 pb-5">
-              <div class="mb-4">
-                <label class="form-labe fw-medium">Auction Name</label>
-                <input
-                  type="text"
-                  class="form-control border border-black"
-                  placeholder="Name"
-                  name="auction[name]"
-                  required
-                />
-                <div class="invalid-feedback">Please enter Name</div>
-              </div>
-              <div class="mb-4">
-                <label class="form-label fw-medium">Description</label>
-                <textarea
-                  class="form-control border border-black"
-                  placeholder="Rules of the Auction"
-                  name="auction[description]"
-                  required
-                  rows="5"
-                ></textarea>
-                <div class="invalid-feedback">Please enter Description</div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label d-inline fw-medium">Start Date</label>
-                <input
-                  type="datetime-local"
-                  class="form-control border border-black"
-                  placeholder="start Date"
-                  name="auction[startDate]"
-                  required
-                />
-                <div class="invalid-feedback">Please enter an Start Date</div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label d-inline fw-medium">End Date</label>
-                <input
-                  type="datetime-local"
-                  class="form-control border border-black"
-                  placeholder="start Date"
-                  name="auction[endDate]"
-                  required
-                />
-              <div class="invalid-feedback">Please enter an End Date</div>
-              </div>
+<article class="my-5">
+  <section class="mt-5 ms-5 d-flex justify-content-center">
+    <div>
+      <form
+        method="POST"
+        action="/admin/manageAuctions"
+        id="auction-form"
+        novalidate
+        class="needs-validation"
+      >
+        <div class="container-fluid register-box mb-5">
+          <h3 class="p-4 text-center fw-bold">Set Auction</h3>
+          <div class="ps-5 pe-5 pb-5">
+            <div class="mb-4">
+              <label class="form-label fw-medium">Auction Name</label>
+              <input
+                type="text"
+                class="form-control border border-black"
+                placeholder="Name"
+                name="auction[name]"
+                required
+              />
+              <div class="invalid-feedback">Please enter Name</div>
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-medium">Description</label>
+              <textarea
+                class="form-control border border-black"
+                placeholder="Rules of the Auction"
+                name="auction[description]"
+                required
+                rows="5"
+              ></textarea>
+              <div class="invalid-feedback">Please enter Description</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label d-inline fw-medium">Start Date</label>
+              <input
+                type="datetime-local"
+                class="form-control border border-black"
+                placeholder="Start Date"
+                name="auction[startDate]"
+                required
+              />
+              <div class="invalid-feedback">Please enter Start Date</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label d-inline fw-medium">End Date</label>
+              <input
+                type="datetime-local"
+                class="form-control border border-black"
+                placeholder="End Date"
+                name="auction[endDate]"
+                required
+              />
+              <div class="invalid-feedback">Please enter End Date</div>
             </div>
           </div>
-          <div class="container-fluid mt-5 offset-2">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>
-                    <input
-                      type="checkbox"
-                      id="select-all"
-                      class="form-check-input border border-black"
-                    />
-                  </th>
+        </div>
+        <div class="container-fluid">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    id="select-all"
+                    class="form-check-input border border-black"
+                  />
+                </th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let listing of listings){ %>
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="auction[auctionList][]"
+                    class="form-check-input border border-black item-checkbox"
+                    value="<%= listing.id %>"
+                  />
+                </td>
+                <td>
+                  <img
+                    src="<%= listing.image[0].url %>"
+                    alt="Item Image"
+                    class="img-fluid item-image"
+                  />
+                </td>
+                <td><%= listing.title %></td>
+                <td><%= listing.description %></td>
+                <td>RM <%= listing.price.toLocaleString("en-US") %></td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
 
-                  <th>Image</th>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for(let listing of listings){ %>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      name="auction[auctionList]"
-                      class="form-check-input border border-black item-checkbox"
-                      value="<%= listing.id %>"
-                    />
-                  </td>
-                  <td>
-                    <img
-                      src="<%= listing.image[0].url %>"
-                      alt="Item 1"
-                      class="img-fluid item-image"
-                    />
-                  </td>
-                  <td><%= listing.title %></td>
-                  <td><%= listing.description %></td>
-                  <td>RM <%= listing.price.toLocaleString("en-US") %></td>
-                </tr>
-                <% } %>
-                <tr></tr>
-              </tbody>
-            </table>
+        <div class="container-fluid mt-4">
+          <div class="text-end">
+            <button
+              type="button"
+              class="btn btn-light border border-black fw-semibold ps-4 pe-4 rounded-pill"
+              id="clear-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary fw-semibold ps-4 pe-4 rounded-pill"
+            >
+              Submit
+            </button>
           </div>
+        </div>
+      </form>
 
-          <div class="container-fluid w-50 mt-4 mb-5">
-            <div class="text-end">
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="alertModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="alertModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="alertModalLabel">Submission Error</h5>
               <button
                 type="button"
-                class="btn btn-light border border-black fw-semibold ps-4 pe-4 rounded-pill"
-                id="clear-all"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                class="btn btn-primary fw-semibold ps-4 pe-4 rounded-pill"
-              >
-                Submit
-              </button>
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
-          </div>
-        </form>
-
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="alertModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="alertModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="alertModalLabel">
-                  Submission Error
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                Please select at least 3 items before submitting the form.
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-              </div>
+            <div class="modal-body">
+              Please select at least 3 items before submitting the form.
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -192,6 +160,7 @@
     </div>
   </section>
 </article>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <!-- Popper.js -->
@@ -229,34 +198,38 @@
     });
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const startDateInput = document.querySelector('input[name="auction[startDate]"]');
-    const endDateInput = document.querySelector('input[name="auction[endDate]"]');
+  document.addEventListener("DOMContentLoaded", function () {
+    const startDateInput = document.querySelector(
+      'input[name="auction[startDate]"]'
+    );
+    const endDateInput = document.querySelector(
+      'input[name="auction[endDate]"]'
+    );
     const startDateFeedback = startDateInput.nextElementSibling;
     const endDateFeedback = endDateInput.nextElementSibling;
-    
+
     function updateStartDateMin() {
       const now = new Date();
       now.setMinutes(now.getMinutes() + 1);
       startDateInput.min = now.toISOString().slice(0, -8);
     }
-    
+
     function updateEndDateMin() {
       const startDate = new Date(startDateInput.value);
       if (isNaN(startDate.getTime())) {
         endDateInput.disabled = true;
-        endDateInput.value = '';
+        endDateInput.value = "";
         return;
       }
-      
+
       const minEndDate = new Date(startDate);
       minEndDate.setMinutes(minEndDate.getMinutes() + 2);
       endDateInput.min = minEndDate.toISOString().slice(0, -8);
       endDateInput.disabled = false;
-      
+
       const selectedEndDate = new Date(endDateInput.value);
       if (selectedEndDate < minEndDate) {
-        endDateInput.value = '';
+        endDateInput.value = "";
       }
     }
 
@@ -264,17 +237,20 @@
       const now = new Date();
       now.setMinutes(now.getMinutes() + 1);
       const selectedStartDate = new Date(startDateInput.value);
-      
+
       if (selectedStartDate < now) {
-        startDateInput.setCustomValidity("Start date must be at least 1 minute after the current time.");
+        startDateInput.setCustomValidity(
+          "Start date must be at least 1 minute after the current time."
+        );
         startDateInput.classList.add("is-invalid");
-        startDateFeedback.textContent = "Start date must be at least 1 minute after the current time.";
-        startDateFeedback.style.display = 'block';
+        startDateFeedback.textContent =
+          "Start date must be at least 1 minute after the current time.";
+        startDateFeedback.style.display = "block";
       } else {
         startDateInput.setCustomValidity("");
         startDateInput.classList.remove("is-invalid");
         startDateFeedback.textContent = "";
-        startDateFeedback.style.display = 'none';
+        startDateFeedback.style.display = "none";
       }
     }
 
@@ -285,15 +261,18 @@
       const selectedEndDate = new Date(endDateInput.value);
 
       if (selectedEndDate < minEndDate) {
-        endDateInput.setCustomValidity("End date must be at least 2 minutes after the start date.");
+        endDateInput.setCustomValidity(
+          "End date must be at least 2 minutes after the start date."
+        );
         endDateInput.classList.add("is-invalid");
-        endDateFeedback.textContent = "End date must be at least 2 minutes after the start date.";
-        endDateFeedback.style.display = 'block';
+        endDateFeedback.textContent =
+          "End date must be at least 2 minutes after the start date.";
+        endDateFeedback.style.display = "block";
       } else {
         endDateInput.setCustomValidity("");
         endDateInput.classList.remove("is-invalid");
         endDateFeedback.textContent = "";
-        endDateFeedback.style.display = 'none';
+        endDateFeedback.style.display = "none";
       }
     }
 
@@ -303,13 +282,13 @@
     // Update the minimum start date every minute
     setInterval(updateStartDateMin, 60000);
 
-    startDateInput.addEventListener('change', function() {
+    startDateInput.addEventListener("change", function () {
       updateEndDateMin();
       validateStartDate();
     });
 
-    startDateInput.addEventListener('input', validateStartDate);
-    endDateInput.addEventListener('input', validateEndDate);
+    startDateInput.addEventListener("input", validateStartDate);
+    endDateInput.addEventListener("input", validateEndDate);
 
     // Disable the end date input initially
     endDateInput.disabled = true;

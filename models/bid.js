@@ -5,11 +5,9 @@ const bidSchema = new Schema({
    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
    },
    amount: {
-      type: Number,
-   },
-   count: {
       type: Number,
    },
    listing:
@@ -17,6 +15,7 @@ const bidSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Listing",
    },
+   
 });
 
 module.exports = mongoose.model("Bid", bidSchema);

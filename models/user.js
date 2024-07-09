@@ -16,6 +16,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    nationality:{
+        type: String,
+        default: "Malaysian"
+    },
     otp: String,
     reviews: [{
         type: Schema.Types.ObjectId,

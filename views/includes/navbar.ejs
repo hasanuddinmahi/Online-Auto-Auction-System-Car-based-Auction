@@ -1,13 +1,11 @@
-<header>
-  <hr class="starting-hr bg-primary" />
-
-  <div>
+<hr class="starting-hr" />
+  <header class="sticky-top">
     <nav
-      class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top"
+      class="navbar navbar-expand-md bg-body-tertiary border-bottom"
     >
       <div class="container-fluid">
-        <div class="ms-4 me-3 d-flex">
-          <a class="navbar-brand ms-5 me-5 ps-5 pe-5" href="/homePage">Logo</a>
+        <div class="d-flex align-items-center ms-4 me-3">
+          <a class="navbar-brand ms-5 me-5 ps-5 pe-5" href="/homePage">MY Auction</a>
           <div class="line"></div>
         </div>
         <button
@@ -21,53 +19,26 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- implementing logged in and logout navbar -->
-        <% if(!currUser){ %>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav ps-5">
-            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/listings"
-              >Listing</a
-            >
-            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/auctions"
-              >Auctions</a
-            >
-            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/listings/new"
-              >Sell Car</a
-            >
-            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/login"
-              >Login</a
-            >
-            <a class="nav-link ms-5 me-5 ps-5 text-black" href="/register"
-              >Register</a
-            >
+        <div
+          class="collapse navbar-collapse justify-content-center align-items-center"
+          id="navbarNavAltMarkup"
+        >
+          <% if (!currUser) { %>
+          <div class="navbar-nav">
+            <a class="nav-link text-black ms-5 me-5" href="/listings">Listing</a>
+            <a class="nav-link text-black ms-5 me-5" href="/auctions">Auctions</a>
+            <a class="nav-link text-black ms-5 me-5" href="/listings/new">Sell Car</a>
+            <a class="nav-link text-black ms-5 me-5" href="/login">Login</a>
+            <a class="nav-link text-black ms-5 me-5" href="/register">Register</a>
           </div>
-        </div>
-        <% } %> <% if(currUser){ %> <%
-        if(currUser._id.equals('662e1874d4fbf3b3c0b96edb')){ %>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav ps-5">
-            <a
-              class="nav-link text-black ms-5 me-5 ps-5"
-              href="/admin/manageListings"
-              >LISTING</a
-            >
-            <a
-              class="nav-link text-black ms-5 me-5 ps-5"
-              href="/admin/manageUsers"
-              >USER</a
-            >
-            <a
-              class="nav-link text-black ms-5 me-5 ps-5"
-              href="/admin/manageAuctions"
-              >AUCTIONS</a
-            >
-            <a
-              class="nav-link text-black ms-5 me-5 ps-5"
-              href="/admin/supportCustomer"
-              >SUPPORT CUSTOMER</a
-            >
-            <li class="nav-item dropdown ps-5">
+          <% } else { %> 
+          <% if (currUser._id.equals('662e1874d4fbf3b3c0b96edb')) { %>
+          <div class="navbar-nav">
+            <a class="nav-link text-black ms-5 me-5" href="/admin/manageListings">Listing</a>
+            <a class="nav-link text-black ms-5 me-5" href="/admin/manageUsers">User</a>
+            <a class="nav-link text-black ms-5 me-5" href="/admin/manageAuctions">Auctions</a>
+            <a class="nav-link text-black ms-5 me-5" href="/admin/supportCustomer">Support Customer</a>
+            <li class="nav-item dropdown ms-5">
               <a
                 class="nav-link dropdown-toggle text-black"
                 href="#"
@@ -75,101 +46,81 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                USERNAME
+                <i class="fa-solid fa-user"></i> Username
               </a>
-              <ul class="dropdown-menu ms-5">
-                <li><a class="dropdown-item" href="#">PROFILE</a></li>
-                <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/admin/profile">Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
               </ul>
             </li>
           </div>
-        </div>
-        <% } %> <% if(!currUser._id.equals('662e1874d4fbf3b3c0b96edb')){ %>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav ps-5">
-            <li class="nav-item dropdown ps-3">
+          <% } else { %>
+          <div class="navbar-nav">
+            <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle text-black"
+                class="nav-link dropdown-toggle text-black ms-5"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                LISTING
+                Listing
               </a>
-              <ul class="dropdown-menu ms-5">
-                <li>
-                  <a class="dropdown-item" href="/listings">ALL LISTING</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/listings/watchList"
-                    >MY WATCH LIST</a
-                  >
-                </li>
+              <ul class="dropdown-menu ms-4">
+                <li><a class="dropdown-item" href="/listings">All Listing</a></li>
+                <li><a class="dropdown-item" href="/listings/watchList">My Watch List</a></li>
               </ul>
             </li>
-
-            <a class="nav-link text-black ps-5" href="/auctions">AUCTIONS</a>
-            <li class="nav-item dropdown ps-5">
+            <a class="nav-link text-black ms-5" href="/auctions">Auctions</a>
+            <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle text-black"
+                class="nav-link dropdown-toggle text-black ms-5"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                MY AUCTION CENTER
+                My Auction Center
               </a>
-              <ul class="dropdown-menu ms-5">
-                <li>
-                  <a class="dropdown-item" href="/auctions/bids">MY BIDS</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/auctions/bids/result"
-                    >AUCTION RESULT</a
-                  >
-                </li>
+              <ul class="dropdown-menu dropdown-menu-center ms-5">
+                <li><a class="dropdown-item" href="/auctions/bids">My Bids</a></li>
+                <li><a class="dropdown-item" href="/auctions/bids/result">Auction Result</a></li>
               </ul>
             </li>
-            <li class="nav-item dropdown ps-5">
+            <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle text-black"
+                class="nav-link dropdown-toggle text-black ms-5"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                SELL CAR
+                Sell Car
               </a>
               <ul class="dropdown-menu ms-5">
-                <li>
-                  <a class="dropdown-item" href="/listings/new">ADD CAR</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/listings/allCar">ALL CAR</a>
-                </li>
+                <li><a class="dropdown-item" href="/listings/new">Add Car</a></li>
+                <li><a class="dropdown-item" href="/listings/allCar">All Car</a></li>
               </ul>
             </li>
-            <a class="nav-link text-black ps-5" href="/complaint">CUSTOMER SUPPORT</a>
-            <li class="nav-item dropdown ps-5">
+            <a class="nav-link text-black ms-5" href="/complaint">Customer Support</a>
+            <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle text-black"
+                class="nav-link dropdown-toggle text-black ms-5"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <%= currUser.username %>
+                <i class="fa-solid fa-user"></i> <%= currUser.username %>
               </a>
               <ul class="dropdown-menu ms-5">
-                <li><a class="dropdown-item" href="/profile">PROFILE</a></li>
-                <li><a class="dropdown-item" href="/logout">LOGOUT</a></li>
+                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
               </ul>
             </li>
-
-            <li class="nav-item dropdown ms-3">
+            <li class="nav-item dropdown">
               <a
-                class="nav-link notification-icon"
+                class="nav-link notification-icon ms-5"
                 href="#"
                 id="navbarDropdown"
                 role="button"
@@ -178,10 +129,9 @@
                 aria-expanded="false"
               >
                 <i class="fas fa-bell"></i>
-                <% if (userNotifications.length > 0) { %>
-                <span class="badge badge-danger"
-                  ><%= userNotifications.length %></span
-                >
+                <% const unreadNotifications = userNotifications.filter(notification => !notification.isRead); %>
+                <% if (unreadNotifications.length > 0) { %>
+                <sup class="badge rounded-pill bg-danger"><%= unreadNotifications.length %></sup>
                 <% } %>
               </a>
               <div
@@ -189,34 +139,34 @@
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdown"
               >
-                <% if (userNotifications.length > 0) { %> <%
-                userNotifications.forEach(notification => { %>
+                <% if (userNotifications.length > 0) { %>
+                <% userNotifications.forEach(notification => { %>
                 <a
                   class="dropdown-item <%= notification.isRead ? 'read-notification' : '' %>"
                   href="<%= notification.link %>"
                   data-id="<%= notification._id %>"
                 >
-                <div class="d-flex justify-content-between">
-                <span><%= notification.message %></span>
-                <span class="ms-2 fs-6 text-end">
-                    <%= notification.createdAt.toString().split(" ")[4] %>
-                </span>
-            </div>
+                  <div class="d-flex justify-content-between">
+                    <span><%= notification.message %></span>
+                    <span class="ms-2 fs-6 text-end"><%= notification.createdAt.toString().split(" ")[4] %></span>
+                  </div>
                 </a>
-                <% }) %> <% } else { %>
+                <% }) %> 
+                <% } else { %>
                 <p class="dropdown-item">No new notifications</p>
                 <% } %>
               </div>
             </li>
-
-            
           </div>
+          <% } %> 
+          <% } %>
         </div>
-        <% } %> <% } %>
       </div>
     </nav>
-  </div>
 </header>
+
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

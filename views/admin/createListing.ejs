@@ -1,207 +1,396 @@
 <% layout("/layouts/boilerplate") %>
-  <body>
-    <form method="POST" action="/admin"  class="needs-validation" novalidate>
-      <div class="container-fluid carDeatils-box mt-5">
-        <h5 class="p-4 text-center fw-bold">Insert Car Specifications</h5>
-        <div class="ps-5 pe-5 pb-4">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Condition</label
-            >
-            <select
-              class="form-select border border-black" required
-              aria-label="Default select example"
-              name="listing[condition]"
-            >
-              <option value="new" selected>New</option>
-              <option value="used">Used</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Car Type</label
-            >
-            <select
-              class="form-select border border-black" required
-              aria-label="Default select example"
-              name="listing[carType]"
-            >
-              <option value="petrol" selected>Petrol</option>
-              <option value="electric">Electric</option>
-              <option value="hybrid">Hybrid</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Registration Type</label
-            >
-            <select
-              class="form-select border border-black" required
-              aria-label="Default select example"
-              name="listing[registrationType]"
-            >
-              <option value="private" selected>Private</option>
-              <option value="public">Public</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Registration Date</label
-            >
-            <input
-              type="date"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[registrationDate]"
-              placeholder="Registration Date"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Registration Date</div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Brand & Model</label
-            >
-            <input
-              type="text"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[brandModel]"
-              placeholder="Brand & Model"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Brand & Model</div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Mileage</label
-            >
-            <input
-              type="text"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[mileage]"
-              placeholder="Mileage"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Mileage</div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Year</label
-            >
-            <input
-              type="number"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[year]"
-              placeholder="Year"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Year</div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >seat</label
-            >
-            <select
-              class="form-select border border-black" required
-              name="listing[seat]"
-              aria-label="Default select example"
-            >
-              <option value="2" selected>2</option>
-              <option value="4">4</option>
-              <option value="6">6</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Color</label
-            >
-            <input
-              type="text"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[color]"
-              placeholder="Color"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Color</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="container-fluid carDeatils-box mt-4 mb-4">
-        <h5 class="p-4 text-center fw-bold">Describe Your Car</h5>
-        <div class="ps-5 pe-5 pb-4">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Car Title</label
-            >
-            <input
-              type="text"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[title]"
-              placeholder="Car Title"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Title</div>
+<article>
+  <form
+    method="POST"
+    action="/admin"
+    enctype="multipart/form-data"
+    class="needs-validation"
+    id="imageUploadForm"
+    novalidate
+  >
+    <div class="container-fluid carDeatils-box mt-5">
+      <h5 class="p-4 text-center fw-bold">Add Photos</h5>
+      <div id="feedbackMessage" class="alert d-none"></div>
+      <div class="ps-5 pe-5 pb-4">
+        <div class="row row-cols-2 row-cols-md-4 g-3">
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-1"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-1" id="file-1-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Describe</label
-            >
-            <textarea
-              class="form-control border border-black"
-              name="listing[description]"
-              placeholder="Describe"
-              required
-            ></textarea>
-            <div class="invalid-feedback">Please enter a Describe</div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-2"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-2" id="file-2-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Price</label
-            >
-            <input
-              type="number"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[price]"
-              placeholder="RM Price"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Price</div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-3"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-3" id="file-3-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
           </div>
-          <div class="mb-2">
-            <label for="exampleInputEmail1" class="form-label fw-medium"
-              >Location</label
-            >
-            <input
-              type="text"
-              class="form-control border border-black"
-              id="exampleInputEmail1"
-              name="listing[location]"
-              placeholder="Location"
-              aria-describedby="emailHelp"
-              required
-            />
-            <div class="invalid-feedback">Please enter a Location</div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-4"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-4" id="file-4-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-5"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-5" id="file-5-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-6"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-6" id="file-6-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-7"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-7" id="file-7-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-element">
+              <input
+                type="file"
+                name="listing[image]"
+                id="file-8"
+                accept="image/*"
+              />
+              <label class="d-inline" for="file-8" id="file-8-preview">
+                <img src="/image/uploadImage.jpg" alt="" class="img-fluid" />
+                <div>
+                  <span>+</span>
+                </div>
+              </label>
+            </div>
           </div>
         </div>
       </div>
-      <div class="container-fluid mt-4 mb-4 w-50 text-end">
-        <button type="submit" class="btn btn-primary fw-semibold me-5">
-          Submit
-        </button>
+    </div>
+
+    <div class="container-fluid carDeatils-box mt-5">
+      <h5 class="p-4 text-center fw-bold">Insert Car Specifications</h5>
+      <div class="ps-5 pe-5 pb-4">
+        <div class="mb-3">
+          <label class="form-label fw-medium">Condition</label>
+          <select
+            class="form-select border border-black"
+            required
+            aria-label="Default select example"
+            name="listing[condition]"
+          >
+            <option value="" disabled selected>Select Condition</option>
+            <option value="new">New</option>
+            <option value="used">Used</option>
+          </select>
+          <div class="invalid-feedback">Please select a condition</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Car Type</label>
+          <select
+            class="form-select border border-black"
+            required
+            aria-label="Default select example"
+            name="listing[carType]"
+          >
+            <option value="" disabled selected>Select Car Type</option>
+            <option value="petrol">Petrol</option>
+            <option value="electric">Electric</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+          <div class="invalid-feedback">Please select a car type</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Registration Type</label>
+          <select
+            class="form-select border border-black"
+            required
+            aria-label="Default select example"
+            name="listing[registrationType]"
+          >
+            <option value="" disabled selected>Select Registration Type</option>
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
+          <div class="invalid-feedback">Please select a registration type</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Registration Date</label>
+          <input
+            type="date"
+            class="form-control border border-black"
+            id="date"
+            name="listing[registrationDate]"
+            placeholder="Registration Date"
+            required
+          />
+          <div class="invalid-feedback">Please enter a Registration Date</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Registration Number</label>
+          <input
+            type="text"
+            class="form-control border border-black"
+            name="listing[registrationNumber]"
+            placeholder="Registration Number"
+            required
+          />
+          <div class="invalid-feedback">Please enter a Registration Number</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Model Name</label>
+          <select
+            class="form-select border border-black"
+            required
+            aria-label="Default select example"
+            name="listing[brandModel]"
+          >
+            <option value="" disabled selected>Select Model Name</option>
+            <option value="BMW">BMW</option>
+            <option value="Mercedes-Benz">Mercedes-Benz</option>
+            <option value="Tesla">Tesla</option>
+            <option value="Audi">Audi</option>
+            <option value="Mazda">Mazda</option>
+            <option value="Ford">Ford</option>
+            <option value="Nissan">Nissan</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Proton">Proton</option>
+            <option value="Perodua">Perodua</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Honda">Honda</option>
+            <option value="Kia">Kia</option>
+            <option value="Volkswagen">Volkswagen</option>
+            <option value="Mitsubishi">Mitsubishi</option>
+          </select>
+          <div class="invalid-feedback">Please enter a Model Name</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Model Year</label>
+          <select
+            class="form-select border border-black year-select"
+            name="listing[year]"
+            required
+          ></select>
+          <div class="invalid-feedback">Please select a year</div>
+        </div>
+        <div class="mb-3">
+          <label for="numericInput1" class="form-label fw-medium"
+            >Mileage</label
+          >
+          <input
+            type="text"
+            class="form-control border border-black numericInput"
+            name="listing[mileage]"
+            placeholder="Mileage"
+            required
+          />
+          <div class="invalid-feedback">Please enter a Mileage</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Seat</label>
+          <select
+            class="form-select border border-black"
+            required
+            name="listing[seat]"
+            aria-label="Default select example"
+          >
+            <option value="" disabled selected>Select Seat</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+          </select>
+          <div class="invalid-feedback">Please select a seat</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Color</label>
+          <input
+            type="text"
+            class="form-control border border-black"
+            name="listing[color]"
+            placeholder="Color"
+            required
+          />
+          <div class="invalid-feedback">Please enter a Color</div>
+        </div>
       </div>
-    </form>
-  </body>
+    </div>
+
+    <div class="container-fluid carDeatils-box mt-4 mb-4">
+      <h5 class="p-4 text-center fw-bold">Describe Your Car</h5>
+      <div class="ps-5 pe-5 pb-4">
+        <div class="mb-3">
+          <label class="form-label fw-medium">Car Title</label>
+          <input
+            type="text"
+            class="form-control border border-black"
+            name="listing[title]"
+            placeholder="Full Model Name"
+            required
+          />
+          <div class="invalid-feedback">Please enter a Title</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Describe</label>
+          <textarea
+            class="form-control border border-black"
+            name="listing[description]"
+            placeholder="Describe More about Car Condition"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please enter a Describe</div>
+        </div>
+        <div class="mb-3">
+          <label for="numericInput2" class="form-label fw-medium">Price</label>
+          <input
+            type="text"
+            class="form-control border border-black numericInput"
+            name="listing[price]"
+            placeholder="RM Price"
+            required
+          />
+          <div class="invalid-feedback">Please enter a Price</div>
+        </div>
+        <div class="row mb-3">
+          <h5 class="p-4 fw-semibold">Address Details</h5>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">State</label>
+            <select
+              class="form-select border border-black"
+              required
+              aria-label="Default select example"
+              name="listing[location][state]"
+            >
+              <option value="" disabled selected>Select State</option>
+              <option value="Sabah">Sabah</option>
+              <option value="Sarawak">Sarawak</option>
+              <option value="Selangor">Selangor</option>
+              <option value="Kedah">Kedah</option>
+              <option value="Kelantan">Kelantan</option>
+              <option value="Johor">Johor</option>
+              <option value="Terengganu">Terengganu</option>
+              <option value="Perlis">Perlis</option>
+              <option value="Pahang">Pahang</option>
+              <option value="Perak">Perak</option>
+              <option value="Penang">Penang</option>
+              <option value="Malacca">Malacca</option>
+              <option value="Negeri Sembilan">Negeri Sembilan</option>
+            </select>
+            <div class="invalid-feedback">Please select a State</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">City</label>
+            <input
+              type="text"
+              class="form-control border border-black"
+              name="listing[location][city]"
+              placeholder="City"
+              required
+            />
+            <div class="invalid-feedback">Please enter a City</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">House No. or Road Name</label>
+          <input
+            type="text"
+            class="form-control border border-black"
+            name="listing[location][houseOrRoadName]"
+            placeholder="House No. or Road Name"
+            required
+          />
+          <div class="invalid-feedback">Please enter a House or Road Name</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mt-4 mb-4">
+      <div class="row justify-content-end">
+        <div class="col-md-5 text-center">
+          <button type="submit" class="btn btn-primary fw-semibold">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</article>
+
+<script src="/js/imageValidation.js"></script>

@@ -2,30 +2,21 @@
 
 <article>
   <section class="mt-5">
-    <div class="offset-2">
+    <div class="offset-md-2 offset-1 me-3">
       <h3 class="fw-bold mb-4">MY BIDS</h3>
-
+  
       <% for(let bid of allBids){ %>
       <!-- show btns for authorized user -->
-
+  
       <div class="card mb-5" style="max-width: 940px">
-        <a
-          href="/auctions/listings/<%= bid.listing._id %>"
-          class="text-decoration-none text-black"
-        >
+        <a href="/auctions/listings/<%= bid.listing._id %>" class="text-decoration-none text-black">
           <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="<%= bid.listing.image[0].url %>"
-                class="img-car rounded-start"
-                alt="..."
-              />
+            <div class="col-md-4 col-12">
+              <img src="<%= bid.listing.image[0].url %>" class="img-car rounded-start img-fluid" alt="...">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-12">
               <div class="card-body car-auclisting">
-                <div
-                  class="d-flex justify-content-between align-items-center mb-5"
-                >
+                <div class="d-flex justify-content-between align-items-center mb-4">
                   <div class="ms-3">
                     <h5 class="card-title fw-bold"><%= bid.listing.title %></h5>
                     <hr class="w-25" />
@@ -43,10 +34,7 @@
                     <h5 class="fw-bold mb-2">
                       RM <%= bid.listing.basePrice.toLocaleString("en-US") %>
                     </h5>
-                    <form
-                      action="/auctions/listings/<%= bid.listing._id %>"
-                      method="GET"
-                    >
+                    <form action="/auctions/listings/<%= bid.listing._id %>" method="GET">
                       <button class="btn btn-primary ps-5 pe-5 mb-4">
                         Bid Again
                       </button>
@@ -57,26 +45,25 @@
                   <div class="d-flex justify-content-start listing-icon">
                     <div class="ms-2 me-3 mt-2">
                       <img
-                        src="/image/dissel.png"
-                        class="icon-size"
-                        alt=""
-                      /><span class="ms-2">Diesel</span>
+                      src="/Image/dissel.png"
+                      class="icon-size"
+                      alt=""
+                    /><span class="ms-2"><%= bid.listing.carType %></span>
                     </div>
                     <div class="auclisting-line"></div>
                     <div class="ms-2 me-3 mt-2">
                       <img
-                        src="/image/dissel.png"
-                        class="icon-size"
-                        alt=""
-                      /><span class="ms-2">Diesel</span>
+                      src="/Image/car-icon.png"
+                      class="icon-size"
+                      alt=""
+                    /><span class="ms-2"><%= bid.listing.condition %></span>
                     </div>
                     <div class="auclisting-line"></div>
                     <div class="ms-2 me-3 mt-2">
-                      <img
-                        src="/image/Road.png"
-                        class="icon-size"
-                        alt=""
-                      /><span class="ms-2">12,000</span>
+                      <img src="/Image/Road.png" class="icon-size" alt="" /><span
+                      class="ms-2"
+                      ><%= bid.listing.mileage.toLocaleString("en-US") %></span
+                    >
                     </div>
                   </div>
                 </div>
@@ -88,6 +75,8 @@
       <% } %>
     </div>
   </section>
+  
+  
 
   <section class="mt-5 car-listing">
     <div class="text-center pt-4">
@@ -97,21 +86,13 @@
         quasi.
       </p>
     </div>
-    <div class="ps-5 pe-5 pb-5 pt-2 ms-5 me-5">
-      <div class="row row-cols-1 row-cols-md-3 g-4 ms-5 me-5">
+    <div class="mx-5 pb-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col p-4">
           <div class="card">
-            <img
-              src="/image/sampleListing2.jpg"
-              class="card-img-top"
-              alt="..."
-            />
+            <img src="/image/sampleListing2.jpg" class="card-img-top img-fluid" alt="...">
             <div>
-              <p
-                class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
-              >
-                52,000
-              </p>
+              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">52,000</p>
             </div>
             <div class="card-body pt-0">
               <h5 class="card-title">Mercedes AMG 6.3</h5>
@@ -124,24 +105,15 @@
             <div class="card-footer">
               <div class="d-flex justify-content-between listing-icon">
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/Road.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >12,000</span
-                  >
+                  <img src="/image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
                 </div>
               </div>
             </div>
@@ -149,17 +121,9 @@
         </div>
         <div class="col p-4">
           <div class="card">
-            <img
-              src="/image/sampleListing3.jpg"
-              class="card-img-top"
-              alt="..."
-            />
+            <img src="/image/sampleListing3.jpg" class="card-img-top img-fluid" alt="...">
             <div>
-              <p
-                class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
-              >
-                52,000
-              </p>
+              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">52,000</p>
             </div>
             <div class="card-body pt-0">
               <h5 class="card-title">Mercedes AMG 6.3</h5>
@@ -172,24 +136,15 @@
             <div class="card-footer">
               <div class="d-flex justify-content-between listing-icon">
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/Road.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >12,000</span
-                  >
+                  <img src="/image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
                 </div>
               </div>
             </div>
@@ -197,17 +152,9 @@
         </div>
         <div class="col p-4">
           <div class="card">
-            <img
-              src="/image/sampleListing4.jpg"
-              class="card-img-top"
-              alt="..."
-            />
+            <img src="/image/sampleListing4.jpg" class="card-img-top img-fluid" alt="...">
             <div>
-              <p
-                class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
-              >
-                52,000
-              </p>
+              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">52,000</p>
             </div>
             <div class="card-body pt-0">
               <h5 class="card-title">Mercedes AMG 6.3</h5>
@@ -220,24 +167,15 @@
             <div class="card-footer">
               <div class="d-flex justify-content-between listing-icon">
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/dissel.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >Diesel</span
-                  >
+                  <img src="/image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
                 </div>
                 <div class="listing-line"></div>
                 <div>
-                  <img src="/image/Road.png" class="icon-size" alt="" /><span
-                    class="ms-2"
-                    >12,000</span
-                  >
+                  <img src="/image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
                 </div>
               </div>
             </div>
@@ -248,81 +186,7 @@
   </section>
 </article>
 
-<script>
-  // Function to format the date and time
-  function formatDateTime(dateTimeString) {
-    const date = new Date(dateTimeString);
-
-    // Options for formatting date
-    const options = {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-    };
-
-    // Format date
-    const formattedDate = date.toLocaleDateString("en-US", options);
-
-    // Format time
-    const formattedTime = date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    return `${formattedDate}, ${formattedTime}`;
-  }
-
-  // Select all div elements with the class 'datetime'
-  const dateTimeElements = document.querySelectorAll(".target-date");
-
-  // Iterate over each div element and format its content
-  dateTimeElements.forEach((element) => {
-    // Get the text content of the current div element
-    const dateTimeString = element.textContent.trim();
-    // Format the date and time
-    const formattedDateTime = formatDateTime(dateTimeString);
-    // Set the formatted date and time back to the div element
-    element.textContent = formattedDateTime;
-  });
-</script>
-<script>
-  // Step 3: JavaScript
-  // Function to update the timer
-  function updateTimer() {
-      // Get all elements with class 'target-date'
-      const targetDateElements = document.getElementsByClassName('target-date');
-  
-      // Loop through each target date element
-      for (let i = 0; i < targetDateElements.length; i++) {
-          const targetDateElement = targetDateElements[i];
-          const targetDate = new Date(targetDateElement.textContent);
-          const now = new Date();
-  
-          const timeDifference = targetDate - now;
-  
-          if (timeDifference > 0) {
-              const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-              const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-              const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-  
-              // Get the corresponding timer element and update its text content
-              const timerElements = document.getElementsByClassName('timer');
-              timerElements[i].textContent = `${hours}h: ${minutes}m: ${seconds}s`;
-          } else {
-              // If time is up, set timer text content to "Time's up!"
-              const timerElements = document.getElementsByClassName('timer');
-              timerElements[i].textContent = "Time's up!";
-          }
-      }
-  }
-  
-  // Update the timer every second
-  const timerInterval = setInterval(updateTimer, 1000);
-  
-  // Initial call to display the timer immediately
-  updateTimer();
-  
-  </script>
+<script src="/js/formatDate.js"></script>
+<script src="/js/timer.js"></script>
   
   

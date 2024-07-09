@@ -1,178 +1,196 @@
 <% layout("/layouts/boilerplate") %>
 
-  <article>
-    <section class="m-5">
-      <div
-        class="d-flex justify-content-between align-items-baseline flex-row-reverse"
-      >
-        <div class="refine-search ms-4 me-3 w-100">
-          <div
-            class="refine-head p-3 d-flex justify-content-start align-items-center"
-          >
-            <div class="ms-2 refine-line"></div>
-            <h6 class="ms-2 me-2 fw-semibold">REFINE YOUR SEARCH</h6>
-          </div>
-          <div class="p-3 mt-2">
-            <form action="/auctions/search" method="GET">
-              <select class="form-select border border-black year-select" name="year">
-                <option value="" disabled selected>Select Year</option>
-              </select>
-              <br />
-              <select class="form-select" aria-label="Default select example" name="brandModel">
-                <option disabled selected>Select Model</option>
-                <option value="BMW" <% if(query.brandModel === 'BMW') { %> selected <% } %>>BMW</option>
-                <option value="Mercedes-Benz" <% if(query.brandModel === 'Mercedes-Benz') { %> selected <% } %>>Mercedes-Benz</option>
-                <option value="Mazda" <% if(query.brandModel === 'Mazda') { %> selected <% } %>>Mazda</option>
-                <option value="Ford" <% if(query.brandModel === 'Ford') { %> selected <% } %>>Ford</option>
-                <option value="Nissan" <% if(query.brandModel === 'Nissan') { %> selected <% } %>>Nissan</option>
-                <option value="Hyundai" <% if(query.brandModel === 'Hyundai') { %> selected <% } %>>Hyundai</option>
-                <option value="Proton" <% if(query.brandModel === 'Proton') { %> selected <% } %>>Proton</option>
-                <option value="Perodua" <% if(query.brandModel === 'Perodua') { %> selected <% } %>>Perodua</option>
-                <option value="Toyota" <% if(query.brandModel === 'Toyota') { %> selected <% } %>>Toyota</option>
-                <option value="Honda" <% if(query.brandModel === 'Honda') { %> selected <% } %>>Honda</option>
-                <option value="Kia" <% if(query.brandModel === 'Kia') { %> selected <% } %>>Kia</option>
-                <option value="Volkswagen" <% if(query.brandModel === 'Volkswagen') { %> selected <% } %>>Volkswagen</option>
-                <option value="Mitsubishi" <% if(query.brandModel === 'Mitsubishi') { %> selected <% } %>>Mitsubishi</option>
-              </select>
-              <div class="wrapper">
-                <div class="price-input">
-                  <div class="field">
-                    <span>Min</span>
-                    <input type="number" name="minPrice" class="input-min" min="15000" max="75000" value="<%= query.minPrice || 15000 %>" />
-                  </div>
-                  <div class="separator ms-3">-</div>
-                  <div class="field ms-3">
-                    <span>Max</span>
-                    <input type="number" name="maxPrice" class="input-max" min="15000" max="75000" value="<%= query.maxPrice || 75000 %>" />
-                  </div>
-                </div>
-                <div class="slider">
-                  <div class="progress"></div>
-                </div>
-                <div class="range-input">
-                  <input type="range" class="range-min" min="15000" max="75000" value="<%= query.minPrice || 15000 %>" step="1000" />
-                  <input type="range" class="range-max" min="15000" max="75000" value="<%= query.maxPrice || 75000 %>" step="1000" />
-                </div>
+  <article class="mb-5">
+    <section class="container my-5">
+      <div class="row">
+           <!-- Refine Search Section -->
+           <div class="col-12 col-lg-4 order-1 order-lg-2">
+            <div class="refine-search p-3">
+              <div
+                class="refine-head p-3 d-flex justify-content-start align-items-center"
+              >
+                <div class="refine-line"></div>
+                <h6 class="ms-2 me-2 fw-semibold">REFINE YOUR SEARCH</h6>
               </div>
-              <select class="form-select" aria-label="Default select example" name="color">
-                <option disabled selected>Select Color</option>
-                <option value="Black" <% if(query.color === 'Black') { %> selected <% } %>>Black</option>
-                <option value="Red" <% if(query.color === 'Red') { %> selected <% } %>>Red</option>
-                <option value="Blue" <% if(query.color === 'Blue') { %> selected <% } %>>Blue</option>
-                <option value="Yellow" <% if(query.color === 'Yellow') { %> selected <% } %>>Yellow</option>
-                <option value="Grey" <% if(query.color === 'Grey') { %> selected <% } %>>Grey</option>
-                <option value="Green" <% if(query.color === 'Green') { %> selected <% } %>>Green</option>
-              </select>
-              <button class="mt-3 w-100 mb-3 text-center btn btn-warning fw-semibold" type="submit">
-                SEARCH NOW
-                <i class="fa-solid fa-magnifying-glass ps-3 fw-semibold ms-4"></i>
-              </button>
-            </form>
+              <div class="p-3 mt-2">
+                <form action="/auctions/search" method="GET">
+                  <select
+                    class="form-select border border-black mb-3 year-select"
+                    name="year"
+                  >
+                    <option value="" disabled selected>Select Year</option>
+                  </select>
+                  <select
+                    class="form-select mb-3"
+                    aria-label="Default select example"
+                    name="brandModel"
+                  >
+                    <option disabled selected>Select Model</option>
+                    <option value="BMW" <% if(query.brandModel === 'BMW') { %> selected <% } %>>BMW</option>
+                    <option value="Mercedes-Benz" <% if(query.brandModel === 'Mercedes-Benz') { %> selected <% } %>>Mercedes-Benz</option>
+                    <option value="Tesla" <% if(query.brandModel === 'Tesla') { %> selected <% } %>>Tesla</option>
+                    <option value="Audi" <% if(query.brandModel === 'Audi') { %> selected <% } %>>Audi</option>
+                    <option value="Mazda" <% if(query.brandModel === 'Mazda') { %> selected <% } %>>Mazda</option>
+                    <option value="Ford" <% if(query.brandModel === 'Ford') { %> selected <% } %>>Ford</option>
+                    <option value="Nissan" <% if(query.brandModel === 'Nissan') { %> selected <% } %>>Nissan</option>
+                    <option value="Hyundai" <% if(query.brandModel === 'Hyundai') { %> selected <% } %>>Hyundai</option>
+                    <option value="Proton" <% if(query.brandModel === 'Proton') { %> selected <% } %>>Proton</option>
+                    <option value="Perodua" <% if(query.brandModel === 'Perodua') { %> selected <% } %>>Perodua</option>
+                    <option value="Toyota" <% if(query.brandModel === 'Toyota') { %> selected <% } %>>Toyota</option>
+                    <option value="Honda" <% if(query.brandModel === 'Honda') { %> selected <% } %>>Honda</option>
+                    <option value="Kia" <% if(query.brandModel === 'Kia') { %> selected <% } %>>Kia</option>
+                    <option value="Volkswagen" <% if(query.brandModel === 'Volkswagen') { %> selected <% } %>>Volkswagen</option>
+                    <option value="Mitsubishi" <% if(query.brandModel === 'Mitsubishi') { %> selected <% } %>>Mitsubishi</option>
+                  </select>
+    
+                  <div class="wrapper">
+                    <div class="price-input">
+                      <div class="field">
+                        <span>Min</span>
+                        <input type="number" name="minPrice" class="input-min" min="15000" max="200000" value="<%= query.minPrice || 15000 %>" />
+                      </div>
+                      <div class="separator ms-3">-</div>
+                      <div class="field ms-3">
+                        <span>Max</span>
+                        <input type="number" name="maxPrice" class="input-max" min="15000" max="200000" value="<%= query.maxPrice || 200000 %>" />
+                      </div>
+                    </div>
+                    <div class="slider">
+                      <div class="progress"></div>
+                    </div>
+                    <div class="range-input">
+                      <input type="range" class="range-min" min="15000" max="200000" value="<%= query.minPrice || 15000 %>" step="1000" />
+                      <input type="range" class="range-max" min="15000" max="200000" value="<%= query.maxPrice || 200000 %>" step="1000" />
+                    </div>
+                  </div>
+                  
+                  
+    
+                  <select
+                    class="form-select mb-3"
+                    aria-label="Default select example"
+                    name="color"
+                  >
+                  <option disabled selected>Select Color</option>
+                  <option value="Black" <% if(query.color === 'Black') { %> selected <% } %>>Black</option>
+                  <option value="Red" <% if(query.color === 'Red') { %> selected <% } %>>Red</option>
+                  <option value="Blue" <% if(query.color === 'Blue') { %> selected <% } %>>Blue</option>
+                  <option value="Yellow" <% if(query.color === 'Yellow') { %> selected <% } %>>Yellow</option>
+                  <option value="Grey" <% if(query.color === 'Grey') { %> selected <% } %>>Grey</option>
+                  <option value="Green" <% if(query.color === 'Green') { %> selected <% } %>>Green</option>
+                </select>
+                  <button
+                    class="mt-3 w-100 mb-3 text-center btn btn-warning fw-semibold"
+                    type="submit"
+                  >
+                    SEARCH NOW
+                    <i
+                      class="fa-solid fa-magnifying-glass ps-3 fw-semibold ms-4"
+                    ></i>
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
+
+        <!-- Listings Section -->
+      <div class="col-12 col-lg-8 order-2 order-lg-1">
+        <div class="mb-5 mt-3">
+          <form class="d-flex" role="search">
+            <input
+              id="searchBox"
+              class="form-control me-2 rounded border-dark-subtle"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+          </form>
         </div>
 
-        <div class="ms-2 me-3 pb-5">
-          <div class="mb-5">
-              <form class="d-flex" role="search">
-                  <input id="searchBox" class="form-control me-2 rounded" type="search" placeholder="Search" aria-label="Search" />
-              </form>
-          </div>
-  
-          <p id="noResultsMessage" class="<%= notFound ? '' : 'hidden' %>">No listings found matching your criteria.</p>
-  
-          <div id="spinner" class="spinner-grow text-secondary hidden" role="status">
-              <span class="visually-hidden">Loading...</span>
-          </div>
-  
-          <div id="listingsContainer" class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-              <% for(let listing of allListings){ %>
-                  <a href="/auctions/listings/<%= listing._id %>" class="listing-link">
-                      <div class="card col" data-title="<%= listing.title.toLowerCase() %>">
-                          <img src="<%= listing.image[0].url %>" class="card-img-top" alt="..." />
-                          <div>
-                              <p class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0">
-                                  RM <%= listing.basePrice.toLocaleString("en-US") %>
-                              </p>
-                          </div>
-                          <div class="card-body pt-0">
-                              <h5 class="card-title"><%= listing.title %></h5>
-                              <hr class="w-25" />
-                              <p class="card-text"><%= listing.description %></p>
-                          </div>
-                          <div class="card-footer">
-                              <div class="d-flex justify-content-between listing-icon">
-                                  <div>
-                                      <img src="/Image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
-                                  </div>
-                                  <div class="listing-line"></div>
-                                  <div>
-                                      <img src="/Image/dissel.png" class="icon-size" alt="" /><span class="ms-2">Diesel</span>
-                                  </div>
-                                  <div class="listing-line"></div>
-                                  <div>
-                                      <img src="/Image/Road.png" class="icon-size" alt="" /><span class="ms-2">12,000</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </a>
-              <% } %>
-          </div>
+        <p id="noResultsMessage" class="<%= notFound ? '' : 'hidden' %>">No listings found matching your criteria.</p>
+
+        <div
+          id="spinner"
+          class="spinner-grow text-secondary hidden"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+
+        <div
+          id="listingsContainer"
+          class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
+        >
+          <% for(let listing of allListings){ %>
+          <a href="/auctions/listings/<%= listing._id %>" class="listing-link col">
+            <div
+              class="card h-100"
+              data-title="<%= listing.title.toLowerCase() %>"
+            >
+              <img
+                src="<%= listing.image[0].url %>"
+                class="card-img-top"
+                alt="..."
+              />
+              <div>
+                <p
+                  class="bg-warning ps-3 pe-3 pt-2 pb-2 float-end fw-semibold m-0"
+                >
+                  RM <%= listing.basePrice.toLocaleString("en-US") %>
+                </p>
+              </div>
+              <div class="card-body pt-0">
+                <h5 class="card-title mt-3"><%= listing.title %></h5>
+                <hr class="w-25" />
+                <p class="card-text">
+                  End Date:
+                  <span class="target-date"
+                    ><%= listing.date %></span
+                  >
+                </p>
+                <p class="card-text">
+                  Time Left: <span class="timer"></span>
+                </p>
+              </div>
+              <div class="card-footer" style="font-size: 14px;">
+                <div class="d-flex justify-content-between listing-icon">
+                  <div>
+                    <img
+                      src="/Image/dissel.png"
+                      class="icon-size"
+                      alt=""
+                    /><span class="ms-2"><%= listing.carType %></span>
+                  </div>
+                  <div class="listing-line"></div>
+                  <div>
+                    <img
+                      src="/Image/car-icon.png"
+                      class="icon-size"
+                      alt=""
+                    /><span class="ms-2"><%= listing.condition %></span>
+                  </div>
+                  <div class="listing-line"></div>
+                  <div>
+                    <img src="/Image/Road.png" class="icon-size" alt="" /><span
+                      class="ms-2"
+                      ><%= listing.mileage.toLocaleString("en-US") %></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <% } %> 
+        </div>
       </div>
-    </section>
-  </article>
-  <script src="/js/slider.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const selectYear = document.querySelector(".year-select");
-      const currentYear = new Date().getFullYear();
-  
-      // Populate the select element with years from 2000 to current year
-      for (let year = 2000; year <= currentYear; year++) {
-        const option = document.createElement("option");
-        option.value = year;
-        option.textContent = year;
-        selectYear.appendChild(option);
-      }
-  
-      // Check if there's a query parameter 'year' and set the selected option
-      const urlParams = new URLSearchParams(window.location.search);
-      const selectedYear = urlParams.get('year');
-  
-      if (selectedYear) {
-        selectYear.value = selectedYear; // Set the selected value based on query parameter
-      }
-    });
-  </script>
-<script>
-  document.getElementById('searchBox').addEventListener('input', function() {
-      const query = this.value.toLowerCase();
-      const listings = document.querySelectorAll('#listingsContainer .card');
-      const noResultsMessage = document.getElementById('noResultsMessage');
-      const spinner = document.getElementById('spinner');
+    </div>
+  </section>
+</article>
 
-      spinner.classList.remove('hidden'); // Show spinner
 
-      setTimeout(() => {
-          let hasVisibleListings = false;
-          listings.forEach(function(listing) {
-              const title = listing.getAttribute('data-title');
 
-              if (title.includes(query)) {
-                  listing.classList.remove('hidden');
-                  hasVisibleListings = true;
-              } else {
-                  listing.classList.add('hidden');
-              }
-          });
-
-          if (!hasVisibleListings) {
-              noResultsMessage.classList.remove('hidden');
-          } else {
-              noResultsMessage.classList.add('hidden');
-          }
-
-          spinner.classList.add('hidden'); // Hide spinner after filtering
-      }, 500); // Simulate loading time with a timeout
-  });
-</script>
+ <script src="/js/slider.js"></script>
+  <script src="/js/selectYear.js"></script>
+<script src="/js/spinner.js"></script>
+<script src="/js/formatDate.js"></script>
+<script src="/js/timer.js"></script>

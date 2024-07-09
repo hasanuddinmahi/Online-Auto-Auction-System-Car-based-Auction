@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const Auction = require("../models/auction.js");
 const Bid = require("../models/bid.js");
 const Review = require("../models/review.js");
+const WatchList = require("../models/watchList.js");
 const User = require("../models/user.js");
-const { isLoggedIn, isOwner, validateListing, validateReview, ensureWinningBid } = require("../middleware.js");
+const { isLoggedIn, validateReview, ensureWinningBid } = require("../middleware.js");
 
 // All Auction Listing Route
 router.get("/", isLoggedIn, wrapAsync(async (req, res) => {
@@ -39,7 +38,7 @@ router.get("/", isLoggedIn, wrapAsync(async (req, res) => {
 
     } catch (error) {
         console.error('Error fetching auctions:', error);
-        res.status(500).send('Error fetching auctions');
+        res.redirect('/listings');
     }
 }));
 
@@ -55,9 +54,9 @@ router.get('/search', isLoggedIn, wrapAsync(async (req, res) => {
     }
 
     if (minPrice || maxPrice) {
-        query.price = {};
-        if (minPrice) query.price.$gte = Number(minPrice);
-        if (maxPrice) query.price.$lte = Number(maxPrice);
+        query.basePrice = {};
+        if (minPrice) query.basePrice.$gte = Number(minPrice);
+        if (maxPrice) query.basePrice.$lte = Number(maxPrice);
     }
 
     if (color) query.color = color;
@@ -84,7 +83,7 @@ router.get('/search', isLoggedIn, wrapAsync(async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching listings:', error);
-        res.status(500).send('Error fetching listings');
+        res.redirect('/listings');
     }
 }));
 
@@ -93,47 +92,81 @@ router.get('/search', isLoggedIn, wrapAsync(async (req, res) => {
 //show Listing Details
 router.get("/listings/:id", isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
-    let userId = req.user._id;
-
-    // check for the user bid option
-    let checkListing = false;
-    if (listing.owner._id == req.user.id) {
-        checkListing = true;
-    }
+    const listing = await Listing.findById(id).populate('owner');
 
     if (!listing) {
         req.flash("error", "Listing that you requested for does not exist");
-        res.redirect("/auctions");
+        return res.redirect("/auctions");
     }
-    res.render("auctions/showDetails.ejs", { listing, checkListing, userId });
+
+    // Check listing status
+    if (listing.status == "Approved" || listing.status == "Disapproved") {
+        req.flash("error", "This listing does not added to the auction");
+        return res.redirect("/auctions");
+    }
+
+    // check for the watchList button
+    let checkListing = false;
+    if (req.user) {
+        let user = req.user._id;
+        const watchLists = await WatchList.find({ user }).populate("listing");
+        for (let list of watchLists) {
+            if (list.listing && list.listing.id == listing.id) {
+                checkListing = true;
+            }
+        }
+    }
+
+    let userId = req.user._id;
+    let checkOwner = listing.owner._id.equals(req.user._id);
+
+    res.render("auctions/showDetails.ejs", { listing, checkListing, checkOwner, userId, bidCount: listing.bidCount });
 }));
 
 
 // Place bids 
-router.post('/listings/:id', isLoggedIn, async (req, res) => {
+router.post('/listings/:id', isLoggedIn, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
-    const user = req.user; // Use req.user directly
+    const user = req.user;
     const bidAmount = parseFloat(req.body.bid.amount);
-    const basePrice = parseFloat(listing.basePrice) + bidAmount;
+    const newBidAmount = parseFloat(listing.basePrice) + bidAmount;
 
     if (listing.status === 'auction') {
-        const existingBid = await Bid.findOneAndUpdate(
-            { listing: id, user: user._id }, // Access user ID from req.user
-            { amount: basePrice },
-            { new: true, runValidators: true, upsert: true }
-        );
+        // Check if the bid already exists for this user and listing
+        const existingBid = await Bid.findOne({ listing: id, user: user._id });
 
-        await Listing.findByIdAndUpdate(id, { basePrice: basePrice }, { new: true, runValidators: true });
+        if (existingBid) {
+            // Update the existing bid amount
+            existingBid.amount = newBidAmount;
+            await existingBid.save();
+        } else {
+            // Create a new bid
+            const newBid = new Bid({
+                user: user._id,
+                amount: newBidAmount,
+                listing: id,
+            });
+            await newBid.save();
+        }
 
-        req.flash('success', 'New bid added');
+        // Increment the bid count for the listing
+        listing.bidCount += 1;
+
+        // Update the base price of the listing
+        listing.basePrice = newBidAmount;
+        await listing.save();
+
+        req.flash('success', existingBid ? 'Bid updated' : 'New bid added');
         res.redirect(`/auctions/listings/${id}`);
     } else {
         req.flash('error', 'Cannot bid right now');
         res.redirect(`/auctions/listings/${id}`);
     }
-});
+}));
+
+
+
 
 // All Bids 
 router.get("/bids", isLoggedIn, wrapAsync(async (req, res) => {
@@ -143,7 +176,7 @@ router.get("/bids", isLoggedIn, wrapAsync(async (req, res) => {
     let allBids = [];
     for (let bid of findBis) {
         if (bid.user == user) {
-            if (bid.listing.status == 'auction') {
+            if (bid.listing && bid.listing.status == 'auction') {
                 allBids.push(bid);
             }
         }
@@ -162,7 +195,7 @@ router.get("/bids/result", isLoggedIn, wrapAsync(async (req, res) => {
     let loseBids = [];
     for (let bid of allBids) {
         if (bid.user == user) {
-            if (bid.listing.status == 'finished') {
+            if (bid.listing && bid.listing.status == 'finished') {
                 if (bid.amount == bid.listing.basePrice) {
                     winBids.push(bid.listing);
                 } else {
@@ -199,14 +232,15 @@ router.post("/bids/result/:id/review", isLoggedIn, validateReview, wrapAsync(asy
     await owner.save();
     await newReview.save();
 
+    await Listing.findByIdAndUpdate(id, { status: 'complete' }, { new: true });
+
     res.redirect(`/auctions/bids/result/${id}`);
 }));
 
 //seller details
-router.get("/seller/:id", async (req, res) => {
+router.get("/seller/:id", isLoggedIn, async (req, res) => {
     let { id } = req.params;
     const user = await User.findById(id).populate({ path: 'reviews', populate: { path: 'author' } });
-    console.log(user)
     res.render("auctions/sellerDetails.ejs", { user });
 });
 

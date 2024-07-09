@@ -1,228 +1,225 @@
 <% layout("/layouts/boilerplate") %>
 
+<script>
+  let mapToken = "<%= process.env.MAP_TOKEN %>";
+  const coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
+</script>
+
 <article>
-  <section class="mt-5 mb-5">
-    <div class="d-flex justify-content-around align-items-baseline">
-      <div class="w-50">
-        <div
-          class="d-flex justify-content-between align-items-center ps-2 pe-2 pt-2 image-head"
-        >
-          <div><h5><%= listing.title %></h5></div>
-          <div>
-            <h5 class="bg-warning p-2">
-              RM <%= listing.price.toLocaleString("en-US") %>
-            </h5>
-          </div>
-        </div>
-       <div>
-        <div id="carouselExample" class="carousel slide pb-1 mt-3">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img
-                src="<%= listing.image[0] && listing.image[0].url ? listing.image[0].url  : "https://bit.ly/3ubuq5o" %>"
-                class="d-block w-100 image-fluid"
-                id="mainImg"
-                alt="..."
-              />
+  <section class="my-5">
+    <div class="container-fluid">
+      <div class="row justify-content-center" id="listingRow">
+        <!-- Left Column: Carousel and Title -->
+        <div class="col-lg-7 col-md-12 mb-4 mb-lg-0">
+          <div
+            class="d-flex justify-content-between align-items-center ps-2 pe-2 pt-2 image-head"
+          >
+            <div>
+              <h5><%= listing.title %></h5>
             </div>
-           <% for(let image of listing.image.slice(1)){ %> 
-              <div class="carousel-item">
-                <img
-                  src="<%= image && image.url ? image.url : "https://bit.ly/3ubuq5o" %>"
-                  class="d-block w-100 image-fluid"
-                  id="mainImg"
-                  alt="..."
-                />
+            <div>
+              <h5 class="bg-warning p-2">
+                RM <%= listing.price.toLocaleString("en-US") %>
+              </h5>
+            </div>
+          </div>
+          <div>
+            <div id="carouselExample" class="carousel slide pb-1 mt-3">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    src="<%= listing.image[0] && listing.image[0].url ? listing.image[0].url : 'https://bit.ly/3ubuq5o' %>"
+                    class="d-block w-100 img-fluid"
+                    id="mainImg"
+                    alt="..."
+                  />
+                </div>
+                <% for(let image of listing.image.slice(1)){ %>
+                <div class="carousel-item">
+                  <img
+                    src="<%= image && image.url ? image.url : 'https://bit.ly/3ubuq5o' %>"
+                    class="d-block w-100 img-fluid"
+                    id="mainImg"
+                    alt="..."
+                  />
+                </div>
+                <% } %>
               </div>
-            <% } %>    
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExample"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExample"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
           </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
-          >
-            <span
-              class="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
-            <span
-              class="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
-       </div>
-      </div>
 
-      <!-- show btns for non-owner user -->
-      <% if(!currUser || !currUser._id.equals(listing.owner._id)){ %>
-      <div class="border border-dark w-25">
-        <h6 class="bg-secondary border border-dark p-2">Bid Information</h6>
-        <div class="text-center">
-          <div class="d-flex justify-content-around">
-            <p>Current Bid:</p>
-            <p>RM 0</p>
+        <!-- Right Column: Bid Information -->
+        <% if(!currUser || !currUser._id.equals(listing.owner._id)){ %>
+        <% if(listing.status != "finished" && listing.status != "complete"){ %>  
+        <div class="col-lg-4 col-md-12" id="bidInfo">
+          <div class="border border-dark p-3">
+            <h6 class="bg-secondary border border-dark p-2 text-center">
+              Bid Information
+            </h6>
+            <div class="text-center">
+              <div class="d-flex justify-content-around">
+                <p>Current Bid:</p>
+                <p>RM 0</p>
+              </div>
+              <a href="/auctions/listings/<%= listing._id %>"
+                ><button class="btn btn-primary w-75 fw-semibold">
+                  Start Bidding
+                </button></a
+              >
+              <br />
+              <% if(checkListing) { %>
+              <button
+                class="mt-2 mb-3 btn btn-light border border-dark w-75 fw-semibold"
+                disabled
+              >
+                Already Added
+              </button>
+              <% } %> <% if (!checkListing) { %>
+              <form action="/listings/<%= listing._id %>?source=listing" method="POST">
+                <button
+                  class="mt-2 mb-3 btn btn-light border border-dark w-75 fw-semibold"
+                >
+                  Add to WatchList
+                </button>
+              </form>
+              <% } %>
+            </div>
           </div>
-          <button class="btn btn-primary w-75 fw-semibold">Pre-Bid</button
-          ><br />
-
-          <!-- shows button for watchList -->
-          <% if(checkListing) { %>
-          <button class="mt-2 mb-3 btn btn-light border border-dark w-75 fw-semibold" disabled>Already Added</button>
-          <% } %> <% if (!checkListing) { %>
-          <form action="/listings/<%= listing._id %>" method="POST">
-            <button
-              class="mt-2 mb-3 btn btn-light border border-dark w-75 fw-semibold"
-            >
-              Add to WatchList
-            </button>
-          </form>
-          <% } %>
         </div>
+     <% } %> 
+        <% } else { %>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var listingRow = document.getElementById("listingRow");
+            var bidInfo = document.getElementById("bidInfo");
+            if (!bidInfo) {
+              listingRow.classList.add("justify-content-center");
+            }
+          });
+        </script>
+        <% } %>
       </div>
-      <% } %>
     </div>
   </section>
 
-  <section class="mt-5 mb-5 car-overview">
+  <section class="mx-3 my-5 car-overview">
     <div class="text-center pt-4 pb-3">
       <h4>CAR OVERVIEW</h4>
       <hr class="small-hr" />
-    </div>
-    <hr class="ms-5 me-5" />
-    <div class="d-flex justify-content-between">
-      <div class="w-50 ms-5 me-5">
-        <div class="d-flex justify-content-between">
-          <p>fuel type</p>
-          <p><%= listing.carType %></p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Seat</p>
-          <p><%= listing.seat %></p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Registration Type</p>
-          <p><%= listing.registrationType %></p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Spare Key</p>
-          <p>No</p>
-        </div>
-        <hr class="mt-0" />
-      </div>
-      <div class="me-5 w-50 ms-5">
-        <div class="d-flex justify-content-between">
-          <p>fuel type</p>
-          <p>petrol</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Seat</p>
-          <p>4</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Registration Type</p>
-          <p>Private</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Spare Key</p>
-          <p>No</p>
-        </div>
-        <hr class="mt-0 mb-5" />
-      </div>
-    </div>
-  </section>
-  <section class="mt-5 mb-5">
-    <div class="text-center pt-4 pb-3">
-      <h4>CAR DETAILS</h4>
-      <hr class="small-hr" />
       <p>
-        Specifications shown for this model comes standard from the
-        manufacturer.
+        Specifications shown for this model come standard from the manufacturer.
       </p>
     </div>
     <hr class="ms-5 me-5" />
-    <div class="d-flex justify-content-between">
-      <div class="w-50 ms-5 me-5">
-        <div class="d-flex justify-content-between">
-          <p>fuel type</p>
-          <p>petrol</p>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="ms-5 me-5">
+          <div class="d-flex justify-content-between">
+            <p>Car Type</p>
+            <p><%= listing.carType %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Condition</p>
+            <p><%= listing.condition %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Model</p>
+            <p><%= listing.brandModel %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Year</p>
+            <p><%= listing.year %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Mileage</p>
+            <p><%= listing.mileage.toLocaleString("en-US")%> km</p>
+          </div>
+          <hr class="mt-0 mb-5" />
         </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Seat</p>
-          <p>4</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Registration Type</p>
-          <p>Private</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Spare Key</p>
-          <p>No</p>
-        </div>
-        <hr class="mt-0" />
       </div>
-      <div class="me-5 w-50 ms-5">
-        <div class="d-flex justify-content-between">
-          <p>fuel type</p>
-          <p>petrol</p>
+      <div class="col-md-6">
+        <div class="ms-5 me-5">
+          <div class="d-flex justify-content-between">
+            <p>Registration Type</p>
+            <p><%= listing.registrationType %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Registration Date</p>
+            <p><%= listing.registrationDate %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Registration Number</p>
+            <p><%= listing.registrationNumber %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Color</p>
+            <p><%= listing.color %></p>
+          </div>
+          <hr class="mt-0 mb-2" />
+          <div class="d-flex justify-content-between">
+            <p>Seat</p>
+            <p><%= listing.seat %></p>
+          </div>
+          <hr class="mt-0 mb-5" />
         </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Seat</p>
-          <p>4</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Registration Type</p>
-          <p>Private</p>
-        </div>
-        <hr class="mt-0 mb-2" />
-        <div class="d-flex justify-content-between">
-          <p>Spare Key</p>
-          <p>No</p>
-        </div>
-        <hr class="mt-0 mb-5" />
       </div>
     </div>
   </section>
 
   <section class="m-5">
+    <h3>Where will be</h3>
+    <p class="mb-3">
+      <%= listing.location.houseOrRoadName %>, <%= listing.location.city %>, <%=
+      listing.location.state %>
+    </p>
+    <div id="map"></div>
+  </section>
+
+  <section class="m-5">
     <div class="text-center pt-4 pb-3">
-      <h4>CAR OVERVIEW</h4>
+      <h4>CAR DESCRIPTION</h4>
       <hr class="small-hr" />
-      <p>
-        <%= listing.description %>elvage drinking vinegar roof party bitters
-        beard wolf craft beer Blue Bottle, literally you probably haven't heard
-        of them. Deep v
-      </p>
+      <p><%= listing.description %></p>
     </div>
 
-    <!-- show btns for authorized user -->
-    <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+   <% if(listing.status != "auction" && listing.status != "finished" && listing.status != "complete"){ %>
+    <% if(currUser && currUser._id.equals(listing.owner._id)){ %> 
     <div class="d-flex justify-content-end">
-      <a href="/listings/<%= listing._id%>/edit" class="btn btn-primary">Edit</a
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary"
+        >Edit</a
       ><br />
-
-      <!-- open modal -->
       <button
         type="button"
         class="btn btn-danger ms-2"
@@ -231,8 +228,6 @@
       >
         Delete
       </button>
-
-      <!-- Modal -->
       <div
         class="modal fade"
         id="staticBackdrop"
@@ -275,6 +270,8 @@
         </div>
       </div>
     </div>
-    <% } %>
+    <% } %> <% } %>
   </section>
 </article>
+
+<script src="/js/map.js"></script>

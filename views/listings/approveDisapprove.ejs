@@ -2,244 +2,367 @@
 
 <article>
   <section class="mt-5">
-    <div class="d-flex justify-content-evenly align-items-baseline">
-      <div class="w-25 ms-5">
-        <button class="btn btn-light border border-secondary-subtle w-75">
-          Approved Cars &emsp; <i class="fa-solid fa-angle-right"></i></button
-        ><br />
-        <button class="btn btn-light border border-secondary-subtle w-75 mt-3">
-          Pending Approval <i class="fa-solid fa-angle-right"></i></button
-        ><br />
-        <button class="btn btn-light border border-secondary-subtle w-75 mt-3">
-          Disapproved Cars &emsp; <i class="fa-solid fa-angle-right"></i>
-        </button>
-      </div>
-      <div class="w-100">
-        <div class="mb-5">
-          <h3 class="fw-bold mb-3 fs-5">APPROVED CARS</h3>
-
-          <% for(let listing of listings){ %> <% if(listing.status ===
-          "Approved"){ %>
-          <!-- show btns for authorized user -->
-
-          <div class="card mb-5" style="max-width: 940px">
-            <a
-              href="/listings/<%= listing._id %>"
-              class="text-decoration-none text-black"
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="me-5 sticky-top" style="top: 7rem;">
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 mb-3"
+              onclick="document.getElementById('section-approved').scrollIntoView();"
             >
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img
-                    src="<%= listing.image[0].url %>"
-                    class="img-car rounded-start"
-                    alt="..."
-                  />
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body car-auclisting">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-4"
-                    >
-                      <div class="ms-3">
-                        <h5 class="card-title fw-bold"><%= listing.title %></h5>
-                        <hr class="w-25" />
-                        <p class="card-text"><%= listing.description %></p>
-                      </div>
-                      <div class="me-4 text-center mb-1">
-                        <h5 class="fw-bold mb-2">
-                          RM <%= listing.price.toLocaleString("en-US") %>
-                        </h5>
-                        
-                          <button class="btn btn-primary w-100">EDIT</button>
-                       
-                        <button class="btn btn-danger mt-2 w-100">
-                          DELETE
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-footer car-auclisting">
-                      <div class="d-flex justify-content-start listing-icon">
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/dissel.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">Diesel</span>
-                        </div>
-                        <div class="auclisting-line"></div>
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/dissel.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">Diesel</span>
-                        </div>
-                        <div class="auclisting-line"></div>
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/Road.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">12,000</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
+              Approved Cars &emsp; <i class="fa-solid fa-angle-right"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 mb-3"
+              onclick="document.getElementById('section-pending').scrollIntoView();"
+            >
+              Pending Approval <i class="fa-solid fa-angle-right"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 mb-3"
+              onclick="document.getElementById('section-disapproved').scrollIntoView();"
+            >
+              Disapproved Cars &emsp; <i class="fa-solid fa-angle-right"></i>
+            </button>
           </div>
-          <% } %> <% } %>
         </div>
-
-        <div class="mt-5 mb-5">
-          <h3 class="fw-bold mb-4 fs-5">PENDING APPROVAL</h3>
-          <% for(let listing of listings){ %> <% if(listing.status ===
-          "pending"){ %>
-          <!-- show btns for authorized user -->
-
-          <div class="card mb-5" style="max-width: 940px">
-            <a
-              href="/listings/<%= listing._id %>"
-              class="text-decoration-none text-black"
-            >
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img
-                    src="<%= listing.image[0].url %>"
-                    class="img-car rounded-start"
-                    alt="..."
-                  />
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body car-auclisting">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-4"
-                    >
-                      <div class="ms-3">
-                        <h5 class="card-title fw-bold"><%= listing.title %></h5>
-                        <hr class="w-25" />
-                        <p class="card-text"><%= listing.description %></p>
-                      </div>
-                      <div class="me-4 text-center mb-1">
-                        <h5 class="fw-bold mb-2">
-                          RM <%= listing.price.toLocaleString("en-US") %>
-                        </h5>
-                        <button class="btn btn-primary w-100">EDIT</button
-                        ><br />
-                        <button class="btn btn-danger mt-2 w-100">
-                          DELETE
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-footer car-auclisting">
-                      <div class="d-flex justify-content-start listing-icon">
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/dissel.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">Diesel</span>
+        <div class="col-lg-9">
+          <section class="mb-5" id="section-approved">
+            <h3 class="fw-bold mb-3 fs-5">APPROVED CARS</h3>
+            <% for (let listing of listings) { %> <% if (listing.status ===
+            "Approved") { %>
+            <div class="card mb-5" style="max-width: 940px">
+              <a
+                href="/listings/<%= listing._id %>"
+                class="text-decoration-none text-black"
+              >
+                <div class="row g-0">
+                  <div class="col-md-4 col-12">
+                    <img
+                      src="<%= listing.image[0].url %>"
+                      class="img-car rounded-start img-fluid"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="col-md-8 col-12">
+                    <div class="card-body car-auclisting">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-4"
+                      >
+                        <div class="ms-3">
+                          <h5 class="card-title fw-bold">
+                            <%= listing.title %>
+                          </h5>
+                          <hr class="w-25" />
+                          <p class="card-text"><%= listing.description %></p>
                         </div>
-                        <div class="auclisting-line"></div>
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/dissel.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">Diesel</span>
+                        <div class="me-4 text-center mb-1">
+                          <h5 class="fw-bold mb-2">
+                            RM <%= listing.price.toLocaleString("en-US") %>
+                          </h5>
+                          <button class="btn btn-primary w-100 mb-2">
+                            EDIT
+                          </button>
+                          <button class="btn btn-danger w-100">DELETE</button>
                         </div>
-                        <div class="auclisting-line"></div>
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/Road.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">12,000</span>
+                      </div>
+                      <div class="card-footer car-auclisting">
+                        <div
+                          class="d-flex justify-content-start align-items-center listing-icon"
+                        >
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/dissel.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.carType %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/car-icon.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.condition %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/Road.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"
+                              ><%= listing.mileage.toLocaleString("en-US")
+                              %></span
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          </div>
-          <% } %> <% } %>
-        </div>
-
-        <div class="mt-5 mb-5">
-          <h3 class="fw-bold mb-4 fs-5">DISAPPROVED CARS</h3>
-          <% for(let listing of listings){ %> <% if(listing.status ===
-          "Disapproved"){ %>
-          <!-- show btns for authorized user -->
-
-          <div class="card mb-5" style="max-width: 940px">
-            <a
-              href="/listings/<%= listing._id %>"
-              class="text-decoration-none text-black"
-            >
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img
-                    src="<%= listing.image[0].url %>"
-                    class="img-car rounded-start"
-                    alt="..."
-                  />
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body car-auclisting">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-4"
-                    >
-                      <div class="ms-3">
-                        <h5 class="card-title fw-bold"><%= listing.title %></h5>
-                        <hr class="w-25" />
-                        <p class="card-text"><%= listing.description %></p>
-                      </div>
-                      <div class="me-4 text-center mb-1">
-                        <h5 class="fw-bold mb-2">
-                          RM <%= listing.price.toLocaleString("en-US") %>
-                        </h5>
-                        <button class="btn btn-primary w-100">EDIT</button
-                        ><br />
-                        <button class="btn btn-danger mt-2 w-100">
-                          DELETE
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-footer car-auclisting">
-                      <div class="d-flex justify-content-start listing-icon">
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/dissel.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">Diesel</span>
+              </a>
+            </div>
+            <% } %> <% } %> <% for (let listing of listings) { %> <% if
+            (listing.status === "auction" || listing.status === "finished" ||
+            listing.status === "complete") { %>
+            <div class="card mb-5" style="max-width: 940px">
+              <a
+                href="<%= listing.status === 'complete' ? '/listings/' + listing._id : '/auctions/listings/' + listing._id %>"
+                class="text-decoration-none text-black"
+              >
+                <div class="row g-0">
+                  <div class="col-md-4 col-12">
+                    <img
+                      src="<%= listing.image[0].url %>"
+                      class="img-car rounded-start img-fluid"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="col-md-8 col-12">
+                    <div class="card-body car-auclisting">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-5"
+                      >
+                        <div class="ms-3">
+                          <h5 class="card-title fw-bold">
+                            <%= listing.title %>
+                          </h5>
+                          <hr class="w-25" />
+                          <p class="card-text"><%= listing.description %></p>
                         </div>
-                        <div class="auclisting-line"></div>
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/dissel.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">Diesel</span>
+                        <div class="me-4 text-center mb-2">
+                          <h5 class="fw-bold mb-2">
+                            RM <%= listing.basePrice.toLocaleString("en-US") %>
+                          </h5>
+                          <% if (listing.status === "auction") { %>
+                          <p
+                            class="bg-success text-center text-white rounded p-1 mb-4"
+                          >
+                            Auction
+                          </p>
+                          <% } else if (listing.status === "finished") { %>
+                          <p
+                            class="bg-success text-center text-white rounded p-1 mb-4"
+                          >
+                            In progress
+                          </p>
+                          <% } else if (listing.status === "complete") { %>
+                          <p
+                            class="bg-secondary text-center text-white rounded p-1 mb-4"
+                          >
+                            Completed
+                          </p>
+                          <% } %>
                         </div>
-                        <div class="auclisting-line"></div>
-                        <div class="ms-2 me-3 mt-2">
-                          <img
-                            src="/image/Road.png"
-                            class="icon-size"
-                            alt=""
-                          /><span class="ms-2">12,000</span>
+                      </div>
+                      <div class="card-footer car-auclisting">
+                        <div class="d-flex justify-content-start listing-icon">
+                          <div class="ms-2 me-3 mt-2">
+                            <img
+                              src="/Image/dissel.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.carType %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="ms-2 me-3 mt-2">
+                            <img
+                              src="/Image/car-icon.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.condition %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="ms-2 me-3 mt-2">
+                            <img
+                              src="/Image/Road.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"
+                              ><%= listing.mileage.toLocaleString("en-US")
+                              %></span
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          </div>
-          <% } %> <% } %>
+              </a>
+            </div>
+            <% } %> <% } %>
+          </section>
+
+          <section class="mt-5 mb-5" id="section-pending">
+            <h3 class="fw-bold mb-4 fs-5">PENDING APPROVAL</h3>
+            <% for(let listing of listings){ %> <% if(listing.status ===
+            "pending"){ %>
+              <div class="card mb-5" style="max-width: 940px">
+              <a
+                href="/listings/<%= listing._id %>"
+                class="text-decoration-none text-black"
+              >
+                <div class="row g-0">
+                  <div class="col-md-4 col-12">
+                    <img
+                      src="<%= listing.image[0].url %>"
+                      class="img-car rounded-start img-fluid"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="col-md-8 col-12">
+                    <div class="card-body car-auclisting">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-4"
+                      >
+                        <div class="ms-3">
+                          <h5 class="card-title fw-bold">
+                            <%= listing.title %>
+                          </h5>
+                          <hr class="w-25" />
+                          <p class="card-text"><%= listing.description %></p>
+                        </div>
+                        <div class="me-4 text-center mb-1">
+                          <h5 class="fw-bold mb-2">
+                            RM <%= listing.price.toLocaleString("en-US") %>
+                          </h5>
+                          <button class="btn btn-primary w-100 mb-2">
+                            EDIT
+                          </button>
+                          <button class="btn btn-danger w-100">DELETE</button>
+                        </div>
+                      </div>
+                      <div class="card-footer car-auclisting">
+                        <div
+                          class="d-flex justify-content-start align-items-center listing-icon"
+                        >
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/dissel.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.carType %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/car-icon.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.condition %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/Road.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"
+                              ><%= listing.mileage.toLocaleString("en-US")
+                              %></span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %>
+          </section>
+
+          <section class="mt-5 mb-5" id="section-disapproved">
+            <h3 class="fw-bold mb-4 fs-5">DISAPPROVED CARS</h3>
+            <% for(let listing of listings){ %> <% if(listing.status ===
+            "Disapproved"){ %>
+              <div class="card mb-5" style="max-width: 940px">
+              <a
+                href="/listings/<%= listing._id %>"
+                class="text-decoration-none text-black"
+              >
+                <div class="row g-0">
+                  <div class="col-md-4 col-12">
+                    <img
+                      src="<%= listing.image[0].url %>"
+                      class="img-car rounded-start img-fluid"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="col-md-8 col-12">
+                    <div class="card-body car-auclisting">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-4"
+                      >
+                        <div class="ms-3">
+                          <h5 class="card-title fw-bold">
+                            <%= listing.title %>
+                          </h5>
+                          <hr class="w-25" />
+                          <p class="card-text"><%= listing.description %></p>
+                        </div>
+                        <div class="me-4 text-center mb-1">
+                          <h5 class="fw-bold mb-2">
+                            RM <%= listing.price.toLocaleString("en-US") %>
+                          </h5>
+                          <button class="btn btn-primary w-100 mb-2">
+                            EDIT
+                          </button>
+                          <button class="btn btn-danger w-100">DELETE</button>
+                        </div>
+                      </div>
+                      <div class="card-footer car-auclisting">
+                        <div
+                          class="d-flex justify-content-start align-items-center listing-icon"
+                        >
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/dissel.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.carType %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/car-icon.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"><%= listing.condition %></span>
+                          </div>
+                          <div class="auclisting-line"></div>
+                          <div class="d-flex align-items-center ms-2 me-3">
+                            <img
+                              src="/image/Road.png"
+                              class="icon-size"
+                              alt=""
+                            />
+                            <span class="ms-2"
+                              ><%= listing.mileage.toLocaleString("en-US")
+                              %></span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %>
+          </section>
         </div>
       </div>
     </div>

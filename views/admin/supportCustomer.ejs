@@ -3,69 +3,71 @@
 <article>
   <section class="mt-5 ms-5 mb-5">
     <div class="d-flex align-items-start justify-content-start">
-      <div class="w-25">
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 text-start"
-        >
-          <i class="fa-solid fa-list-check"></i>
-          <span class="ms-3">Manage Listings</span></button
-        ><br />
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-users"></i>
-          <span class="ms-3">Manage Users</span></button
-        ><br />
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-gavel"></i>
-          <span class="ms-3">Manage Auction</span>
-        </button>
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-headset"></i>
-          <span class="ms-3">Support Customer</span>
-        </button>
+      <div class="col-md-3">
+        <a href="/admin/manageListings" class="text-decoration-none">
+          <button class="btn btn-light border border-secondary-subtle w-75 text-start">
+            <i class="fa-solid fa-list-check"></i>
+            <span class="ms-3">Manage Listings</span>
+          </button>
+        </a>
+        <br />
+        <a href="/admin/manageUsers" class="text-decoration-none">
+          <button class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start">
+            <i class="fa-solid fa-users"></i>
+            <span class="ms-3">Manage Users</span>
+          </button>
+        </a>
+        <br />
+        <a href="/admin/manageAuctions" class="text-decoration-none">
+          <button class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start">
+            <i class="fa-solid fa-gavel"></i>
+            <span class="ms-3">Manage Auctions</span>
+          </button>
+        </a>
+        <br />
+        <a href="/admin/supportCustomer" class="text-decoration-none">
+          <button class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start">
+            <i class="fa-solid fa-headset"></i>
+            <span class="ms-3">Support Customer</span>
+          </button>
+        </a>
       </div>
       <div class="w-75 border-start border-black pb-5 ps-5">
-        <h4 class="mb-4 fw-bold">Complaint</h4>
+        <h4 class="mb-4 fw-bold">Complaints</h4>
 
         <div class="me-5 mt-5">
-          <table class="table">
+          <table class="table text-center">
             <thead>
               <tr>
-                <th class="fs-5 text-center" scope="col">Tile</th>
-                <th class="fs-5 text-center" scope="col">Description</th>
-                <th class="fs-5 text-center" scope="col">Username</th>
-                <th class="fs-5 text-center" scope="col">Date</th>
+                <th class="fs-5" scope="col">Title</th>
+                <th class="fs-5" scope="col">Description</th>
+                <th class="fs-5" scope="col">Username</th>
+                <th class="fs-5" scope="col">Date</th>
+                <th class="fs-5" scope="col">Status</th>
                 <th class="fs-5" scope="col"></th>
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <% for(let complain of allComplain){ %>
-              <tr>
-                <td class="text-center">
-                  <a href="/admin/supportCustomer/<%= complain._id %>">
-                    <%= complain.title %>
-                  </a>
-                </td>
-                <td class="w-25 text-center"><%= complain.description %></td>
-                <td class="text-center"><%= complain.owner.username %></td>
-                <td class="text-center w-25"><%= complain.createdAt %></td>
-                <td class="text-white">
-                  <% if(complain.status === "pending") { %>
-                  <p class="bg-warning text-center rounded p-1">Pending</p>
-                  <% } %>
-                  <% if(complain.status === "In Progress") { %>
-                  <p class="bg-success text-center rounded p-1">In Progress</p>
-                  <% } %>
-                  <% if(complain.status === "complete") { %>
-                    <p class="bg-secondary text-center rounded p-1">Completed</p>
-                  <% } %>
-                </td>
-              </tr>
+              <% for(let complaint of allComplain){ %>
+                <tr>
+                  <td>
+                    <a href="/admin/supportCustomer/<%= complaint._id %>">
+                      <%= complaint.title %>
+                    </a>
+                  </td>
+                  <td class="w-25"><%= complaint.description %></td>
+                  <td><%= complaint.owner.username %></td>
+                  <td class="target-date"><%= complaint.createdAt %></td>
+                  <td class="text-white">
+                    <% if(complaint.status === "pending") { %>
+                      <p class="bg-warning text-center rounded p-1">Pending</p>
+                    <% } else if(complaint.status === "In Progress") { %>
+                      <p class="bg-success text-center rounded p-1">In Progress</p>
+                    <% } else if(complaint.status === "complete") { %>
+                      <p class="bg-secondary text-center rounded p-1">Completed</p>
+                    <% } %>
+                  </td>
+                </tr>
               <% } %>
             </tbody>
           </table>
@@ -74,3 +76,6 @@
     </div>
   </section>
 </article>
+
+
+<script src="/js/formatDate.js"></script>

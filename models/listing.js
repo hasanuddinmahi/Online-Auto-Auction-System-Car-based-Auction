@@ -24,7 +24,7 @@ const listingSchema = new Schema({
         type: String,
         required: true,
     },
-    registrationNumber:{
+    registrationNumber: {
         type: String,
         required: true,
     },
@@ -32,11 +32,11 @@ const listingSchema = new Schema({
         type: String,
         required: true,
     },
-    mileage: {
+    year: {
         type: Number,
         required: true,
     },
-    year: {
+    mileage: {
         type: Number,
         required: true,
     },
@@ -88,6 +88,19 @@ const listingSchema = new Schema({
     basePrice: {
         type: Number,
         default: 0,
+    },
+    bidCount: {
+        type: Number,
+        default: 0,
+     },
+    geometry: {
+        type: {
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'], // 'location.type' must be 'Point'
+        },
+        coordinates: {
+            type: [Number],
+        }
     },
     review: {
         type: Schema.Types.ObjectId,

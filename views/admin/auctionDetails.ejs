@@ -1,136 +1,114 @@
 <% layout("/layouts/boilerplate") %>
-<article>
-  <section class="mt-5 ms-5">
-    <div class="d-flex align-items-start justify-content-start">
-      <div class="w-25">
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 text-start"
-        >
-          <i class="fa-solid fa-list-check"></i>
-          <span class="ms-3">Manage Listings</span></button
-        ><br />
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-users"></i>
-          <span class="ms-3">Manage Users</span></button
-        ><br />
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-gavel"></i>
-          <span class="ms-3">Manage Auction</span>
-        </button>
-        <button
-          class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-        >
-          <i class="fa-solid fa-headset"></i>
-          <span class="ms-3">Support Customer</span>
-        </button>
-      </div>
 
-      <div class="border-start border-black pb-5 ps-5">
-        <div class="container-fluid register-box mb-5 offset-4">
-          <h3 class="p-4 text-center fw-bold">Auction Details</h3>
-          <div class="ps-5 pe-5 pb-5">
-            <p>Name: <%= auction.name %></p>
-            <p>Description: <%= auction.description %></p>
-            <p>Start Date:: <%= auction.startDate %></p>
-            <p>End Date: <%= auction.endDate %></p>
+<article>
+  <section class="d-flex justify-content-center">
+    <div class="mt-5 ms-5 w-75">
+      <div class="d-flex align-items-start justify-content-center">
+        <div class="border-black pb-5 ps-5 w-100">
+          <div class="container-fluid register-box mb-5">
+            <h3 class="p-4 text-center fw-bold">Auction Details</h3>
+            <div class="ps-5 pe-5 pb-5">
+              <p>Name: <%= auction.name %></p>
+              <p>Description: <%= auction.description %></p>
+              <p>Start Date: <%= auction.startDate %></p>
+              <p>End Date: <%= auction.endDate %></p>
+            </div>
           </div>
-        </div>
-        <div class="container-fluid mt-5 offset-2">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <% if(auction.status == "finished"){ %>
-                <th>Winner</th>
-                <% } %>
-              </tr>
-            </thead>
-            <tbody>
-              <% for (let listing of auction.auctionList) { %>
-              <tr>
-                <td>
-                  <img
-                    src="<%= listing.image[0].url %>"
-                    alt="Item 1"
-                    class="img-fluid item-image"
-                  />
-                </td>
-                <td><%= listing.title %></td>
-                <td><%= listing.description %></td>
-                <td>RM <%= listing.price.toLocaleString("en-US") %></td>
-                <td>
-                  <% if (winnersMap.has(listing._id)) { %>
-                    <% let winner = winnersDetails.get(listing._id); %>
-                    <% if (winner) { %>
-                      <%= winner.username %>
+          <div class="container-fluid mt-5">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <% if(auction.status == "finished" || auction.status == "complete"){ %>
+                  <th>Winner</th>
+                  <% } %>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let listing of auction.auctionList) { %>
+                <tr>
+                  <td>
+                    <img
+                      src="<%= listing.image[0].url %>"
+                      alt="Item 1"
+                      class="img-fluid item-image"
+                    />
+                  </td>
+                  <td><%= listing.title %></td>
+                  <td><%= listing.description %></td>
+                  <td>RM <%= listing.price.toLocaleString("en-US") %></td>
+                  <td>
+                    <% if (winnersMap.has(listing._id)) { %>
+                      <% let winner = winnersDetails.get(listing._id); %>
+                      <% if (winner) { %>
+                        <%= winner.username %>
+                      <% } else { %>
+                        No winner
+                      <% } %>
                     <% } else { %>
                       No winner
                     <% } %>
-                  <% } else { %>
-                    No winner
-                  <% } %>
-                </td>
-              </tr>
-              <% } %>
-            </tbody>
-          </table>
-        </div>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
 
-        <!-- open modal -->
-        <button
-          type="button"
-          class="btn btn-danger"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-        >
-          Delete
-        </button>
+          <!-- Centered delete button -->
+          <div class="d-flex justify-content-center mt-3">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              Delete
+            </button>
+          </div>
 
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                  Confirmation
-                </h1>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">Are you sure to delete this listing?</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <form
-                  method="POST"
-                  action="/admin/auctions/<%= auction._id %>?_method=DELETE"
-                >
-                  <button class="btn btn-danger">Confirm</button>
-                </form>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    Confirmation
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">Are you sure to delete this auction?</div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <form
+                    method="POST"
+                    action="/admin/auctions/<%= auction._id %>?_method=DELETE"
+                  >
+                    <button class="btn btn-danger">Confirm</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -139,3 +117,5 @@
     </div>
   </section>
 </article>
+
+

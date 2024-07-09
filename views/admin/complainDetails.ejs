@@ -20,7 +20,7 @@
           class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
         >
           <i class="fa-solid fa-gavel"></i>
-          <span class="ms-3">Manage Auction</span>
+          <span class="ms-3">Manage Auctions</span>
         </button>
         <button
           class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
@@ -33,7 +33,7 @@
         <div
           class="d-flex align-items-start justify-content-between w-100 pe-5 rounded mb-4"
         >
-          <h4 class="mb-4 fw-bold">Complain Details</h4>
+          <h4 class="mb-4 fw-bold">Complaint Details</h4>
           <% if(complain.status != "complete") { %>
           <form action="/admin/supportCustomer/<%= complain._id %>/complete" method="POST">
             <button class="btn btn-secondary">Complete</button>

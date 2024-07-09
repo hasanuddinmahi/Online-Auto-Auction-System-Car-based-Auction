@@ -1,13 +1,48 @@
-<% if(success && success.length){ %> 
-    <div class="alert alert-success alert-dismissible fade show col-6 offset-3 mt-3" role="alert">
-       <%= success %>
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-<% } %> 
+<div class="toast-container">
+  <% if(success && success.length){ %>
+  <div
+    class="toast align-items-center bg-success text-white bg-success border-0 show"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body"><%= success %></div>
+      <button
+        type="button"
+        class="btn-close me-2 m-auto btn-close-white"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+  <% } %> <% if(error && error.length){ %>
+  <div
+    class="toast align-items-center bg-danger text-white bg-success border-0 show"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body"><%= error %></div>
+      <button
+        type="button"
+        class="btn-close me-2 m-auto btn-close-white"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+  <% } %>
+</div>
 
-<% if(error && error.length){ %> 
-    <div class="alert alert-danger alert-dismissible fade show col-6 offset-3 mt-3" role="alert">
-       <%= error %>
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-<% } %> 
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    const alerts = document.querySelectorAll(".toast");
+    alerts.forEach((alert) => {
+      setTimeout(() => {
+        alert.classList.remove("show");
+      }, 1700); // 2 seconds
+    });
+  });
+</script>

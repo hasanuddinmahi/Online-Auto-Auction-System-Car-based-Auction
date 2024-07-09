@@ -94,35 +94,6 @@ app.use((req, res, next) => {
 //use notification middleware globally
 app.use(fetchUserNotifications);
 
-// // Use the middleware to fetch user notifications
-// app.use(fetchUserNotifications);
-
-// // Schedule auction start
-// cron.schedule('* * * * *', async () => {
-//     const now = new Date();
-//     const auctionsToStart = await Auction.find({ startDate: { $lte: now }, status: 'pending' });
-//     auctionsToStart.forEach(async (auction) => {
-//         auction.status = 'ongoing';
-//         await auction.save();
-//         console.log(`Auction ${auction._id} started`);
-//     });
-// });
-
-
-// // Schedule auction end
-// cron.schedule('* * * * *', async () => {
-//     const now = new Date();
-//     const auctionsToEnd = await Auction.find({ endDate: { $lte: now }, status: 'ongoing' });
-//     auctionsToEnd.forEach(async (auction) => {
-//         auction.status = 'finished';
-//         for (let list_id of auction.auctionList) {
-//             await Listing.findByIdAndUpdate(list_id, { status: 'finished' }, { runValidators: true, new: true });
-//         }
-//         await auction.save();
-//         console.log(`Auction ${auction._id} ended`);
-//     });
-// });
-
 const notifyUsers = async (message, link) => {
     const users = await User.find();
     const notifications = [];
@@ -144,11 +115,9 @@ cron.schedule('* * * * *', async () => {
     for (const auction of auctionsToStart) {
         auction.status = 'ongoing';
         await auction.save();
-        console.log(`Auction ${auction._id} started`);
 
         // Notify all users
         await notifyUsers(`Auction ${auction.name} has started.`, `/auctions`);
-        console.log(`Notifications sent for auction ${auction._id}`);
     }
 });
 
@@ -163,29 +132,12 @@ cron.schedule('* * * * *', async () => {
             await Listing.findByIdAndUpdate(list_id, { status: 'finished' }, { runValidators: true, new: true });
         }
         await auction.save();
-        console.log(`Auction ${auction._id} ended`);
 
         // Notify all users
         await notifyUsers(`Auction ${auction.name} has ended.`, `/auctions/bids/result`);
-        console.log(`Notifications sent for auction ${auction._id}`);
     }
 });
 
-
-// app.get("/demouser", async (req, res) => {
-//     let fakeUser = new User({
-//         email: "abc@gmail.com",
-//         username: "abcw",
-//         phoneNumber: "03267327",
-//         location: "hgasdja",
-
-//     });
-//     password = "1234";
-// console.log(password);
-//     let registerUser = await User.register(fakeUser, password);
-
-//     res.send(registerUser);
-// });
 
 //Homepage
 app.get("/homepage", (req, res) => {
@@ -222,10 +174,8 @@ app.post('/notifications/:id/read', isLoggedIn, wrapAsync(async (req, res) => {
 
 // Socket.io connection
 io.on('connection', (socket) => {
-    console.log('New client connected');
-
     socket.on('disconnect', () => {
-        console.log('Client disconnected');
+        // console.log('Client disconnected');
     });
 
     // Handle bid placement
@@ -247,7 +197,7 @@ io.on('connection', (socket) => {
 
             let bidExist = false;
             for (let bid of allBids) {
-                if (bid.user == userId) {
+                if (bid.user.toString() === userId) {
                     bidExist = true;
                     await Bid.findByIdAndUpdate(bid._id, { amount: basePrice }, { runValidators: true, new: true });
                     break;
@@ -255,13 +205,17 @@ io.on('connection', (socket) => {
             }
 
             if (!bidExist) {
-                let newBid = new Bid({
+                const newBid = new Bid({
                     user: userId,
                     amount: basePrice,
                     listing: listing._id,
                 });
                 await newBid.save();
             }
+
+            // Increment the bid count for the listing
+            listing.bidCount += 1;
+            await listing.save();
 
             await Listing.findByIdAndUpdate(listingId, { basePrice: basePrice }, { runValidators: true, new: true });
 
@@ -289,10 +243,11 @@ io.on('connection', (socket) => {
                 });
             }
 
-            io.emit('bidUpdate', { listingId, basePrice });
+            // Emit the bid update to all clients
+            io.emit('bidUpdate', { listingId, basePrice, bidCount: listing.bidCount });
 
             // Notify the client of the successful bid placement
-            socket.emit('bidPlaced', { success: true, message: 'New bid added', listingId, basePrice });
+            socket.emit('bidPlaced', { success: true, message: bidExist ? 'Bid updated' : 'New bid added', listingId, basePrice, bidCount: listing.bidCount });
         } catch (error) {
             console.error('Error placing bid: ', error);
 
@@ -302,27 +257,14 @@ io.on('connection', (socket) => {
     });
 });
 
-// app.get("/testListing", async (req, res) => {
-//     let sampleListing = new Listing({
-//         condition: "used",
-//         carType: "petrol",
-//         registrationType: "private",
-//         registrationDate: "12-6-2013",
-//         brandModel: "BMW M3",
-//         mileage: 12000,
-//         year: 2013,
-//         seat: 4,
-//         color: "Black",
-//         title: "BMW",
-//         description: "used car",
-//         price: 30000,
-//         location: "Cyberjaya, Selangor",
-//     });
 
-//     await sampleListing.save();
-//     console.log("sample was saved");
-//     res.send("successful testing");
-// });
+
+
+
+
+
+
+
 
 // Unknown Page Error
 app.all("*", (req, res, next) => {
@@ -335,6 +277,7 @@ app.use((err, req, res, next) => {
     // res.status(statusCode).send(message);
     res.status(statusCode).render("error.ejs", { err });
 });
+
 
 server.listen(8080, () => {
     console.log("Server is listening to port 8080");

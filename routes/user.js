@@ -5,8 +5,12 @@ const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
 const sgMail = require('@sendgrid/mail');
 const { saveRedirectUrl, isLoggedIn, validateComplain } = require("../middleware.js");
+const WatchList = require("../models/watchList.js");
 const Listing = require("../models/listing.js");
 const Complain = require("../models/complain.js");
+const Bid = require("../models/bid.js");
+const Notify = require("../models/notification.js");
+const Review = require("../models/review.js");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -14,7 +18,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sendOTPEmail = async (email, otp) => {
     const msg = {
         to: email,
-        from: 'auctionhm1@gmail.com', 
+        from: 'auctionhm1@gmail.com',
         subject: 'Your OTP Code',
         text: `Your OTP code is ${otp}`,
     };
@@ -138,6 +142,24 @@ router.get("/profile", isLoggedIn, wrapAsync(async (req, res) => {
     res.render("users/profile.ejs", { user });
 }));
 
+//Change Phone Number
+router.post('/changePhoneNumber', isLoggedIn, wrapAsync(async (req, res) => {
+    const newNumber = req.body.newNumber;
+    const userId = req.user._id;
+
+    await User.findByIdAndUpdate(userId, { phoneNumber: newNumber }, { new: true });
+    res.redirect('/profile');
+}));
+
+//Change Nationality
+router.post('/changeNationality', isLoggedIn, wrapAsync(async (req, res) => {
+    const newNationality = req.body.nationality;
+    const userId = req.user._id;
+
+    await User.findByIdAndUpdate(userId, { nationality: newNationality }, { new: true });
+    res.redirect('/profile');
+}));
+
 // Change the password
 router.post('/changePassword', isLoggedIn, wrapAsync(async (req, res) => {
     const { currentPassword, newPassword, confirmPassword } = req.body;
@@ -188,14 +210,14 @@ router.delete("/delete/:id", isLoggedIn, wrapAsync(async (req, res) => {
     await Complain.deleteMany({ owner: id });
 
     // Delete watchLists
-    await Watch.deleteMany({ user: id });
+    await WatchList.deleteMany({ user: id });
 
     // Delete notifications
     await Notify.deleteMany({ user: id });
 
     // Delete bids
     await Bid.deleteMany({ user: id });
-    
+
     // Delete reviews
     await Review.deleteMany({ author: id });
 
@@ -220,11 +242,11 @@ router.post("/complaint", isLoggedIn, validateComplain, wrapAsync(async (req, re
 
     await newComplain.save();
     req.flash("success", "Complaint Send");
-    res.redirect("/complaint");
+    res.redirect(`/complaint/${newComplain._id}`);
 }));
 
-router.get("/complaint/:id", wrapAsync(async(req,res)=>{
-    
+router.get("/complaint/:id", wrapAsync(async (req, res) => {
+
     let { id } = req.params;
     const complain = await Complain.findById(id).populate("owner");
 

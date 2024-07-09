@@ -1,226 +1,224 @@
 <% layout("/layouts/boilerplate") %>
 
 <article>
-  <section class="mt-5 mb-5 ms-3">
-    <div class="ms-5 d-flex">
-      <div class="ms-5 w-25">
-        <div class="mb-4">
-          <h5 class="fw-bold mb-4">MY PROFILE</h5>
-          <div class="d-flex align-items-center">
-            <i class="fa-regular fa-circle-user fa-8x"></i>
-            <h5 class="ms-3 fw-bold"><%= user.username %></h5>
-          </div>
-        </div>
-        <div class="w-100">
-          <button
-            class="btn btn-light border border-secondary-subtle w-75 text-start"
-          >
-            <i class="fa-solid fa-phone"></i>
-            <span class="ms-3">Phone Number</span> &emsp;
-            <i class="fa-solid fa-angle-right"></i></button
-          ><br />
-          <button
-            class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-          >
-            <i class="fa-solid fa-envelope"></i>
-            <span class="ms-3">Email Address</span> &emsp;
-            <i class="fa-solid fa-angle-right ms-2"></i></button
-          ><br />
-          <button
-            class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-          >
-            <i class="fa-solid fa-unlock-keyhole"></i>
-            <span class="ms-3">Change Password</span>
-            <i class="fa-solid fa-angle-right ms-2"></i>
-          </button>
-          <button
-            class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-          >
-            <i class="fa-solid fa-earth-americas"></i>
-            <span class="ms-3 me-2">Nationality</span> &emsp;
-            <i class="fa-solid fa-angle-right ms-4"></i>
-          </button>
-          <button
-            class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-          >
-            <i class="fa-solid fa-location-dot"></i>
-            <span class="ms-3">Address Book</span> &emsp;
-            <i class="fa-solid fa-angle-right ms-3"></i>
-          </button>
-          <button
-            class="btn btn-light border border-secondary-subtle w-75 mt-3 text-start"
-          >
-            <i class="fa-solid fa-user"></i>
-            <span class="ms-3">Profile Setting</span> &emsp;
-            <i class="fa-solid fa-angle-right ms-3"></i>
-          </button>
-        </div>
-      </div>
-      <div class="w-50 ms-4">
-        <div
-          class="d-flex align-items-start justify-content-between setting-box p-4 w-100 rounded mb-4"
-        >
-          <div>
-            <h4 class="mb-4 fw-bold">Phone Number</h4>
-            <p>Phone number</p>
-            <h5><%= user.phoneNumber %></h5>
-            <button class="mt-4 btn-verify rounded-pill fw-semibold">
-              Verify Now
-            </button>
-          </div>
-          <button class="btn btn-secondary">
-            <i class="fa-solid fa-circle-plus"></i> Add New
-          </button>
-        </div>
-        <div
-          class="d-flex align-items-start justify-content-between setting-box p-4 w-100 rounded mb-4"
-        >
-          <div>
-            <h4 class="mb-4 fw-bold">Email Address</h4>
-            <p>Email Address</p>
-            <h5><%= user.email %></h5>
-            <button class="mt-4 btn-verify rounded-pill ps-3 pe-3 fw-semibold">
-              Verify Now
-            </button>
-          </div>
-          <button class="btn btn-secondary">
-            <i class="fa-solid fa-circle-plus"></i> Add New
-          </button>
-        </div>
-
-        <div class="setting-box p-4 w-100 rounded mb-4">
-          <h4 class="mb-4 fw-bold">Change Password</h4>
-          <form
-            id="passwordChangeForm"
-            method="POST"
-            action="/changePassword"
-            class="needs-validation"
-            novalidate
-          >
-            <div>
-              <label class="form-labe fw-medium">Current Password</label>
-              <input
-                type="password"
-                name="currentPassword"
-                id="currentPassword"
-                class="p-2 rounded"
-                placeholder="Current Password"
-                required
-              />
-              <div class="invalid-feedback">Please enter current password</div>
+  <section class="mt-5 mb-5">
+    <div class="container">
+      <div class="row justify-content-evenly">
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="mb-4">
+            <h5 class="fw-bold mb-4">MY PROFILE</h5>
+            <div class="d-flex align-items-center">
+              <i class="far fa-user-circle fa-8x"></i>
+              <h5 class="ms-3 fw-bold"><%= user.username %></h5>
             </div>
-            <div>
-              <label class="form-labe fw-medium">New Password</label>
-              <input
-                type="password"
-                name="newPassword"
-                id="newPassword"
-                class="p-2 rounded mt-4 me-2"
-                placeholder="New Password"
-                required
-              />
-              <div class="invalid-feedback">Please enter new password</div>
-              <label class="form-labe fw-medium">Confirm Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                class="p-2 rounded"
-                placeholder="Confirm Password"
-                required
-              />
-
-              <p id="errorText" style="color: red"></p>
-            </div>
+          </div>
+          <div class="w-100">
             <button
-              type="submit"
-              class="mt-5 btn-verify rounded-pill fw-semibold"
+              class="btn btn-light border border-secondary-subtle w-100 text-start mb-3"
+              onclick="document.getElementById('phone-section').scrollIntoView();"
             >
-              Save Changes
+              <i class="fas fa-phone"></i>
+              <span class="ms-3">Phone Number</span>
+              <i class="fas fa-angle-right float-end"></i>
             </button>
-          </form>
-        </div>
-
-        <div class="setting-box p-4 w-100 rounded mb-4">
-          <h4 class="mb-4 fw-bold">Nationality</h4>
-          <form action="">
-            <input
-              type="text"
-              name=""
-              id=""
-              class="p-2 rounded"
-              placeholder="Malaysian"
-            />
-
-            <br />
-            <button class="mt-4 btn-verify rounded-pill fw-semibold">
-              Save Changes
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 text-start mb-3"
+              onclick="document.getElementById('email-section').scrollIntoView();"
+            >
+              <i class="fas fa-envelope"></i>
+              <span class="ms-3">Email Address</span>
+              <i class="fas fa-angle-right float-end ms-2"></i>
             </button>
-          </form>
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 text-start mb-3"
+              onclick="document.getElementById('password-section').scrollIntoView();"
+            >
+              <i class="fas fa-lock"></i>
+              <span class="ms-3">Change Password</span>
+              <i class="fas fa-angle-right float-end ms-2"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 text-start mb-3"
+              onclick="document.getElementById('nationality-section').scrollIntoView();"
+            >
+              <i class="fas fa-globe-americas"></i>
+              <span class="ms-3">Nationality</span>
+              <i class="fas fa-angle-right float-end ms-4"></i>
+            </button>
+            <button
+              class="btn btn-light border border-secondary-subtle w-100 text-start"
+              onclick="document.getElementById('profile-section').scrollIntoView();"
+            >
+              <i class="fas fa-user-cog"></i>
+              <span class="ms-3">Profile Settings</span>
+              <i class="fas fa-angle-right float-end ms-3"></i>
+            </button>
+          </div>
         </div>
+        <div class="col-md-7 col-lg-8 ms-md-4">
+          <div class="setting-box p-4 rounded mb-4" id="phone-section">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <h4 class="mb-4 fw-bold">Phone Number</h4>
+                <p>Phone number</p>
+                <h5>+60 <%= user.phoneNumber %></h5>
+                <div id="input-container" class="mt-3"></div>
+                <div id="error-number" class="error-number"></div>
+              </div>
+              <button id="add-new-btn" class="btn btn-secondary">
+                <i class="fas fa-plus-circle"></i> Add New
+              </button>
+            </div>
+          </div>
 
-        <div
-          class="d-flex align-items-start justify-content-between setting-box pt-5 pb-5 ps-4 pe-4 w-100 rounded mb-4"
-        >
-          <h4 class="mb-4 fw-bold">Address Book</h4>
-          <button class="btn btn-secondary">
-            <i class="fa-solid fa-circle-plus"></i> Add New
-          </button>
-        </div>
+          <div class="setting-box p-4 rounded mb-4" id="email-section">
+            <div>
+              <h4 class="mb-4 fw-bold">Email Address</h4>
+              <p>Email Address</p>
+              <h5>
+                <%= user.email %>
+                <i class="fas fa-check-circle" style="color: green"></i>
+              </h5>
+            </div>
+          </div>
 
-        <div class="setting-box p-4 w-100 rounded">
-          <h4 class="fw-bold">Profile Settings</h4>
-
-          <!-- open modal -->
-          <button
-            type="button"
-            class="btn btn-danger mt-3"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          >
-            Delete My Account
-          </button>
-
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="staticBackdrop"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabindex="-1"
-            aria-labelledby="staticBackdropLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                    Confirmation
-                  </h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+          <div class="setting-box p-4 rounded mb-4" id="password-section">
+            <h4 class="mb-4 fw-bold">Change Password</h4>
+            <form
+              id="passwordChangeForm"
+              method="POST"
+              action="/changePassword"
+              class="needs-validation"
+              novalidate
+            >
+              <div class="mb-3">
+                <label class="form-label fw-medium">Current Password</label
+                ><br />
+                <input
+                  type="password"
+                  name="currentPassword"
+                  id="currentPassword"
+                  class="p-2 rounded responsive-width fw-bold"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter current password
                 </div>
-                <div class="modal-body">
-                  Are you sure to delete your account?
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-medium">New Password</label><br />
+                  <input
+                    type="password"
+                    name="newPassword"
+                    id="newPassword"
+                    class="p-2 rounded w-100 fw-bold"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter new password</div>
                 </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <form
-                    method="POST"
-                    action="/delete/<%= user._id %>?_method=DELETE"
-                  >
-                    <button class="btn btn-danger">Confirm</button>
-                  </form>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-medium">Confirm Password</label
+                  ><br />
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    class="p-2 rounded w-100 fw-bold"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Please enter confirm password
+                  </div>
+                </div>
+                <p id="errorText" style="color: red"></p>
+              </div>
+              <button type="submit" class="btn-verify">
+                Save Changes
+              </button>
+            </form>
+          </div>
+
+          <div class="setting-box p-4 rounded mb-4" id="nationality-section">
+            <h4 class="mb-4 fw-bold">Nationality</h4>
+            <form
+              action="/changeNationality"
+              method="POST"
+              class="needs-validation"
+              novalidate
+            >
+              <input
+                type="text"
+                name="nationality"
+                id=""
+                class="p-2 rounded responsive-width"
+                placeholder="Add Nationality"
+                value="<%= user.nationality %>"
+                required
+              />
+              <div class="invalid-feedback">Please Enter a Nationality</div>
+              <br />
+              <button class="mt-3 btn-verify">
+                Save Changes
+              </button>
+            </form>
+          </div>
+
+          <div class="setting-box p-4 rounded" id="profile-section">
+            <h4 class="fw-bold">Profile Settings</h4>
+
+            <!-- open modal -->
+            <button
+              type="button"
+              class="btn btn-danger mt-3"
+              data-toggle="modal"
+              data-target="#staticBackdrop"
+            >
+              Delete My Account
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="staticBackdrop"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      Confirmation
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete your account?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <form
+                      method="POST"
+                      action="/delete/<%= user._id %>?_method=DELETE"
+                    >
+                      <button type="submit" class="btn btn-danger">
+                        Confirm
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -231,25 +229,97 @@
   </section>
 </article>
 
-<script>
-  document
-    .getElementById("passwordChangeForm")
-    .addEventListener("submit", function (event) {
-      var currentPassword = document.getElementById("currentPassword").value;
-      var newPassword = document.getElementById("newPassword").value;
-      var confirmPassword = document.getElementById("confirmPassword").value;
-      var errorText = document.getElementById("errorText");
 
-      if (newPassword === currentPassword) {
-        errorText.textContent =
-          "New password cannot be the same as the old password.";
-        event.preventDefault();
-      } else if (newPassword !== confirmPassword) {
-        errorText.textContent =
-          "New password and confirm password do not match.";
-        event.preventDefault();
-      } else {
-        errorText.textContent = ""; // Clear error message if there are no errors
-      }
+
+<script>
+  document.getElementById("add-new-btn").addEventListener("click", function () {
+    // Check if the input field already exists
+    if (!document.getElementById("digit-input")) {
+      // Create a form element
+      var form = document.createElement("form");
+      form.id = "digit-form";
+      form.method = "POST";
+      form.action = "/changePhoneNumber"; // Replace with your endpoint
+
+      // Create a container for the input fields
+      var inputGroup = document.createElement("div");
+      inputGroup.className = "input-group";
+
+      // Create a disabled input element for the +60 prefix
+      var prefixField = document.createElement("input");
+      prefixField.type = "text";
+      prefixField.value = "+60";
+      prefixField.disabled = true;
+      prefixField.className = "prefix";
+
+      // Create another input field for the 10 digits
+      var digitInputField = document.createElement("input");
+      digitInputField.type = "text";
+      digitInputField.id = "digit-input";
+      digitInputField.name = "newNumber"; // Name for form data
+      digitInputField.placeholder = "Enter 10 digits";
+      digitInputField.className =
+        "form-control number-input digit-input numericInput";
+      digitInputField.maxLength = 10; // Limit input to 10 digits
+
+      // Add an event listener to validate the input on change
+      digitInputField.addEventListener("input", function () {
+        validateInput(digitInputField);
+      });
+
+      // Create a submit button
+      var submitButton = document.createElement("button");
+      submitButton.type = "submit";
+      submitButton.textContent = "Add";
+      submitButton.className = "btn btn-success";
+
+      // Append the prefix and digit input fields to the input group
+      inputGroup.appendChild(prefixField);
+      inputGroup.appendChild(digitInputField);
+      inputGroup.appendChild(submitButton);
+
+      // Append the input group to the form
+      form.appendChild(inputGroup);
+
+      // Append the form to the input container
+      document.getElementById("input-container").appendChild(form);
+
+      // Apply the function to restrict input to positive integers
+      restrictToPositiveIntegers(digitInputField);
+
+      // Add event listener to form submission
+      form.addEventListener("submit", function (e) {
+        if (!validateInput(digitInputField)) {
+          e.preventDefault(); // Prevent form submission if validation fails
+        }
+      });
+    }
+  });
+
+  function validateInput(inputField) {
+    const errorMessage = document.getElementById("error-number");
+    const inputValue = inputField.value;
+
+    // Check if the input is exactly 10 digits long and is numeric
+    if (inputValue.length === 10 && /^\d+$/.test(inputValue)) {
+      // Input is valid
+      errorMessage.textContent = "";
+      return true;
+    } else {
+      // Input is invalid
+      errorMessage.textContent = "Please enter exactly 10 digits.";
+      return false;
+    }
+  }
+
+  // Function to restrict input to positive integers
+  function restrictToPositiveIntegers(input) {
+    input.addEventListener("input", function () {
+      var value = this.value;
+      // Allow only digits
+      this.value = value.replace(/[^0-9]/g, "");
     });
+  }
 </script>
+
+<script src="/js/passwordChange.js"></script>

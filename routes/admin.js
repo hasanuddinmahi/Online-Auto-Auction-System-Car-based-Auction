@@ -1,14 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
+const { isLoggedIn, validateListing, validateComplain } = require("../middleware.js");
+const multer = require('multer');
+const { storage } = require("../cloudConfiq.js");
+const upload = multer({ storage });
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 const Listing = require("../models/listing.js");
 const User = require("../models/user.js");
-const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { isLoggedIn, validateListing, validateComplain } = require("../middleware.js");
 const Complain = require("../models/complain.js");
-const Auction = require("../models/auction.js");
+const WatchList = require("../models/watchList.js");
 const Notify = require("../models/notification.js");
 const Bid = require("../models/bid.js");
+const Auction = require("../models/auction.js");
+const Review = require("../models/review.js");
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -25,12 +32,49 @@ router.get("/listings/new", isLoggedIn, (req, res) => {
 });
 
 //submit create listing form
-router.post("/", isLoggedIn, validateListing, wrapAsync(async (req, res) => {
-    const newListing = new Listing(req.body.listing);
+router.post('/', isLoggedIn, upload.array('listing[image]', 8), validateListing, wrapAsync(async (req, res) => {
+
+    const { state = "Selangor", city = "Kuala Lumpur", houseOrRoadName, ...otherListingData } = req.body.listing;
+    let location = `${req.body.listing.location.houseOrRoadName}, ${req.body.listing.location.city}, ${req.body.listing.location.state}, Malaysia`;
+    
+
+    let response = await geocodingClient.forwardGeocode({
+        query: location,
+        limit: 1
+    })
+        .send();
+
+
+    const newListing = new Listing({
+        location: { state, city, houseOrRoadName },
+        ...otherListingData,
+    });
+
+    const files = req.files;
+
+    // Handle image upload
+    const images = [];
+    for (let file of files) {
+        images.push({
+            url: file.path,
+            filename: file.filename,
+        });
+    }
+    newListing.image = images;
+
+    // Set owner of the listing
     newListing.owner = req.user._id;
+
+    // save geometry
+    newListing.geometry = response.body.features[0].geometry;
+
     newListing.status = 'Approved';
+
+    // Save the new listing
     await newListing.save();
-    req.flash("success", "New Listing Added");
+
+
+    req.flash("success", "New Listing Created");
     res.redirect("/admin/manageListings");
 }));
 
@@ -163,7 +207,7 @@ router.delete("/users/:id", isLoggedIn, wrapAsync(async (req, res) => {
     await Complain.deleteMany({ owner: id });
 
     // Delete watchLists
-    await Watch.deleteMany({ user: id });
+    await WatchList.deleteMany({ user: id });
 
     // Delete notifications
     await Notify.deleteMany({ user: id });
@@ -239,6 +283,7 @@ router.get("/auctions/:id", isLoggedIn, wrapAsync(async (req, res) => {
     const auction = await Auction.findById(id).populate("auctionList");
     const allBids = await Bid.find({ listing: { $in: auction.auctionList } }).populate("listing").populate("user");
 
+    // Check existence
     if (!auction) {
         req.flash("error", "The auction you requested does not exist");
         return res.redirect("/admin/manageAuctions");
@@ -248,11 +293,12 @@ router.get("/auctions/:id", isLoggedIn, wrapAsync(async (req, res) => {
     let notifiedUsers = new Set();
     let winnersDetails = new Map();
 
-    if (auction.status === 'finished') {
+    // After finished or complete
+    if (auction.status === 'finished' || auction.status === 'complete') {
         for (let listing of auction.auctionList) {
             let bidsForListing = allBids.filter(bid => bid.listing && bid.listing._id.equals(listing._id));
             if (bidsForListing.length > 0) {
-                let winningBid = bidsForListing.sort((a, b) => b.amount - a.amount)[0]; 
+                let winningBid = bidsForListing.sort((a, b) => b.amount - a.amount)[0];
                 if (winningBid && winningBid.user && winningBid.user._id) {
                     winnersMap.set(listing._id, winningBid.user._id);
 
@@ -260,53 +306,69 @@ router.get("/auctions/:id", isLoggedIn, wrapAsync(async (req, res) => {
                     let winnerDetails = await User.findById(winningBid.user._id);
                     winnersDetails.set(listing._id, winnerDetails);
 
-                    // Send notification to the winner
-                    const winNotification = new Notify({
-                        user: winningBid.user._id,
-                        message: `Congratulations! You have won the bid for ${winningBid.listing.title}.`,
-                        link: `/auctions/bids/result/${listing._id}`
-                    });
-                    await winNotification.save();
-                    notifiedUsers.add(winningBid.user._id);
+                    if (auction.status === 'finished') {
+                        // Send notification to the winner
+                        const winNotification = new Notify({
+                            user: winningBid.user._id,
+                            message: `Congratulations! You have won the bid for ${winningBid.listing.title}.`,
+                            link: `/auctions/bids/result/${listing._id}`
+                        });
+                        await winNotification.save();
+                        notifiedUsers.add(winningBid.user._id);
+                    }
                 }
             }
         }
 
-        // Notify the losers
-        for (let bid of allBids) {
-            if (bid.user && bid.user._id && (!winnersMap.has(bid.listing._id) || !winnersMap.get(bid.listing._id).equals(bid.user._id))) {
-                if (!notifiedUsers.has(bid.user._id)) {
-                    const loseNotification = new Notify({
-                        user: bid.user._id,
-                        message: `Unfortunately, you did not win the bid for ${bid.listing.title}.`,
-                        link: `/listings/${bid.listing._id}`
-                    });
-                    await loseNotification.save();
-                    notifiedUsers.add(bid.user._id);
+        if (auction.status === 'finished') {
+            // Notify the losers
+            for (let bid of allBids) {
+                if (bid.user && bid.user._id && (!winnersMap.has(bid.listing._id) || !winnersMap.get(bid.listing._id).equals(bid.user._id))) {
+                    if (!notifiedUsers.has(bid.user._id)) {
+                        const loseNotification = new Notify({
+                            user: bid.user._id,
+                            message: `Unfortunately, you did not win the bid for ${bid.listing.title}.`,
+                            link: `/listings/${bid.listing._id}`
+                        });
+                        await loseNotification.save();
+                        notifiedUsers.add(bid.user._id);
+                    }
                 }
             }
+
+            await Auction.findByIdAndUpdate(id, { status: 'complete' }, { new: true });
         }
     }
 
     res.render("admin/auctionDetails.ejs", { auction, winnersMap, winnersDetails });
 }));
 
+
 // Delete auction
 router.delete("/auctions/:id", isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let auction = await Auction.findById(id);
-    let listing;
-    for (let id of auction.auctionList) {
-        await Listing.findByIdAndUpdate(id, { basePrice: 0 }, { runValidators: true, new: true });
-        listing = await Listing.findByIdAndUpdate(id, { status: 'Approved' }, { runValidators: true, new: true });
+    if (!auction) {
+        req.flash("error", "Auction not found");
+        return res.redirect("/admin/manageAuctions");
     }
+
+    // Update listings
+    for (let listingId of auction.auctionList) {
+        await Listing.findByIdAndUpdate(listingId, { $set: { basePrice: 0, bidCount: 0, status: 'Approved' } }, { runValidators: true, new: true });
+    }
+
+    // Find all bids 
     let allBids = await Bid.find().populate("listing");
     for (let bid of allBids) {
-        if (bid.listing.status == 'Approved') {
-            let bids = await Bid.findByIdAndDelete(bid.id);
+        if (bid.listing && bid.listing.status === 'Approved') {
+            await Bid.findByIdAndDelete(bid.id);
         }
     }
+
+    // Delete the auction
     await Auction.findByIdAndDelete(id);
+
     req.flash("success", "Auction Deleted");
     res.redirect("/admin/manageAuctions");
 }));
@@ -368,11 +430,11 @@ router.post("/supportCustomer/:id/complete", isLoggedIn, wrapAsync(async (req, r
             link: `/complaint/${id}`
         });
         await newNotify.save();
-   
+
         // Send email notification 
         const msg = {
             to: complain.owner.email,
-            from: 'auctionhm1@gmail.com', 
+            from: 'auctionhm1@gmail.com',
             subject: 'Issue Resolved',
             text: 'Your complaint has been resolved.',
             html: '<strong>Your complaint has been resolved.</strong>',
@@ -384,5 +446,59 @@ router.post("/supportCustomer/:id/complete", isLoggedIn, wrapAsync(async (req, r
     res.redirect(`/admin/supportCustomer/${id}`);
 
 }));
+
+// Profile setting
+router.get("/profile", isLoggedIn, wrapAsync(async (req, res) => {
+    let user = req.user;
+    res.render("admin/profile.ejs", { user });
+}));
+
+//Change Phone Number
+router.post('/changePhoneNumber', isLoggedIn, wrapAsync(async (req, res) => {
+    const newNumber = req.body.newNumber;
+    const userId = req.user._id;
+
+    await User.findByIdAndUpdate(userId, { phoneNumber: newNumber }, { new: true });
+    res.redirect('/admin/profile');
+}));
+
+// Change the password
+router.post('/password', isLoggedIn, wrapAsync(async (req, res) => {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // Check if new password and confirm password match
+    if (newPassword !== confirmPassword) {
+        req.flash("error", "New passwords do not match");
+        return res.redirect('/admin/profile');
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+        req.flash("error", "User not found");
+        return res.redirect('/admin/profile');
+    }
+
+    user.authenticate(currentPassword, async (err, authenticatedUser, passwordErr) => {
+        if (err || passwordErr || !authenticatedUser) {
+            req.flash("error", "Current password is incorrect");
+            return res.redirect('/admin/profile');
+        }
+
+        // Set the new password
+        authenticatedUser.setPassword(newPassword, async (err) => {
+            if (err) {
+                req.flash("error", "Error setting new password");
+                return res.redirect('/admin/profile');
+            }
+
+            // Save the user with the new password
+            await authenticatedUser.save();
+            req.flash("success", "Password changed successfully");
+            res.redirect('/admin/profile');
+        });
+    });
+}));
+
 
 module.exports = router;

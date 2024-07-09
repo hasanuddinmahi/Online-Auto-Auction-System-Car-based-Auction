@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const WatchList = require("../models/watchList.js");
-const User = require("../models/user.js");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const multer = require('multer');
 const { storage } = require("../cloudConfiq.js");
 const upload = multer({ storage });
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 // All Listing route
 router.get("/", wrapAsync(async (req, res) => {
@@ -23,7 +23,7 @@ router.get("/", wrapAsync(async (req, res) => {
 router.get('/search', async (req, res) => {
     const { year, brandModel, minPrice, maxPrice, color } = req.query;
 
-    let query = { status: 'Approved' };
+    let query = { $or: [{ status: 'Approved' }, { status: 'auction' }] };
 
     if (brandModel) {
         const firstWord = brandModel.trim().split(' ')[0].toLowerCase();
@@ -50,7 +50,7 @@ router.get('/search', async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching listings:', error);
-        res.status(500).send('Error fetching listings');
+        res.redirect('/listings');
     }
 });
 
@@ -70,7 +70,7 @@ router.get("/allCar", isLoggedIn, wrapAsync(async (req, res) => {
     res.render("listings/approveDisapprove.ejs", { listings });
 }));
 
-// watchlist Listing
+// watchList Listing
 router.get("/watchList", isLoggedIn, wrapAsync(async (req, res) => {
     let user = req.user.id;
     const findWatch = await WatchList.find().populate("listing");
@@ -78,7 +78,7 @@ router.get("/watchList", isLoggedIn, wrapAsync(async (req, res) => {
     let allListings = [];
     for (let list of findWatch) {
         if (list.user == user) {
-            if (list.listing.status != 'finished') {
+            if (list.listing && list.listing.status != 'finished') {
                 allListings.push(list.listing);
             }
         }
@@ -94,7 +94,16 @@ router.get("/new", isLoggedIn, (req, res) => {
 
 //submit create listing form
 router.post('/', isLoggedIn, upload.array('listing[image]', 8), validateListing, wrapAsync(async (req, res) => {
-    const { state, city, houseOrRoadName, ...otherListingData } = req.body.listing;
+
+    const { state = "Selangor", city = "Kuala Lumpur", houseOrRoadName, ...otherListingData } = req.body.listing;
+    let location = `${req.body.listing.location.houseOrRoadName}, ${req.body.listing.location.city}, ${req.body.listing.location.state}, Malaysia`;
+
+    let response = await geocodingClient.forwardGeocode({
+        query: location,
+        limit: 1
+    })
+        .send();
+
 
     const newListing = new Listing({
         location: { state, city, houseOrRoadName },
@@ -116,6 +125,9 @@ router.post('/', isLoggedIn, upload.array('listing[image]', 8), validateListing,
     // Set owner of the listing
     newListing.owner = req.user._id;
 
+    // save geometry
+    newListing.geometry = response.body.features[0].geometry;
+
     // Save the new listing
     await newListing.save();
 
@@ -135,7 +147,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
         let user = req.user._id;
         const watchLists = await WatchList.find({ user }).populate("listing");
         for (let list of watchLists) {
-            if (listing.id == list.listing.id) {
+            if (list.listing && list.listing.id == listing.id) {
                 checkListing = true;
             }
         }
@@ -153,9 +165,17 @@ router.get("/:id", wrapAsync(async (req, res) => {
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
+
+    // check status
+    if (listing.status === "auction" || listing.status === "finished" || listing.status === "complete") {
+        req.flash("error", "You cannot edit this listing now.");
+        return res.redirect("/listings/allCar");
+    }
+
+    // check listing
     if (!listing) {
         req.flash("error", "Listing that you requested for does not exist");
-        res.redirect("/listings");
+        return res.redirect("/listings");
     }
     res.render("listings/edit.ejs", { listing });
 }));
@@ -167,6 +187,12 @@ router.put("/:id", isLoggedIn, isOwner, upload.array('listing[image]', 8), valid
 
     // Find the listing to be updated
     const listing = await Listing.findById(id);
+
+    // check status
+    if (listing.status === "auction" || listing.status === "finished") {
+        req.flash("error", "You cannot edit this listing now.");
+        return res.redirect("/listings/allCar");
+    }
 
     if (!listing) {
         req.flash("error", "Listing not found");
@@ -205,9 +231,23 @@ router.put("/:id", isLoggedIn, isOwner, upload.array('listing[image]', 8), valid
 // Delete the listing
 router.delete("/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
+    const listing = await Listing.findById(id);
+
+    // check status
+    if (listing.status === "auction" || listing.status === "finished" || listing.status === "complete") {
+        req.flash("error", "You cannot delete this listing now.");
+        return res.redirect("/listings/allCar");
+    }
+
+    // check listing
+    if (!listing) {
+        req.flash("error", "Listing that you requested for does not exist");
+        return res.redirect("/listings");
+    }
+
     await Listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted");
-    res.redirect("/listings");
+    res.redirect("/listings/allCar");
 }));
 
 //Added to the watchList Post request
@@ -216,9 +256,16 @@ router.post('/:id', isLoggedIn, wrapAsync(async (req, res) => {
     let user = req.user._id;
     let listing = await Listing.findById(id);
     let watchLists = await WatchList.find();
+    let { source } = req.query;
 
     // check watchLists listings
-    if (user != listing.owner) {
+    if (!user.equals(listing.owner._id)) {
+
+        // Check listing status
+        if (listing.status !== 'Approved' && listing.status !== 'auction') {
+            req.flash("error", "You cannot add this car to the watchList at this moment");
+            return res.redirect(`/listings/${id}`);
+        }
 
         for (let list of watchLists) {
             if (list.user.equals(user)) {
@@ -238,7 +285,20 @@ router.post('/:id', isLoggedIn, wrapAsync(async (req, res) => {
 
         await newWatchList.save();
         req.flash("success", "Listing have been added to the watchList");
-        res.redirect(`/listings/${id}`);
+
+        if (source === 'auction') {
+            return res.redirect(`/auctions/listings/${id}`);
+        } else {
+            return res.redirect(`/listings/${id}`);
+        }
+    }
+    else {
+        req.flash("error", "Owners cannot add their own listing to the watchlist");
+        if (source === 'auction') {
+            return res.redirect(`/auctions/listings/${id}`);
+        } else {
+            return res.redirect(`/listings/${id}`);
+        }
     }
 
 }));
@@ -248,10 +308,16 @@ router.delete('/watchList/:id', isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     let user = req.user._id;
+    let source = req.query.source;
 
     // Find and delete the specific watchList
     await WatchList.findOneAndDelete({ user: user, listing: listing._id });
-    res.redirect(`/listings/watchList`);
+    
+    if (source === 'auction') {
+        res.redirect(`/auctions/listings/${id}`);
+    } else {
+        res.redirect('/listings/watchList');
+    }
 }));
 
 module.exports = router;
